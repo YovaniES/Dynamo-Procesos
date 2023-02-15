@@ -1,0 +1,13 @@
+<div class="cli-card">
+  <div class="homemod">
+    <div class="title1">{{ g == "F" ? "Bienvenida" : "Bienvenido" }}</div>
+    <div class="textcontent">Esta es la plataforma</div>
+    <div class="textcontent">
+      del <span class="mbold"> Sistema NOC</span>
+    </div>
+    <div class="uservalidation" *ngIf="loading">
+      <mat-spinner diameter="19" style="margin: 0 10px"></mat-spinner> Validando
+    </div>
+    <div class="uservalidation" *ngIf="!loading">{{ message }}</div>
+  </div>
+</div>

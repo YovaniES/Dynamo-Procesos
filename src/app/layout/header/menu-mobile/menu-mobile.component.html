@@ -1,0 +1,111 @@
+<div
+  class="cli-mobile-menu"
+  [ngClass]="{ 'mobile-menu-active': active, 'mobile-menu-hidden': !active }"
+>
+  <!-- MENU -->
+  <div class="mobile-menu-body">
+    <div class="mobile-menu-logo">
+      <img class="mobile-logo hlogo-mobile" alt="logo" [attr.src]="headerLogo" />
+      <mat-icon (click)="close()" class="overlay-close">close</mat-icon>
+    </div>
+    <div class="cli-aside-container">
+      <ul class="cli-aside-menu">
+        <li>
+          <a
+            (click)="close()"
+            class="menu-link"
+            [routerLink]="'/home'"
+            routerLinkActive="active-link"
+          >
+            <i class="submenu-icon">
+              <mat-icon>check</mat-icon>
+            </i>
+            <span>Inicio</span>
+          </a>
+        </li>
+        <!-- <li>
+                    <a (click)="close()" class="menu-link" [routerLink]="'/portal'" routerLinkActive="active-link">
+                        <i class="submenu-icon">
+                            <mat-icon>label_important</mat-icon>
+                        </i>
+                        <span>Portal de atención</span>
+                    </a>
+                </li> -->
+        <ng-container
+          *ngFor="let menu of menuList"
+          [ngTemplateOutlet]="menuItem"
+          [ngTemplateOutletContext]="{ item: menu }"
+        ></ng-container>
+      </ul>
+    </div>
+  </div>
+  <!-- SUB MENU -->
+  <div
+    class="mobile-submenu-body"
+    [ngClass]="{
+      'mobile-submenu-active': subMenuActive,
+      'mobile-submenu-hidden': !subMenuActive
+    }"
+  >
+    <div (click)="closeSubMenu()" class="submenu-title">
+      <i class="submenu-icon">
+        <mat-icon>keyboard_backspace</mat-icon>
+      </i>
+      <div
+        style="
+          text-align: center;
+          flex: 1;
+          line-height: 25px;
+          margin-right: 25px;
+        ">{{ subMenuTitle }}
+      </div>
+    </div>
+    <div class="submenus-container">
+      <ng-container
+        *ngFor="let submenu of subMenus"
+        [ngTemplateOutlet]="subMenuItem"
+        [ngTemplateOutletContext]="{ item: submenu }"
+      ></ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- MENUS -->
+<ng-template #menuItem let-item="item">
+  <!-- MENUS CON SUB MENUS-->
+  <li
+    *ngIf="item.type == 'PAREN'"
+    (click)="showSubMenu(item)"
+    class="cli-menu-item"
+  >
+    <div class="menu-link">
+      <i class="menu-icon"
+        ><mat-icon>{{ item.icon }}</mat-icon></i
+      >
+      <span>{{ item.text }}</span>
+    </div>
+  </li>
+  <!-- MENUS DIRECTO-->
+  <li *ngIf="item.type == 'ALONE'" class="cli-menu-item">
+    <a
+      (click)="close()"
+      class="menu-link"
+      [routerLink]="item.link"
+      routerLinkActive="active-link"
+    >
+      <i class="menu-icon"
+        ><mat-icon>{{ item.icon }}</mat-icon></i
+      >
+      <span>{{ item.text }}</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #subMenuItem let-item="item">
+  <div (click)="gotoPage(item.link)" class="mobile-submenu-link">
+    <i class="mobile-submenu-icon"
+      ><mat-icon>{{ item.icon }}</mat-icon></i
+    >
+    <span>{{ item.text }}</span>
+  </div>
+</ng-template>

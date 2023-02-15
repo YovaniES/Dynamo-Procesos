@@ -1,0 +1,26 @@
+<div [ngClass]="{ 'panel-open': active, 'panel-hidden': !active }" class="panel">
+  <div (click)="close()" class="close-icon">
+    <mat-icon>close</mat-icon>
+  </div>
+  <div class="up-title">{{ "Perfil de usuario" }}</div>
+
+  <div class="up-name-card">
+    <div class="up-photo-cont">
+      <div *ngIf="phtouri == 'NONE'">{{ nameini }}</div>
+      <!-- <img *ngIf="phtouri != 'NONE'" [src]="phtouri" /> -->
+    </div>
+    <div class="up-card-info">
+      <div class="up-user-name">{{ fullname }}</div>
+      <div class="up-user-subtitle">
+        <mat-icon>verified_user</mat-icon> {{ subtitle }}
+      </div>
+
+      <button (click)="logOut()" class="cli-btn btn-magenta mt-3">
+        <mat-icon class="icon-cent">logout</mat-icon>
+        Cerrar sesión
+      </button>
+    </div>
+  </div>
+  <hr />
+</div>
+<div #ovelay (click)="close()" *ngIf="active" class="overlay"></div>

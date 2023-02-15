@@ -1,0 +1,46 @@
+<div class="view-backgrond"></div>
+
+<div class="form-card">
+  <div class="login-form">
+    <!-- <img class="logo" src="http://gestorqa.indratools.net/public/imagen/proyecto/logo_indrac.png" /> -->
+    <img class="logo" src="../../../assets/images/logos/storj.svg" />
+    <div class="title-login">
+      <div class="c-male">Bienvenido a la web</div>
+      <div style="margin-top: 10px; font-weight: 200;">Dynamo<span style="font-weight: 700">Procesos</span></div>
+    </div>
+
+    <form [formGroup]="loginForm" class="loginform my-2">
+      <div class="input-group mb-3 mt-4">
+        <div class="input-group-text"><mat-icon>person</mat-icon></div>
+        <input type="email"
+               class="form-control cli-input-white"
+               placeholder="Username"
+               formControlName="username"/>
+      </div>
+      <small class="form-text alert-login" *ngIf="campoNoValido('username')">* Debe ingresar un Username válido</small>
+
+      <div class="input-group mb-3 mt-3">
+        <div class="input-group-text">
+          <mat-icon>lock</mat-icon>
+        </div>
+        <input type="password"
+               class="form-control cli-input-white"
+               placeholder="Password"
+               formControlName="password"/>
+      </div>
+      <small class="form-text alert-login" *ngIf="campoNoValido('password')">* Debe ingresar un Password válido</small>
+
+      <!-- Iniciar sesión-->
+      <div class="form-group text-center">
+        <button class="cli-btn btn-l btn-login my-4"
+                type="submit"
+                (click)="login()"
+                [disabled]="loginForm.invalid"
+                ><mat-icon class="icon-cent icon-16">login</mat-icon> Ingresar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+

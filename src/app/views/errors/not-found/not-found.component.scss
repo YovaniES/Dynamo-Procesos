@@ -1,0 +1,38 @@
+.error-box {
+  height: 100%;
+  position: fixed;
+  background: url(../../../../assets/images/background/404-1.jpg) no-repeat center center #fff;
+  width: 100%;
+
+  // margin-left: 10%;
+}
+.error-box .footer {
+  width: 100%;
+  left: 0px;
+  right: 0px;
+}
+
+.error-body {
+  padding-top: 2%;
+}
+.error-body h1 {
+  font-size: 175px;
+  font-weight: 900;
+  text-shadow: 4px 4px 0 #ffffff, 6px 6px 0 #263238;
+  line-height: 180px;
+}
+
+
+@media (max-width: 768px) {
+  .error-box {
+    height: 100%;
+    position: fixed;
+    background: none;
+    width: 100%;
+  }
+
+
+.error-body {
+  padding-top: 25%;
+}
+}

@@ -1,0 +1,21 @@
+<div *ngIf="loading" class="cli-body">
+  <app-header></app-header>
+  <app-aside (generalfixedAside)="changeSideFixed($event)"></app-aside>
+  <div
+    [ngClass]="{
+      'cli-canvas-fixedaside': fixedAside,
+      'cli-canvas-hiddenaside': !fixedAside
+    }"
+    class="cli-canvas"
+  >
+    <div class="cli-content">
+      <!-- <block-ui>
+        <router-outlet></router-outlet>
+      </block-ui> -->
+    </div>
+    <app-footer></app-footer>
+  </div>
+  <app-user-panel></app-user-panel>
+</div>
+
+

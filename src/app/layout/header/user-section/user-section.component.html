@@ -1,0 +1,6 @@
+<div (click)="openPanel()" class="user-bag">
+  <div *ngIf="!hasphoto">{{ nameini }}</div>
+  <div *ngIf="hasphoto" class="miniphoto-header">
+    <img [src]="photouri" />
+  </div>
+</div>

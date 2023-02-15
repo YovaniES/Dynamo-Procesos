@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe, LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { AuthModule } from './views/auth/auth.module';
+import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,10 @@ import { DatePipe, LocationStrategy, HashLocationStrategy } from '@angular/commo
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+
+    LayoutModule,
+    AuthModule,
   ],
   providers: [
     DatePipe,

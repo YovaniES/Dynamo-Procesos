@@ -1,0 +1,14 @@
+@import "variables.scss";
+:host {
+  height: 100vh;
+  width: 100%;
+}
+.error-message {
+  margin: auto;
+  max-width: 300px;
+  text-align: center;
+}
+.error-icon {
+  display: block;
+  margin: auto;
+}
