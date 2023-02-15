@@ -1,6 +1,6 @@
 <div style="display: flex">
   <div class="flex-1"></div>
-  <div class="modal-title c-male"> {{DATA_EVENTO ? 'Actualizar' : 'Agregar'}} evento </div>
+  <div class="modal-title c-male"> {{DATA_EVENTO ? 'Actualizar' : 'Agregar'}} score </div>
     <div class="flex-1"></div>
 
     <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
@@ -13,7 +13,7 @@
     <div class="chart-draw">
 
       <!-- DATOS DEL EVENTO ------------------------------------------------------------------------->
-      <div class="pr-subtitle mt-2">Datos del evento</div>
+      <div class="pr-subtitle mt-2">Datos del Score</div>
       <div class="pr-section mb-3">
         <div class="pr-module-container">
           <div class="row g-2">
@@ -307,7 +307,7 @@
               <div *ngIf="!loadingItem && listHistoricoCambios.length == 0"
                 class="cli-loader mt-2"
                 style="color: #c9c9c9"
-                >Aquí se mostrará el histórico del cambios de Estado del evento...
+                >Aquí se mostrará el histórico del cambios de Estado del Score...
               </div>
             </div>
           </div>

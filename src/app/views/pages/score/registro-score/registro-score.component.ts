@@ -7,15 +7,14 @@ import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 // import { ExportExcellService } from 'src/app/core/services/export-excell.service';
-import { ModalEventoComponent } from './modal-evento/modal-evento.component';
-import { ModalDetalleComponent } from './modal-detalle/modal-detalle.component';
+import { ModalScoreComponent } from './modal-score/modal-score.component';
 
 @Component({
-  selector: 'app-registro-evento',
-  templateUrl: './registro-evento.component.html',
-  styleUrls: ['./registro-evento.component.scss']
+  selector: 'app-registro-score',
+  templateUrl: './registro-score.component.html',
+  styleUrls: ['./registro-score.component.scss']
 })
-export class RegistroEventoComponent implements OnInit {
+export class RegistroScoreComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
   loadingItem: boolean = false;
   userId!: number;
@@ -54,7 +53,7 @@ export class RegistroEventoComponent implements OnInit {
 
   listaEventos: any[] = [];
   cargarOBuscarEvento(){
-    this.blockUI.start("Cargando eventos...");
+    this.blockUI.start("Cargando Score...");
     let parametro: any[] = [{
       "queryId": 41,
       "mapValue": {
@@ -69,7 +68,7 @@ export class RegistroEventoComponent implements OnInit {
     this.eventoService.cargarOBuscarEvento(parametro[0]).subscribe((resp: any) => {
     this.blockUI.stop();
 
-     console.log('Lista-eventos', resp, resp.list.length);
+     console.log('Lista-score', resp, resp.list.length);
       this.listaEventos = [];
       this.listaEventos = resp.list;
 
@@ -87,8 +86,8 @@ export class RegistroEventoComponent implements OnInit {
       }
     }];
     Swal.fire({
-      title: '¿Eliminar Evento?',
-      text: `¿Estas seguro que deseas eliminar la Evento: ${cod_evento}?`,
+      title: '¿Eliminar Score?',
+      text: `¿Estas seguro que deseas eliminar el Score: ${cod_evento}?`,
       icon: 'question',
       confirmButtonColor: '#ff6070',
       cancelButtonColor: '#0d6efd',
@@ -103,7 +102,7 @@ export class RegistroEventoComponent implements OnInit {
 
             Swal.fire({
               title: 'Eliminar Evento',
-              text: `El Evento: ${cod_evento}, fue eliminado con éxito`,
+              text: `El Score: ${cod_evento}, fue eliminado con éxito`,
               icon: 'success',
             });
           });
@@ -157,7 +156,7 @@ export class RegistroEventoComponent implements OnInit {
   }
 
   crearEvento() {
-    const dialogRef = this.dialog.open(ModalEventoComponent, { width: '70%', height: '90%'});
+    const dialogRef = this.dialog.open(ModalScoreComponent, { width: '70%', height: '90%'});
     dialogRef.afterClosed().subscribe((resp) => {
       if (resp) {
         this.cargarOBuscarEvento();
@@ -168,7 +167,7 @@ export class RegistroEventoComponent implements OnInit {
   actualizarPersonal(DATA: any) {
     console.log('DATA_EVENTO', DATA);
 
-    const dialogRef = this.dialog.open(ModalEventoComponent, { width: '70%', height: '95%', data: DATA});
+    const dialogRef = this.dialog.open(ModalScoreComponent, { width: '70%', height: '95%', data: DATA});
     dialogRef.afterClosed().subscribe((resp) => {
         if (resp) {
           this.cargarOBuscarEvento();
@@ -176,16 +175,16 @@ export class RegistroEventoComponent implements OnInit {
       });
   }
 
-  abrirDetalleEvento(dataDetalle: string) {
-    console.log('DATA_DETALLE', dataDetalle);
+  // abrirDetalleEvento(dataDetalle: string) {
+  //   console.log('DATA_DETALLE', dataDetalle);
 
-    const dialogRef = this.dialog.open(ModalDetalleComponent, { width: '60%',data: dataDetalle});
-    dialogRef.afterClosed().subscribe((resp) => {
-      if (resp) {
-        this.cargarOBuscarEvento();
-      }
-    });
-  }
+  //   const dialogRef = this.dialog.open(ModalDetalleComponent, { width: '60%',data: dataDetalle});
+  //   dialogRef.afterClosed().subscribe((resp) => {
+  //     if (resp) {
+  //       this.cargarOBuscarEvento();
+  //     }
+  //   });
+  // }
 
   exportarRegistro() {
     // this.exportExcellService.exportarExcel(this.listaEventos, 'Evento');

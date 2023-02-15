@@ -19,8 +19,8 @@ const routes: Routes = [
       loadChildren: () => import ('./views/pages/home/home.module').then((m) => m.HomeModule),
       canActivate: [ValidarTokenGuard],
     },
-    { path:'evento',
-      loadChildren: () => import ('./views/pages/evento/evento.module').then((m)=>m.EventoModule),
+    { path:'score',
+      loadChildren: () => import ('./views/pages/score/score.module').then((m)=>m.ScoreModule),
       canActivate: [ValidarTokenGuard],
     },
     // {

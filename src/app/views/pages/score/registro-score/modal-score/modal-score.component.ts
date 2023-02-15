@@ -20,10 +20,10 @@ export class Usuario {
 
 @Component({
   selector: 'app-modal-evento',
-  templateUrl: './modal-evento.component.html',
-  styleUrls: ['./modal-evento.component.scss']
+  templateUrl: './modal-score.component.html',
+  styleUrls: ['./modal-score.component.scss']
 })
-export class ModalEventoComponent implements OnInit {
+export class ModalScoreComponent implements OnInit {
   usuario: any;
   loadingItem: boolean = false;
   userID: number = 0;
@@ -35,7 +35,7 @@ export class ModalEventoComponent implements OnInit {
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
-    private dialogRef: MatDialogRef<ModalEventoComponent>,
+    private dialogRef: MatDialogRef<ModalScoreComponent>,
     @Inject(MAT_DIALOG_DATA) public DATA_EVENTO: any
   ) {
     // this.usuario = JSON.parse(localStorage.getItem('currentUser')

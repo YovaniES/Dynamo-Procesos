@@ -24,7 +24,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-// import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 
 @NgModule({
@@ -54,7 +54,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatMenuModule,
 
     MatDatepickerModule,
-    // MatMomentDateModule
+    MatMomentDateModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es',  }, ],
 })

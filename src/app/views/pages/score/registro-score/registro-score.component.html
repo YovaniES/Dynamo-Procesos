@@ -1,12 +1,12 @@
 <div class="cli-card fit-card">
   <div class="cli-card-body">
-    <div class="modal-title c-male">Mantenimiento de eventos</div>
+    <div class="modal-title c-male">Mantenimiento de Score</div>
     <div>
       <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
       <div class="card" style="border-radius: 2px; font-weight: 600; padding: 7px">
           <form class="row g-3" [formGroup]="filtroForm">
             <div class="col-sm-2 cli-form-element">
-              <label>Código ticket</label>
+              <label>Código Score</label>
               <input
                 type="text"
                 class="form-control cli-input-white"
@@ -14,20 +14,20 @@
             </div>
 
             <div class="col-sm-2 cli-form-element">
-              <label>Estado Ticket</label>
+              <label>Estado Score</label>
               <select class="cli-input-white" formControlName="estado_ticket">
                 <option [value]="0" disabled>- Seleccione -</option>
                 <option [value]="estado.id_correlativo" *ngFor="let estado of listEstadoTicket">{{estado.valor_texto_1}}</option>
               </select>
             </div>
 
-            <div class="col-sm-2 cli-form-element">
+            <!-- <div class="col-sm-2 cli-form-element">
               <label>Área responsable</label>
               <select class="cli-input-white" formControlName="area_responsable">
                 <option [value]="0" disabled>- Seleccione -</option>
                 <option [value]="area.id_correlativo" *ngFor="let area of listAreaResponsable">{{area.valor_texto_1}}</option>
               </select>
-            </div>
+            </div> -->
 
 
             <div class="col-sm-3 cli-form-element">
@@ -75,24 +75,24 @@
 
       <!-- BOTON MODAL PARA CREAR EVENTOS ----------------------------------------------------->
       <div style="display: flex" class="mt-4 mb-1">
-          <button
+          <!-- <button
             class="cli-btn btn-blue"
             style="margin: 0"
             type="button"
             (click)="crearEvento()"
-            ><mat-icon class="icon-18">add</mat-icon>Agregar evento
-          </button>
+            ><mat-icon class="icon-18">add</mat-icon>Agregar Score
+          </button> -->
 
-          <button
+          <!-- <button
             matTooltip="Descargar evento"
             class="icon-btn btn-trans c-green-export mx-1"
             (click)="exportarRegistro()"
-          ><mat-icon class="icon-18">file_download</mat-icon>Exportar
-          </button>
+            ><mat-icon class="icon-18">file_download</mat-icon>Exportar
+          </button> -->
 
         <div class="flex-1"></div>
         <div class="mt-2" style="color: #345df3; font-weight: 600;">
-          Total : <span class="total">{{ listaEventos.length }} Eventos</span>
+          Total : <span class="total">{{ listaEventos.length }} Score</span>
         </div>
       </div>
 
@@ -124,11 +124,11 @@
                       } ">
               <td class="w50">
                 <div class="cli-table-actions">
-                  <button matTooltip ="Ver Detalle"
+                  <!-- <button matTooltip ="Ver Detalle"
                     class="icon-btn btn-trans c-grey"
                     (click)="abrirDetalleEvento(evento.idreg)"
                     ><mat-icon class="icon-13">visibility</mat-icon>
-                  </button>
+                  </button> -->
 
                   <button matTooltip="Actualizar"
                     class="icon-btn btn-trans c-blue"
@@ -136,11 +136,11 @@
                     ><mat-icon class="icon-13">edit</mat-icon>
                   </button>
 
-                  <button matTooltip="Eliminar"
+                  <!-- <button matTooltip="Eliminar"
                     class="icon-btn btn-trans c-fucsia"
                     (click)="eliminarEvento(evento.idreg, evento.cod_evento)"
                     ><mat-icon class="icon-13">delete</mat-icon>
-                  </button>
+                  </button> -->
 
                 </div>
               </td>
@@ -167,7 +167,7 @@
           *ngIf="!loadingItem && listaEventos.length == 0"
           class="cli-loader mt-5"
           style="color: #f83434"
-          >No hay Eventos para mostrar
+          >No hay Score para mostrar
         </div>
       </div>
     </div>
