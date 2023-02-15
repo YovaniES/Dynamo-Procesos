@@ -5,45 +5,36 @@
       <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
       <div class="card" style="border-radius: 2px; font-weight: 600; padding: 7px">
           <form class="row g-3" [formGroup]="filtroForm">
-            <div class="col-sm-2 cli-form-element">
-              <label>Código Score</label>
+            <div class="col-sm-3 cli-form-element">
+              <label>Creado por:</label>
               <input
                 type="text"
                 class="form-control cli-input-white"
-                formControlName="cod_ticket"/>
+                formControlName="creado_por"/>
             </div>
 
-            <div class="col-sm-2 cli-form-element">
+            <div class="col-sm-3 cli-form-element">
               <label>Estado Score</label>
-              <select class="cli-input-white" formControlName="estado_ticket">
+              <select class="cli-input-white" formControlName="id_estado">
                 <option [value]="0" disabled>- Seleccione -</option>
                 <option [value]="estado.id_correlativo" *ngFor="let estado of listEstadoTicket">{{estado.valor_texto_1}}</option>
               </select>
             </div>
 
-            <!-- <div class="col-sm-2 cli-form-element">
-              <label>Área responsable</label>
-              <select class="cli-input-white" formControlName="area_responsable">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="area.id_correlativo" *ngFor="let area of listAreaResponsable">{{area.valor_texto_1}}</option>
-              </select>
-            </div> -->
-
-
             <div class="col-sm-3 cli-form-element">
-              <label>Usuario</label>
+              <label>Solicitante</label>
               <input
                 type="text"
                 class="form-control cli-input-white"
-                formControlName="usuario"/>
+                formControlName="solicitante"/>
             </div>
 
             <div class="col-sm-3 cli-form-element">
-              <label class="form-label">Fecha de Registro</label>
+              <label class="form-label">Fecha de Solcitud</label>
               <mat-form-field color="accent" appearance="outline">
                 <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate formControlName="fecha_registro_inicio"  placeholder="Desde"   >
-                  <input matEndDate   formControlName="fecha_registro_fin"     placeholder="Hasta" >
+                  <input matStartDate formControlName="fecha_solicitud_ini" >
+                  <input matEndDate   formControlName="fecha_solicitud_fin" >
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
@@ -65,7 +56,7 @@
                 type="button"
                 class="cli-btn btn-blue-light"
                 style="border-radius: 2px; padding: 0.225rem 0.75rem"
-                (click)="cargarOBuscarEvento()"
+                (click)="cargarOBuscarScore()"
                 ><mat-icon class="icon-18">search</mat-icon>
                 Buscar
               </button>
@@ -98,67 +89,109 @@
 
       <!-- TABLA DEL EVENTOS ------------------------------------------------------------------>
       <div style="overflow: auto; min-height: 300px">
-        <table class="cli-table stripedtable underlinedtable">
+        <!-- <table class="cli-table stripedtable underlinedtable">
           <thead>
             <tr class="bgc-blue-light c-white">
               <th>Acción</th>
-              <th>Cód. Evento</th>
-              <th>Cód. Ticket</th>
-              <th>Tipo Evento</th>
-              <th>Estado Evento</th>
-              <th>H. Inicio</th>
-              <th>H. Fin</th>
-              <th>Estado Ticket</th>
-              <th>Área Responsable</th>
-              <th>Notificación</th>
-              <th>Usuario</th>
-              <th>Fecha de Registro</th>
+              <th>Tipo Doc</th>
+              <th>N° Documento</th>
+              <th>Segmento</th>
+              <th>Score</th>
+              <th>Nombres Apell.</th>
+              <th>Q_Lineas</th>
+              <th>Cód. Financiamiento</th>
+              <th>Estado</th>
+              <th>Fecha Proceso</th>
+              <th>Solicitante</th>
+              <th>Cargo Fijo Máx.</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr *ngFor="let evento of listaEventos | paginate:
+            <tr *ngFor="let score of listaEventos | paginate:
                       { itemsPerPage: pageSize,
                         currentPage : page,
                         totalItems  : totalPersonal
                       } ">
               <td class="w50">
                 <div class="cli-table-actions">
-                  <!-- <button matTooltip ="Ver Detalle"
-                    class="icon-btn btn-trans c-grey"
-                    (click)="abrirDetalleEvento(evento.idreg)"
-                    ><mat-icon class="icon-13">visibility</mat-icon>
-                  </button> -->
+                  <button matTooltip ="Descargar"
+                    class="icon-btn btn-trans c-green-export"
+                    (click)="exportarRegistro()"
+                    ><mat-icon class="icon-13">file_download</mat-icon>
+                  </button>
 
                   <button matTooltip="Actualizar"
                     class="icon-btn btn-trans c-blue"
-                    (click)="actualizarPersonal(evento)"
+                    (click)="actualizarPersonal(score)"
                     ><mat-icon class="icon-13">edit</mat-icon>
                   </button>
-
-                  <!-- <button matTooltip="Eliminar"
-                    class="icon-btn btn-trans c-fucsia"
-                    (click)="eliminarEvento(evento.idreg, evento.cod_evento)"
-                    ><mat-icon class="icon-13">delete</mat-icon>
-                  </button> -->
-
                 </div>
               </td>
-              <td class="w150"> {{ evento.cod_evento }}</td>
-              <td >{{ evento.codigo_ticket_generado? evento.codigo_ticket_generado: '-' }}</td>
-              <td>{{ evento.tipo_evento | firstCapital }}</td>
-              <td>{{ evento.estado | uppercase }}</td>
-              <td>{{ evento.hora_inicio | uppercase}}</td>
-              <td>{{ evento.hora_fin | uppercase}}</td>
-              <td>{{ evento.estado_ticket? evento.estado_ticket: '-' }}</td>
-              <td style="min-width: 95px">{{ evento.area_responsable? evento.area_responsable : '-' }}</td>
-              <td class="w100">{{ evento.modonotificacion }}</td>
-              <td class="w100">{{ evento.usuario_registro }}</td>
-              <td class="w100">{{ evento.fecha_creacion   }}</td>
+              <td class="w150"> {{ score.tipo_documento }}</td>
+              <td >{{ score.numero_documento }}</td>
+              <td>{{ score.segmento }}</td>
+              <td class="w100">{{ score.score }}</td>
+              <td>{{ score.nombres | uppercase}}</td>
+              <td>{{ score.q_lineas }}</td>
+              <td>{{ score.codigo_fin }}</td>
+              <td>{{ score.estado }}</td>
+              <td style="min-width: 95px">{{ score.fecha_proceso }}</td>
+              <td class="w100">{{ score.solicitante }}</td>
+              <td class="w100">{{ score.cargo_fijo_max   }}</td>
+            </tr>
+          </tbody>
+        </table> -->
+
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-blue-light c-white">
+              <th>Acción</th>
+              <th>ID Score</th>
+              <th>Solicitante</th>
+              <th>Fecha Solic.</th>
+              <th>Fecha Envío</th>
+              <th>Estado</th>
+              <th>Creado Por:</th>
+              <th>Fecha Creación</th>
+              <th>Actualizado Por:</th>
+              <th>Fecha Actualizado</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let score of listaEventos | paginate:
+                      { itemsPerPage: pageSize,
+                        currentPage : page,
+                        totalItems  : totalPersonal
+                      } ">
+              <td class="w50">
+                <div class="cli-table-actions">
+                  <button matTooltip ="Descargar"
+                    class="icon-btn btn-trans c-green-export"
+                    (click)="exportarRegistro()"
+                    ><mat-icon class="icon-13">file_download</mat-icon>
+                  </button>
+
+                  <button matTooltip="Actualizar"
+                    class="icon-btn btn-trans c-blue"
+                    (click)="actualizarPersonal(score)"
+                    ><mat-icon class="icon-13">settings_suggest</mat-icon>
+                  </button>
+                </div>
+              </td>
+              <td class="w150"> {{ score.idScoreM }}</td>
+              <td >{{ score.solicitante | uppercase }}</td>
+              <td>{{ score.fecha_solicitud }}</td>
+              <td class="w100">{{ score.fecha_envio }}</td>
+              <td>{{ score.idEstado}}</td>
+              <td>{{ score.Crea }}</td>
+              <td>{{ score.fecha_crea }}</td>
+              <td>{{ score.Actualiza }}</td>
+              <td style="min-width: 95px">{{ score.fecha_actualizacion }}</td>
             </tr>
           </tbody>
         </table>
-
         <div class="cli-loader" *ngIf="loadingItem">
           <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
         </div>

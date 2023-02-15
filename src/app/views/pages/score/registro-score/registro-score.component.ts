@@ -35,37 +35,34 @@ export class RegistroScoreComponent implements OnInit {
 
   ngOnInit(): void {
     this.newFilfroForm();
-    this.cargarOBuscarEvento();
-    this.getListAreaResponsable();
+    this.cargarOBuscarScore();
     this.getListEstadoTicket();
   }
 
   newFilfroForm(){
     this.filtroForm = this.fb.group({
-      cod_ticket           : [''],
-      usuario              : [''],
-      area_responsable     : [''],
-      estado_ticket        : [''],
-      fecha_registro_inicio: [''],
-      fecha_registro_fin   : [''],
+      creado_por          : [''],
+      solicitante         : [''],
+      id_estado           : [''],
+      fecha_solicitud_ini : [''],
+      fecha_solicitud_fin : [''],
     })
   };
 
   listaEventos: any[] = [];
-  cargarOBuscarEvento(){
+  cargarOBuscarScore(){
     this.blockUI.start("Cargando Score...");
     let parametro: any[] = [{
-      "queryId": 41,
+      "queryId": 57,
       "mapValue": {
-          p_cod_ticket         : this.filtroForm.value.cod_ticket,
-          p_usuario            : this.filtroForm.value.usuario,
-          p_estado_ticket      : this.filtroForm.value.estado_ticket,
-          p_id_area_responsable: this.filtroForm.value.area_responsable,
-          inicio               : this.datepipe.transform(this.filtroForm.value.fecha_registro_inicio,"yyyy/MM/dd"),
-          fin                  : this.datepipe.transform(this.filtroForm.value.fecha_registro_fin,"yyyy/MM/dd"),
+          p_creado_por  : this.filtroForm.value.num_doc,
+          p_id_estado   : this.filtroForm.value.id_estado,
+          p_solicitante : this.filtroForm.value.solicitante,
+          inicio        : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),
+          fin           : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
       }
     }];
-    this.eventoService.cargarOBuscarEvento(parametro[0]).subscribe((resp: any) => {
+    this.eventoService.cargarOBuscarScore(parametro[0]).subscribe((resp: any) => {
     this.blockUI.stop();
 
      console.log('Lista-score', resp, resp.list.length);
@@ -76,40 +73,40 @@ export class RegistroScoreComponent implements OnInit {
     });
   }
 
-  eliminarEvento(id: number, cod_evento: string){
-    this.spinner.show();
+  // eliminarEvento(id: number, cod_evento: string){
+  //   this.spinner.show();
 
-    let parametro:any[] = [{
-      queryId: 46,
-      mapValue: {
-        p_idRegistro: id,
-      }
-    }];
-    Swal.fire({
-      title: '¿Eliminar Score?',
-      text: `¿Estas seguro que deseas eliminar el Score: ${cod_evento}?`,
-      icon: 'question',
-      confirmButtonColor: '#ff6070',
-      cancelButtonColor: '#0d6efd',
-      confirmButtonText: 'Si, Eliminar!',
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-    }).then((resp) => {
-      if (resp.value) {
-        this.eventoService.eliminarEvento(parametro[0]).subscribe(resp => {
+  //   let parametro:any[] = [{
+  //     queryId: 46,
+  //     mapValue: {
+  //       p_idRegistro: id,
+  //     }
+  //   }];
+  //   Swal.fire({
+  //     title: '¿Eliminar Score?',
+  //     text: `¿Estas seguro que deseas eliminar el Score: ${cod_evento}?`,
+  //     icon: 'question',
+  //     confirmButtonColor: '#ff6070',
+  //     cancelButtonColor: '#0d6efd',
+  //     confirmButtonText: 'Si, Eliminar!',
+  //     showCancelButton: true,
+  //     cancelButtonText: 'Cancelar',
+  //   }).then((resp) => {
+  //     if (resp.value) {
+  //       this.eventoService.eliminarEvento(parametro[0]).subscribe(resp => {
 
-          this.cargarOBuscarEvento();
+  //         this.cargarOBuscarScore();
 
-            Swal.fire({
-              title: 'Eliminar Evento',
-              text: `El Score: ${cod_evento}, fue eliminado con éxito`,
-              icon: 'success',
-            });
-          });
-      }
-    });
-    this.spinner.hide();
-  }
+  //           Swal.fire({
+  //             title: 'Eliminar Evento',
+  //             text: `El Score: ${cod_evento}, fue eliminado con éxito`,
+  //             icon: 'success',
+  //           });
+  //         });
+  //     }
+  //   });
+  //   this.spinner.hide();
+  // }
 
 
   listEstadoTicket: any[] = [];
@@ -118,17 +115,7 @@ export class RegistroScoreComponent implements OnInit {
 
     this.eventoService.getListEstTicket(parametro[0]).subscribe((resp: any) => {
         this.listEstadoTicket = resp.list;
-        console.log('EST_TICKET', resp);
-      });
-  }
-
-  listAreaResponsable: any[] = [];
-  getListAreaResponsable() {
-    let parametro: any[] = [{ queryId: 34 }];
-
-    this.eventoService.getListAreaResponsable(parametro[0]).subscribe((resp: any) => {
-        this.listAreaResponsable = resp.list;
-        // console.log('AREA_RESP', resp);
+        console.log('EST_SCORE', resp);
       });
   }
 
@@ -136,7 +123,7 @@ export class RegistroScoreComponent implements OnInit {
     this.filtroForm.reset('', { emitEvent: false });
     this.newFilfroForm();
 
-    this.cargarOBuscarEvento();
+    this.cargarOBuscarScore();
   }
 
   totalfiltro = 0;
@@ -145,7 +132,7 @@ export class RegistroScoreComponent implements OnInit {
     this.spinner.show();
 
     if (this.totalfiltro != this.totalPersonal) {
-      this.eventoService.cargarOBuscarEvento(offset.toString()).subscribe((resp: any) => {
+      this.eventoService.cargarOBuscarScore(offset.toString()).subscribe((resp: any) => {
           this.listaEventos = resp.list;
           this.spinner.hide();
         });
@@ -155,14 +142,14 @@ export class RegistroScoreComponent implements OnInit {
     this.page = event;
   }
 
-  crearEvento() {
-    const dialogRef = this.dialog.open(ModalScoreComponent, { width: '70%', height: '90%'});
-    dialogRef.afterClosed().subscribe((resp) => {
-      if (resp) {
-        this.cargarOBuscarEvento();
-      }
-    });
-  }
+  // crearEvento() {
+  //   const dialogRef = this.dialog.open(ModalScoreComponent, { width: '70%', height: '90%'});
+  //   dialogRef.afterClosed().subscribe((resp) => {
+  //     if (resp) {
+  //       this.cargarOBuscarScore();
+  //     }
+  //   });
+  // }
 
   actualizarPersonal(DATA: any) {
     console.log('DATA_EVENTO', DATA);
@@ -170,7 +157,7 @@ export class RegistroScoreComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalScoreComponent, { width: '70%', height: '95%', data: DATA});
     dialogRef.afterClosed().subscribe((resp) => {
         if (resp) {
-          this.cargarOBuscarEvento();
+          this.cargarOBuscarScore();
         }
       });
   }
@@ -181,7 +168,7 @@ export class RegistroScoreComponent implements OnInit {
   //   const dialogRef = this.dialog.open(ModalDetalleComponent, { width: '60%',data: dataDetalle});
   //   dialogRef.afterClosed().subscribe((resp) => {
   //     if (resp) {
-  //       this.cargarOBuscarEvento();
+  //       this.cargarOBuscarScore();
   //     }
   //   });
   // }

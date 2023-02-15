@@ -9,7 +9,7 @@ export class EventoService {
 
   constructor(private http: HttpClient) {}
 
-  cargarOBuscarEvento(obj: any) {
+  cargarOBuscarScore(obj: any) {
     return this.http.post(API_EVENTO, obj);
   }
 
