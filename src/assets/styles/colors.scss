@@ -1,0 +1,105 @@
+/* GLOBAL COLORES*/
+.c-female {
+  color: $color-magenta;
+}
+.c-male {
+  // color: $color-blue;
+  color: #007bff
+}
+
+.c-purple{
+  color: #d63384
+}
+
+.c-darkblue {
+  color: $color-secondary;
+  border: solid 0.5px $color-secondary;
+}
+.c-green {
+  color: $color-green;
+  border: solid 0.5px $color-green;
+}
+
+.c-green-btn {
+  color: $color-green;
+  background-color: #f0efef;
+  border: solid 0.5px $color-green;
+}
+.c-indigo{
+  color: #6f42c1;
+}
+
+.c-cyan{
+  color: #0dcaf0;
+}
+
+.c-fucsia {
+  color: #ff4081;
+  background-color: #f0efef;
+  border: solid 0.5px #ff4081;
+}
+.c-green-light {
+  color: #198754;
+  // background-color: #f0efef;
+  border: solid 0.5px #198754;
+}
+
+.c-grey{
+  color: #999c9f;
+  border: solid 0.5px #999c9f;
+}
+
+.c-blue {
+  color: #007bff;
+  background-color: rgb(240, 239, 239);
+  border: solid 0.5px #007bff;
+}
+
+.c-yellow {
+  color: $color-yellow;
+}
+.c-orange {
+  color: $color-orange;
+}
+.c-dark {
+  color: $color-grey-6;
+}
+.c-light {
+  color: $color-grey-4;
+}
+.c-white {
+  color: #fff;
+}
+
+/* FONDOS GLOBALES */
+.bgc-magenta {
+  background-color: $color-magenta;
+}
+.bgc-blue {
+  background-color: $color-blue;
+}
+.bgc-turquey {
+  background-color: #03bccf;
+}
+
+.bgc-blue-light{
+  background-color: #0daef4;
+  color: #fff
+}
+
+.bgc-green {
+  background-color: $color-green;
+}
+.bgc-yellow {
+  background-color: $color-yellow;
+}
+.bgc-purple {
+  background-color: $color-purple;
+}
+.bgc-orange {
+  background-color: $color-orange;
+}
+
+.bgc-grey {
+  background-color: $color-grey-4;
+}

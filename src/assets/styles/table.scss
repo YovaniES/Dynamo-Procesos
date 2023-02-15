@@ -1,0 +1,209 @@
+.cli-book{
+    width: 100%;
+    height: calc( 100% - 65px);
+    position: relative;
+    overflow: hidden;
+}
+.cli-page{
+    &-1{
+        width: 100%;
+        height: 100%;
+    }
+    &-2{
+        width:100%;
+        height: 100%;
+        background-color: #fff;
+        top: 0;
+        position: absolute;
+        right: -100%;
+        transition: ease .5s;
+        padding: 5px;
+        border: solid 1px $color-grey-2;
+        overflow: auto;
+        padding-bottom: 20px;
+    }
+}
+.cli-showpage{
+    right: 0;
+}
+.cli-table-filter{
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    & label{
+        font-size: .8rem;
+        line-height: .9rem;
+        margin: 0;
+    }
+    & select{
+        border: solid 1px $color-grey-1;
+        background-color: $color-grey-1;
+        border-radius: 2px;
+        padding: 2px 10px;
+
+    }
+}
+
+.cli-table{
+    width: 100%;
+    background-color: #fff;
+    & th{
+        padding: 5px;
+        font-weight: 500;
+        text-align: center;
+    }
+    & td{
+        vertical-align: middle;
+        text-align: center;
+        font-size: .85rem;
+        padding: 3px 10px;
+    }
+    &-actions{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &-input{
+        border: 1px solid $color-grey-4;
+        border-radius: 2px;
+    }
+    &-footer{
+        font-size: .9rem;
+        display: flex;
+        margin-top: 10px;
+        padding: 10px;
+    }
+}
+.stripedtable tr:nth-child(even) {
+    background-color: #f3f5f6;
+}
+.underlinedtable{
+    & td, & th{
+        border-bottom: solid 1px $color-grey-2;
+    }
+}
+.cli-tablebar{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 3px;
+    border: solid 1px $color-grey-3;
+    border-radius: 2px;
+    margin: 5px 0;
+}
+
+
+.cli-tabrows{
+    border: solid 1px $color-grey-2;
+    margin: 0 5px;
+    width: 50px;
+}
+.h-divider{
+    height: 30px;
+    width: 1px;
+    background-color: $color-grey-3;
+    margin: 0 10px;
+}
+
+.cli-table-search{
+    background-color: $color-grey-2;
+    display: flex;
+    align-items: center;
+    padding:3px;
+    border-radius: 2px;
+    width: 200px;
+    transition: ease .3s;
+    & input{
+        border: none;
+        background-color: transparent;
+        flex: 1 1;
+        padding: 0 5px;
+    }
+    &:focus-within{
+        background-color: $color-grey-1;
+    }
+}
+
+// EXTRAS
+.tablesettings{
+    display: flex;
+    flex-wrap: wrap;
+
+    padding: 10px;
+    background-color: $color-grey-0;
+    width: 100%;
+    margin: 10px 5px 5px 5px;
+    border: solid 2px $color-blue;
+    border-radius: 2px;
+}
+.setting-check{
+    width: 180px;
+}
+.cli-tri{
+    right: 45px;
+    bottom: -13px;
+    width: 0;
+    position: absolute;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid  $color-blue;
+    border-right: 10px solid transparent;
+}
+.cli-tri-2{
+    right: 45px;
+    bottom: -15px;
+    width: 0;
+    position: absolute;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid  $color-grey-0;
+    border-right: 10px solid transparent;
+}
+.cli-cancel-search{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 0 2px;
+    color: $color-magenta-l;
+    transition: ease .3s;
+    background-color: transparent;
+    &:hover{
+        color: $color-magenta;
+    }
+}
+.cli-pagination{
+    &-container{
+        padding: 10px;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        border: solid 1px $color-grey-2;
+        border-radius: 2px;
+    }
+    &-page{
+        font-family: 'Webapp-Bold';
+        margin: 0 10px;
+    }
+}
+
+
+@include mobile{
+.cli-table{
+    & th{
+        padding: 5px;
+        font-weight: 400;
+        font-size: 12px;
+    }
+    & td{
+        font-size: .7rem;
+        padding: 3px 5px;
+    }
+    &-footer{
+        font-size: .8rem;
+        margin-top: 10px;
+        padding: 10px;
+    }
+}
+}

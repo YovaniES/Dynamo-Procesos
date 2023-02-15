@@ -1,0 +1,136 @@
+// LAYOUT
+// WIDTH
+$aside-fixed-width: 235px;
+$aside-hover-width: 70px;
+$user-panel-width: 350px;
+
+// HEADER HEIGTH
+$header-height: 56px;
+
+// PALETA GREY
+$color-grey-0: #f8f8f8;
+$color-grey-1: #f4f4f3;
+$color-grey-2: #e9eae8;
+$color-grey-3: #d3d4d3;
+$color-grey-4: #b6b7b7;
+$color-grey-5: #86888c;
+$color-grey-6: #50535a;
+
+// PALETA BASE
+// Webapp
+/* $color-primary: #0066FF;
+$color-primary-l0: #CCDFFF;
+$color-primary-l1: #99C0FF;
+$color-primary-l2: #66A2FF;
+$color-primary-l3: #3384FF;
+$color-primary-d1: #0054D5;
+$color-primary-d2: #0042AA;
+$color-primary-d3: #003180; */
+
+// Primary
+$color-primary: #0066ff;
+$color-primary-l0: #cfebfa;
+$color-primary-l1: #b3e2fc;
+$color-primary-l2: #80cefa;
+$color-primary-l3: #34b1f6;
+$color-primary-d1: #017ec3;
+$color-primary-d2: #014f7a;
+$color-primary-d3: #002f49;
+
+$color-secondary: #2b3447;
+$color-secondary-l1: #9298a7;
+$color-secondary-l2: #6f7787;
+$color-secondary-l3: #4c5568;
+$color-secondary-d1: #222b3d;
+$color-secondary-d2: #1a2232;
+$color-secondary-d3: #121927;
+
+$color-primary-op: #019df412;
+$color-green-op: #5cb61512;
+$color-purple-op: #a13ea112;
+$color-magenta-op: #e6378012;
+$color-orange-op: #ec624b12;
+$color-yellow-op: #f28d1512;
+
+// HISPAM COLORS
+$color-hispam-dark: #023f5a;
+$color-hispam-light: #04eafa;
+
+// COLORES VARIOS
+// Webapp
+$color-blue: #007bff;
+$color-blue-l: #80b0ff;
+$color-blue-d: #003180;
+
+$color-green: #5cb615;
+$color-green-l: #bde4a4;
+$color-green-d: #3c7521;
+
+$color-turq: #59c2c9;
+$color-turq-l: #67e0e5;
+$color-turq-d: #3e8a8a;
+
+$color-purple: #c466ef;
+$color-purple-l: #e7c2f8;
+$color-purple-d: #8a1a93;
+
+$color-magenta: #e63780;
+$color-magenta-l: #fbc7de;
+$color-magenta-d: #922859;
+
+$color-orange: #e66c64;
+$color-orange-l: #e3a19a;
+$color-orange-d: #912c31;
+
+$color-yellow: #eac344;
+$color-yellow-l: #f5e98a;
+$color-yellow-d: #ad842d;
+
+// COLORS WEBAPP
+// $color-blue: #019DF4;
+// $color-blue-l: #80cefa;
+// $color-blue-d: #014f7a;
+
+// $color-green: #5CB615;
+// $color-green-l: #BDE4A4;
+// $color-green-d: #3C7521;
+
+// $color-purple: #A13EA1;
+// $color-purple-l: #DEBCE4;
+// $color-purple-d: #642A72;
+
+// $color-magenta: #E63780;
+// $color-magenta-l: #FBC7DE;
+// $color-magenta-d: #922859;
+
+// $color-orange: #ec624b;
+// $color-orange-l: #F8CCCC;
+// $color-orange-d: #983230;
+
+// $color-yellow: #F28D15;
+// $color-yellow-l: #F8D2B3;
+// $color-yellow-d: #9F591F;
+
+$white: #fff;
+$bg-color-2: #f9fafd;
+$bg-color-3: #f4f6fb;
+$bg-color-4: #eff1f7;
+$bg-color-5: #e8eaf3;
+$Webapp-white: #f2f4ff;
+
+// FONT COLORS
+$font-color-1: #c3c5ca;
+$font-color-2: #8f97af;
+$font-color-3: #58617a;
+$font-color-4: #2b3447;
+$font-color-5: #132a34;
+$font-color-6: #031a34;
+
+// SHADOW
+$shadow-aside: 0 1px 1px 0 #0000004d, 0 2px 5px 0 #00000036;
+$shadow-lvl-1: 0 1px 1px 0 #00000020, 0 2px 5px 0 #00000020;
+$shadow-lvl-2: 0 1px 1px 0 #00000020, 0 2px 5px 0 #00000050;
+$shadow-lvl-3: 0 1px 1px 0 #00000020, 0 2px 5px 0 #00000080;
+
+// Animations
+$transition: 0.3s ease !default;

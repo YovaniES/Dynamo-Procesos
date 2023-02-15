@@ -1,0 +1,214 @@
+.cli-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 20px;
+    &-title{
+        width: 100%;
+        font-family: 'Webapp-Bold';
+        text-align: center;
+        font-size: 1.6rem;
+        //margin: auto;
+        margin-bottom: 10px;
+    }
+    &-titleback{
+        margin-right: 100px;
+        display: flex;
+    }
+    &-subtitle{
+        width: 100%;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        font-family: 'Webapp-Bold';
+        border-bottom: 1px solid $color-grey-3;
+        display: flex;
+        align-items: center;
+        & mat-icon{
+            margin-right: 10px;
+        }
+    }
+    &-buttons{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 30px;
+    }
+    &-element{
+        display: flex;
+        flex-direction: column;
+        // margin-top: 12px;
+        & label{
+            padding: 0;
+            margin: 0 2px;
+            font-size: .8rem;
+        }
+        &:focus-within label{
+            color: $color-blue;
+        }
+    }
+    &-suggest{
+        height: 20px;
+        font-size: .8rem;
+        color: $color-grey-5;
+    }
+    &-warn{
+        height: 20px;
+        font-size: .8rem;
+        color: $color-orange;
+    }
+    &-icon{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto 5px;
+    }
+}
+
+.col-f-fill{
+    flex: 1 1;
+    padding: 5px 10px;
+}
+.col-f-1{
+    width: 100%;
+    padding: 5px 10px;
+}
+.col-f-2{
+    width: 50%;
+    padding: 5px 10px;
+}
+.col-f-3{
+    width: 33%;
+    padding: 5px 10px;
+}
+.col-f-4{
+    width: 25%;
+    padding: 5px 10px;
+}
+
+
+.form-contened{
+    padding: 10px;
+    border: solid 1px $color-grey-3;
+    border-radius: 2px;
+}
+.form-fit{
+    max-width: 800px;
+    margin: auto;
+}
+
+.cli-input{
+    border: solid 1px $color-grey-1;
+    background-color: $color-grey-1;
+    border-radius: 2px;
+    padding: 4px 10px;
+    transition: ease .3s;
+    &:hover:enabled{
+        background-color: $color-grey-0;
+    }
+    &:focus:enabled{
+        background-color: transparent;
+        border-color: $color-blue;
+    }
+    &:disabled{
+        background-color: transparent;
+        color: $color-grey-5;
+        border-color: transparent;
+    }
+}
+
+.cli-input-white{
+    // AGREGAR WIDTH and HEIGHT
+    width: 100%;
+    height: 35px;
+
+    border: solid 1px $color-grey-4;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 2px 6px;
+    transition: ease .3s;
+    &:hover:enabled{
+        border-color: $color-blue;
+    }
+    &:focus:enabled{
+        background-color: transparent;
+        border-color: $color-blue;
+    }
+    &:disabled{
+        background-color: $color-grey-0;
+        color: $color-grey-5;
+        //border-color: transparent;
+    }
+}
+
+.cli-input-file{
+    display: flex;
+    align-items: center;
+    border: solid 1px $color-grey-4;
+    border-radius: 2px;
+    padding: 5px;
+    &-name{
+        display: flex;
+        align-items: center;
+        flex: 1 1;
+        margin: 0 5px;
+        padding: 2px;
+        padding-left: 10px;
+        color: $color-grey-5;
+        background-color: $color-grey-1;
+    }
+}
+
+
+.warning-bar{
+    box-shadow: $shadow-lvl-1;
+    padding: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.cli-input-green{
+    border: solid 1px $color-green;
+    background-color: $color-green;
+    color: #fff;
+    border-radius: 2px;
+    padding: 2px 10px;
+    transition: ease .3s;
+    &:enabled{
+        &:hover,:focus{
+            background-color: #fff;
+            border-color: $color-green;
+            color: #000;
+        }
+    }
+    &:disabled{
+        background-color: transparent;
+        color: $color-grey-5;
+        border-color: transparent;
+    }
+}
+
+.cli-input-orange{
+    border: solid 1px $color-orange;
+    background-color: $color-orange;
+    color: #fff;
+    border-radius: 2px;
+    padding: 2px 10px;
+    transition: ease .3s;
+    &:enabled{
+        &:hover,:focus{
+            background-color: #fff;
+            border-color: $color-orange;
+            color: #000;
+        }
+    }
+    &:disabled{
+        background-color: transparent;
+        color: $color-grey-5;
+        border-color: transparent;
+    }
+}

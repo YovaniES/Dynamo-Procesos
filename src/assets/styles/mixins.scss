@@ -1,0 +1,34 @@
+
+// MEDIA 
+$media-breakpoints: (
+
+    // Small screen / phone
+    s: 576px,
+
+    // Medium screen / tablet
+    m: 768px,
+
+    // Large screen / desktop
+    l: 1024px, //1024px,
+
+    // Extra large screen / wide desktop
+    xl: 1399px
+) !default;
+
+@mixin mobile {
+    @media (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (max-width: 1024px) {
+        @content;
+    }
+}
+
+@mixin desktop-xl {
+    @media (min-width:1399px) {
+        @content;
+    }
+}

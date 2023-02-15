@@ -1,0 +1,257 @@
+.cli-header{
+    // background: linear-gradient(90deg, #0d6efd 0%, #0dcaf0 100%);
+    background: #f2f4ff;
+    color: $color-primary;
+    line-height: $header-height - 20;
+    height: $header-height;
+    box-shadow: $shadow-lvl-1;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 97;
+    display: flex;
+    flex-direction: row;
+}
+
+.personname{
+// color: $color-hispam-dark;
+    font-weight: 700;
+    color: $white;
+    line-height: $header-height;
+    margin: 0 5px;
+    text-shadow: 0 1px 3px #0000002a;
+}
+.header-hiddenaside{
+    left: 70px;
+}
+.header-fixedaside{
+    left: 265px;
+}
+.header-nav-items{
+    flex: 1;
+}
+.header-icon{
+    display: none;
+    align-items: center;
+    width: 48px;
+    transition: .3s ease;
+    color: $color-hispam-light;
+}
+.header-icon:active{
+    cursor: pointer;
+}
+.header-icon .mat-icon{
+    margin: auto;
+}
+.user-bag{
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    justify-content: center;
+    background-color: #00bcd4;
+
+    // background-color: #033f58;
+
+
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    transition: 0.3s ease;
+    width: 40px;
+    height: 40px;
+    margin: 8px;
+    &:hover{
+        cursor: pointer;
+        box-shadow: $shadow-lvl-3;
+    }
+}
+
+.miniphoto-header{
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    margin: 10px 0;
+    & img{
+        position: absolute;
+        left: -100%;
+        right: -100%;
+        top: -100%;
+        bottom: -100%;
+        margin: auto;
+        min-height: 100%;
+        width: 40px;
+        min-width: 100%;
+    }
+}
+
+.logoheader{
+    overflow: hidden;
+    height: $header-height;
+    width: $aside-fixed-width;
+    display: flex;
+    color: $color-secondary;
+    font-size: 1.1rem;
+    align-items: center;
+    justify-content: center;
+
+    background: #242a33;
+}
+.hlogo{
+    height: 25px;
+}
+
+.hlogo-mobile{
+  height: 75px;
+  margin-top: 5px;
+}
+.personas{
+    font-size: 1.3rem;
+    top: 28px;
+    left: 117px;
+    position: absolute;
+    font-weight: 500;
+    color: $color-turq;
+}
+.logo-let{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+    margin: 0 10px;
+    //color: $color-secondary-l3;
+    // color: #00bcd4;
+}
+
+// MOBILE MENU
+.mobile-logo{
+    width: 200px;
+    margin: auto;
+    margin-top: 15px;
+}
+.cli-mobile-menu{
+    display: none;
+}
+.cli-mobile-menu-bg{
+    display: none;
+}
+.mobile-menu-active{
+    left: 0;
+}
+.mobile-menu-hidden{
+    left: -100%;
+}
+.mobile-menu-body{
+    width: 100%;
+    background-color: $Webapp-white;
+}
+.mobile-menu-overlay{
+    background-color: #00000036;
+    width: 100%;
+    position: absolute;
+    z-index: 99;
+}
+.overlay-close{
+    margin: 31px 15px;
+    background-color: #e2e2e2;
+    color: #00a2cf;
+    border-radius: 14px;
+}
+.mobile-menu-logo{
+    position: relative;
+    display: flex;
+}
+.mobile-submenu-body{
+    width: 100%;
+    position: absolute;
+    top: 102px;
+    bottom: 0;
+    z-index: 102;
+    transition: .3s ease;
+    background-color: $color-primary;
+    color: #fff;
+}
+.mobile-submenu-active{
+    left: 0;
+}
+.mobile-submenu-hidden{
+    left: -100%;
+}
+.cli-mobile-submenu{
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+.submenu-title{
+    padding: 9px 25px;
+    /* cursor: pointer; */
+    min-height: 44px;
+    display: flex;
+    flex-grow: 1;
+    align-items: stretch;
+    margin: 0;
+    /* text-decoration: none; */
+    position: relative;
+    transition: 0.3s ease;
+    background-color: $color-primary;
+    /* color: #464E5F; */
+    border-bottom: solid 1px $color-primary;
+    border-top: solid 1px $color-primary;
+    text-align: center;
+    font-weight: 500;
+}
+.submenus-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.mobile-submenu-link{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;;
+}
+.mobile-submenu-icon .mat-icon{
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+
+}
+@include mobile{
+    .cli-mobile-menu{
+        width: 100%;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        z-index: 101;
+        transition: 0.3s ease;
+    }
+    .header-hiddenaside{
+        left: 0;
+    }
+    .personas{
+        left: 60px;
+    }
+    .personname{
+        display: none;
+    }
+    .header-fixedaside{
+        left: 0;
+    }
+    .name-cicle{
+        margin: 3px;
+    }
+    .header-icon{
+        display: flex;
+    }
+    .logoheader{
+        width: 130px;
+    }
+}

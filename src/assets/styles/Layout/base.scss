@@ -1,0 +1,105 @@
+.cli-modalclose{
+    position: relative;
+    & mat-icon{
+        position: absolute;
+        right: -12px;
+        top: -12px;
+        border-radius: 2px;
+        color: $color-grey-6;
+        transition: ease .3s;
+        &:hover{
+            cursor: pointer;
+            color: $color-orange;
+        }
+    }
+}
+.cli-shadow-1{
+    box-shadow: $shadow-lvl-1;
+}
+.cli-body{
+    font-family: "Webapp";
+    height: 100%;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+.cli-canvas{
+    padding-top: $header-height;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+.cli-canvas-fixedaside{
+    padding-left: $aside-fixed-width;
+}
+.cli-canvas-hiddenaside{
+    padding-left: $aside-hover-width;
+}
+.cli-content{
+    padding: 10px;
+    flex: 1 0 auto;
+}
+
+/* GLOBAL BASE CLASSES*/
+.bold{
+    font-family: "Webapp-Bold";
+}
+.icon-20{
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 20px !important;
+}
+.icon-18{
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 18px !important;
+}
+
+.icon-13{
+  width: 13px !important;
+  height: 13px !important;
+  font-size: 13px !important;
+}
+.icon-16{
+  width: 16px !important;
+  height: 16px !important;
+  font-size: 16px !important;
+}
+.cli-col{
+    display: flex;
+    flex-direction: column;
+}
+.cli-row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.flex-1{
+    flex: 1 1;
+}
+@include mobile{
+    .cli-canvas-fixedaside{
+        padding-left: 0;
+    }
+    .cli-canvas-hiddenaside{
+        padding-left: 0;
+    }
+    .cli-content{
+        padding: 0;
+        background-color: #fff;
+    }
+    .cli-shadow-1{
+        box-shadow: none;
+    }
+}
+
+.cli-loader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+}
+

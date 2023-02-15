@@ -1,0 +1,58 @@
+@import "./mixins.scss";
+
+// GLOBAL VARIABLES
+@import "./variables.scss";
+
+// LAYOUT
+@import "./Layout/aside.scss";
+@import "./Layout/footer.scss";
+@import "./Layout/header.scss";
+@import "./Layout/user-panel.scss";
+@import "./Layout/base.scss";
+@import "./Layout/logo.scss";
+
+// GLOBAL STYLES
+@import "./buttons.scss";
+@import "./card.scss";
+@import "./table.scss";
+@import "./forms.scss";
+@import "./colors.scss";
+
+// FONTS
+@font-face {
+  font-family: "Webapp";
+  src: url("../fonts/Webapp/Webapp-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Webapp-Light";
+  src: url("../fonts/Webapp/Webapp-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Webapp";
+  src: url("../fonts/Webapp/Webapp-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Webapp-Bold";
+  src: url("../fonts/Webapp/Webapp-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.mat-tooltip {
+  font-size: 15px !important;
+  line-height: 18px;
+  font-family: "Webapp-Light" !important;
+}
+.mat-checkbox-label {
+  // NEW
+  white-space: initial !important; // NEW
+}

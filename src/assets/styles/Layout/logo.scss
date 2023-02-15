@@ -1,0 +1,28 @@
+.cli-log{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding: 0 15px;
+    height: 70px;
+}
+.btn-toggle-menu{
+    background-color: transparent;
+    color: #aaa;
+    margin: auto;
+    padding: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition:  0.3s ease;
+}
+.btn-toggle-menu:hover{
+    cursor: pointer;
+    background-color:  #eee;    
+}
+.btn-toggle-rotated{
+    transform: rotate(180deg);
+}
