@@ -1,0 +1,184 @@
+<div class="cli-card fit-card">
+  <div class="cli-card-body">
+    <div class="modal-title c-male">Mantenimiento de eventos</div>
+    <div>
+      <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
+      <div class="card" style="border-radius: 2px; font-weight: 600; padding: 7px">
+          <form class="row g-3" [formGroup]="filtroForm">
+            <div class="col-sm-2 cli-form-element">
+              <label>Código ticket</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="cod_ticket"/>
+            </div>
+
+            <div class="col-sm-2 cli-form-element">
+              <label>Estado Ticket</label>
+              <select class="cli-input-white" formControlName="estado_ticket">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="estado.id_correlativo" *ngFor="let estado of listEstadoTicket">{{estado.valor_texto_1}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-2 cli-form-element">
+              <label>Área responsable</label>
+              <select class="cli-input-white" formControlName="area_responsable">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="area.id_correlativo" *ngFor="let area of listAreaResponsable">{{area.valor_texto_1}}</option>
+              </select>
+            </div>
+
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Usuario</label>
+              <input
+                type="text"
+                class="form-control cli-input-white"
+                formControlName="usuario"/>
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Fecha de Registro</label>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate formControlName="fecha_registro_inicio"  placeholder="Desde"   >
+                  <input matEndDate   formControlName="fecha_registro_fin"     placeholder="Hasta" >
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+            </div>
+
+
+            <div class="cli-form-buttons" style="margin-top: 8px">
+              <button
+                type="submit"
+                class="cli-btn btn-cancel"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="limpiarFiltro()"
+                ><mat-icon class="icon-18">rotate_left</mat-icon>
+                Limpiar
+              </button>
+
+              <button
+                type="button"
+                class="cli-btn btn-blue-light"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="cargarOBuscarEvento()"
+                ><mat-icon class="icon-18">search</mat-icon>
+                Buscar
+              </button>
+            </div>
+          </form>
+      </div>
+
+      <!-- BOTON MODAL PARA CREAR EVENTOS ----------------------------------------------------->
+      <div style="display: flex" class="mt-4 mb-1">
+          <button
+            class="cli-btn btn-blue"
+            style="margin: 0"
+            type="button"
+            (click)="crearEvento()"
+            ><mat-icon class="icon-18">add</mat-icon>Agregar evento
+          </button>
+
+          <button
+            matTooltip="Descargar evento"
+            class="icon-btn btn-trans c-green-export mx-1"
+            (click)="exportarRegistro()"
+          ><mat-icon class="icon-18">file_download</mat-icon>Exportar
+          </button>
+
+        <div class="flex-1"></div>
+        <div class="mt-2" style="color: #345df3; font-weight: 600;">
+          Total : <span class="total">{{ listaEventos.length }} Eventos</span>
+        </div>
+      </div>
+
+      <!-- TABLA DEL EVENTOS ------------------------------------------------------------------>
+      <div style="overflow: auto; min-height: 300px">
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-blue-light c-white">
+              <th>Acción</th>
+              <th>Cód. Evento</th>
+              <th>Cód. Ticket</th>
+              <th>Tipo Evento</th>
+              <th>Estado Evento</th>
+              <th>H. Inicio</th>
+              <th>H. Fin</th>
+              <th>Estado Ticket</th>
+              <th>Área Responsable</th>
+              <th>Notificación</th>
+              <th>Usuario</th>
+              <th>Fecha de Registro</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let evento of listaEventos | paginate:
+                      { itemsPerPage: pageSize,
+                        currentPage : page,
+                        totalItems  : totalPersonal
+                      } ">
+              <td class="w50">
+                <div class="cli-table-actions">
+                  <button matTooltip ="Ver Detalle"
+                    class="icon-btn btn-trans c-grey"
+                    (click)="abrirDetalleEvento(evento.idreg)"
+                    ><mat-icon class="icon-13">visibility</mat-icon>
+                  </button>
+
+                  <button matTooltip="Actualizar"
+                    class="icon-btn btn-trans c-blue"
+                    (click)="actualizarPersonal(evento)"
+                    ><mat-icon class="icon-13">edit</mat-icon>
+                  </button>
+
+                  <button matTooltip="Eliminar"
+                    class="icon-btn btn-trans c-fucsia"
+                    (click)="eliminarEvento(evento.idreg, evento.cod_evento)"
+                    ><mat-icon class="icon-13">delete</mat-icon>
+                  </button>
+
+                </div>
+              </td>
+              <td class="w150"> {{ evento.cod_evento }}</td>
+              <td >{{ evento.codigo_ticket_generado? evento.codigo_ticket_generado: '-' }}</td>
+              <td>{{ evento.tipo_evento | firstCapital }}</td>
+              <td>{{ evento.estado | uppercase }}</td>
+              <td>{{ evento.hora_inicio | uppercase}}</td>
+              <td>{{ evento.hora_fin | uppercase}}</td>
+              <td>{{ evento.estado_ticket? evento.estado_ticket: '-' }}</td>
+              <td style="min-width: 95px">{{ evento.area_responsable? evento.area_responsable : '-' }}</td>
+              <td class="w100">{{ evento.modonotificacion }}</td>
+              <td class="w100">{{ evento.usuario_registro }}</td>
+              <td class="w100">{{ evento.fecha_creacion   }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cli-loader" *ngIf="loadingItem">
+          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+        </div>
+
+        <div
+          *ngIf="!loadingItem && listaEventos.length == 0"
+          class="cli-loader mt-5"
+          style="color: #f83434"
+          >No hay Eventos para mostrar
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer pb-0 pt-3">
+      <pagination-controls
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        [responsive]="false"
+        (pageChange)="cambiarPagina($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

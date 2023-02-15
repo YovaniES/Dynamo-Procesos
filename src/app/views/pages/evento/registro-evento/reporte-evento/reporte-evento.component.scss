@@ -1,0 +1,95 @@
+.tf-hispam {
+  font-size: 1.6rem;
+  color: #50535a;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+// .c-male {
+//   color: #019DF4;
+// }
+
+/* HOME STYLES */
+.uservalidation{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #2B3447;
+  font-size: 1.1rem;
+  padding: 20px 0;
+}
+.homecontainer{
+  position: relative;
+  min-width: 800px;
+  min-height: 70vh;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  background-color: #0066FF;
+}
+.homeglobal{
+  width: 35%;
+  margin-top: auto;
+  margin-bottom: 0;
+}
+.hlogo{
+  height: 100px;
+}
+.title1{
+  font-size: 4.5rem;
+  line-height: 5rem;
+  font-family: "Webapp-Light";
+  margin-bottom: 5%;
+  color: #02b3ca;
+}
+
+.textcontent{
+  font-size: 2.3rem;
+  line-height: 2.4rem;
+  color: #4C5568;
+  font-family: "Webapp-Light";
+}
+.mbold{
+  font-family: "Webapp-Bold";
+}
+.homemod{
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-size: cover;
+  flex: 1 1;
+  padding-left: 10%;
+  background-color: #F2F4FF;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.mb16{
+  margin-bottom: 10%;
+}
+.dflex-minicard{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-minicard{
+  font-size: 18px;
+  color: #0066FF;
+  font-family: "Webapp-Bold";
+  padding: 10px;
+  margin: 3px;
+  background-color: #2B3447;
+  box-shadow: 0 1px 1px 0 #00000020, 0 2px 5px 0 #00000020;
+  transition: ease .3s;
+  text-align: center;
+  &:hover{
+      box-shadow: 0 1px 1px 0 #00000020, 0 2px 5px 0 #00000050;
+      color: #fff;
+      cursor: pointer;
+  }
+}

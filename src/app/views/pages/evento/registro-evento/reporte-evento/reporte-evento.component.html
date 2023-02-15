@@ -1,0 +1,23 @@
+<!-- <div class="modal-title-inic mt-5">Reporte Evento</div>
+<div>
+  <iframe
+    width="100%"
+    height="1200"
+    src="http://visor.indratools.net/visorini"
+    frameborder="0"
+  ></iframe>
+</div> -->
+
+
+<div class="cli-card">
+  <div class="homemod">
+    <div class="textcontent">
+      <span class="mbold"> Sin reportes</span>
+      <mat-icon>sentiment_very_dissatisfied</mat-icon>
+    </div>
+    <div class="uservalidation" *ngIf="loading">
+      <mat-spinner diameter="19" style="margin: 0 10px"></mat-spinner> Validando
+    </div>
+    <div class="uservalidation" *ngIf="!loading">{{ message }}</div>
+  </div>
+</div>

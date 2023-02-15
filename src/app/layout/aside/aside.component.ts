@@ -8,31 +8,31 @@ export class AsideComponent {
   @Output() generalfixedAside = new EventEmitter<Boolean>();
   fixedAside = true;
   menuList = [
-    // {
-    //   id: 1,
-    //   code: 'GES',
-    //   text: 'REPORTES',
-    //   order: 1,
-    //   icon: 'query_stats',
-    //   type: 'PAREN',
-    //   link: 'evento',
-    //   enable: false,
-    //   module: 'Reporte',
-    //   displayed: false,
-    //   submenus: [
-    //     {
-    //       code: 'MAN-001',
-    //       text: 'Reporte Evento',
-    //       order: 0,
-    //       icon: 'bar_chart',
-    //       type: 'ALONE',
-    //       link: 'evento/reporte',
-    //       enable: false,
-    //       module: 'MAN',
-    //       displayed: false,
-    //     },
-    //   ],
-    // },
+    {
+      id: 1,
+      code: 'GES',
+      text: 'REPORTES',
+      order: 1,
+      icon: 'query_stats',
+      type: 'PAREN',
+      link: 'evento',
+      enable: false,
+      module: 'Reporte',
+      displayed: false,
+      submenus: [
+        {
+          code: 'MAN-001',
+          text: 'Reporte Evento',
+          order: 0,
+          icon: 'bar_chart',
+          type: 'ALONE',
+          link: 'evento/reporte',
+          enable: false,
+          module: 'MAN',
+          displayed: false,
+        },
+      ],
+    },
     // {
     //   id: 2,
     //   code: 'MAN',

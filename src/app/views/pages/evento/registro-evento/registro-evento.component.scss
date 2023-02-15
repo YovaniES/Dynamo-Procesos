@@ -1,0 +1,127 @@
+@import "variables.scss";
+
+.modal-title {
+  font-size: 1.9rem;
+  font-weight: 500;
+  margin: 10px 0;
+  text-align: left;
+}
+
+.cli-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.total {
+  color: #97999b;
+  font-size: 18px;
+  font-weight: 550;
+}
+
+.w50 {
+  width: 50px;
+}
+
+.w150 {
+  width: 150px;
+  height: 40px;
+}
+
+.c-green-export {
+  color: #029d55;
+  border: solid 0.5px #00db75;
+}
+
+.date-rango {
+  color: #5c5c5c;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+// Estilos Adjuntar Archivos
+.fileatt {
+  &-cont {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+    padding: 5px;
+    border: dashed 1px $color-grey-3;
+  }
+  &-btn {
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    color: $color-green;
+    background-color: $color-grey-1;
+    border: none;
+    border-radius: 2px;
+  }
+  margin: 2px 3px;
+  padding: 2px 5px;
+  border-radius: 2px;
+  background-color: $color-grey-1;
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  padding: 1px 6px;
+  line-height: 13px;
+  color: #fff;
+  font-weight: 400;
+  border-radius: 4px;
+  font-size: 75%;
+  background-color: #398bf7;
+  width: 190px;
+}
+
+.estado-danger {
+  background-color: #ff727f;
+}
+.estado-info {
+  background-color: #20c997;
+}
+
+
+
+// estilos para el rango de fechas
+.input-group {
+  width: auto;
+  justify-content: center;
+}
+
+::ng-deep .mat-form-field-type-mat-date-range-input .mat-form-field-infix {
+  height: 50px;
+  margin-top: -10px;
+}
+
+::ng-deep .mat-date-range-input-start-wrapper {
+  font-size: 12px;
+}
+
+::ng-deep .mat-date-range-input-end-wrapper {
+  font-size: 12px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0 0;
+}
+
+.mat-hint {
+  font-size: 8px;
+}
+
+::ng-deep .mat-form-field-subscript-wrapper {
+  margin-top: 1px;
+}
+
+::ng-deep .mat-calendar-body-selected {
+  background-color: #0daef4;
+  color: #fff;
+}
+
+@media (max-width: 850px) {
+}
