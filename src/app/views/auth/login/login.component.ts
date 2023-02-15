@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-// import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import Swal from 'sweetalert2';
@@ -22,14 +22,14 @@ export class LoginComponent  {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    // private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService
   ) {}
 
   login() {
     this.authService.login_auditoria( this.loginForm.value ).pipe(first()).subscribe( resp => {
 
         if (resp) {
-          // this.spinner.hide();
+          this.spinner.hide();
 
           Swal.fire(
             "Inicio de Sesión",
@@ -39,7 +39,7 @@ export class LoginComponent  {
           this.router.navigateByUrl('home');
         }
       }, error => {
-        // this.spinner.hide();
+        this.spinner.hide();
         Swal.fire('Error', 'Credenciales Incorrectas', 'error' );
       });
   }

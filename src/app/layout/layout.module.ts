@@ -7,7 +7,7 @@ import { BaseComponent } from './base/base.component';
 import { FooterComponent } from './footer/footer.component';
 import { MenuMobileComponent } from './header/menu-mobile/menu-mobile.component';
 import { UserPanelComponent } from './user-panel/user-panel.component';
-// import { BlockUIModule } from 'ng-block-ui';
+import { BlockUIModule } from 'ng-block-ui';
 import { HeaderComponent } from './header/header.component';
 
 @NgModule({
@@ -40,7 +40,7 @@ import { HeaderComponent } from './header/header.component';
     CoreModule,
     MaterialModule,
 
-    // BlockUIModule.forRoot(),
+    BlockUIModule.forRoot(),
   ]
 })
 export class LayoutModule { }
