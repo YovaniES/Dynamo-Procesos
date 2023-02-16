@@ -1,238 +1,251 @@
 <div style="display: flex">
   <div class="flex-1"></div>
-  <div class="modal-title c-male"> {{DATA_EVENTO ? 'Actualizar' : 'Agregar'}} score </div>
-    <div class="flex-1"></div>
+  <div class="modal-title c-male">{{ DATA_SCORE ? "Actualizar" : "Agregar" }} score</div>
+  <div class="flex-1"></div>
 
-    <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
-      <mat-icon>close</mat-icon>
-    </button>
+  <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
 
 <form class="row g-3" [formGroup]="scoreForm">
   <div class="cli-form newvac-wrapper">
     <div class="chart-draw">
-
       <!-- DATOS DEL EVENTO ------------------------------------------------------------------------->
+    <div style="display: flex" >
       <div class="pr-subtitle mt-2">Datos del Score</div>
+      <div class="flex-1"></div>
+      <div  class="id-iniciativa">ID : <span  class="total">{{iniciativa_Id}}</span></div>
+    </div>
+
+
       <div class="pr-section mb-3">
         <div class="pr-module-container">
           <div class="row g-2">
-
-            <div class="col-sm-3 cli-form-element" *ngIf="DATA_EVENTO">
-              <label>ID Score</label>
+            <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
+              <label>Solicitante</label>
               <input
                 type="text"
                 readonly="true"
                 class="form-control cli-input-white"
-                formControlName="id_score"/>
+                formControlName="solicitante"/>
             </div>
 
-
             <div class="col-sm-3 cli-form-element">
-              <label>Estado *</label>
+              <label>Estado</label>
               <select class="cli-input-white" formControlName="id_estado">
                 <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="estado.id_correlativo" *ngFor="let estado of listEstado">{{ estado.valor_texto_1 }}</option>
+                <option [value]="estado.id_correlativo"*ngFor="let estado of listEstado">{{ estado.valor_texto_1 }}</option>
               </select>
-              <small class="text-alert" *ngIf="campoNoValido('estado')">* Ingrese el Estado es obligatorio</small>
+              <!-- <small class="text-alert" *ngIf="campoNoValido('estado')">* Ingrese el Estado es obligatorio</small> -->
+            </div>
+
+            <!-- <div class="col-sm-3 cli-form-element">
+              <label>Fecha Envío *</label>
+              <input
+                type="date"
+                class="form-control_filtro"
+                formControlName="fecha_envio"/>
+              <small class="text-alert" *ngIf="campoNoValido('fecha_envio')">* Ingrese la Fecha es obligatorio</small>
+            </div> -->
+
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Fecha de Solcitud</label>
+              <mat-form-field appearance="outline">
+                <!-- <mat-label>Choose a date</mat-label> -->
+                <input matInput [matDatepicker]="picker_fs" formControlName="fecha_solicitud" >
+                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matSuffix [for]="picker_fs"></mat-datepicker-toggle>
+                <mat-datepicker #picker_fs></mat-datepicker>
+              </mat-form-field>
             </div>
 
 
             <div class="col-sm-3 cli-form-element">
-              <label>Fecha Envío *</label>
-              <input type="date"
-                  class="form-control"
-                  formControlName="fecha_envio"/>
-                  <small class="text-alert" *ngIf="campoNoValido('fecha_envio')">* Ingrese la Fecha es obligatorio</small>
+              <label class="form-label">Fecha Envío</label>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-date-range-input [rangePicker]="picker_fe">
+                  <input matStartDate formControlName="fecha_envio" >
+                  <!-- <input matEndDate   formControlName="fecha_envio" > -->
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker_fe"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker_fe></mat-date-range-picker>
+              </mat-form-field>
             </div>
-
-            </div>
+          </div>
         </div>
       </div>
 
       <!-- DETALLES SCORE ------------------------------------------------------------------------->
-        <div class="pr-subtitle mt-1">Detalle Score</div>
-        <div class="pr-section mb-3">
-          <div class="pr-module-container">
+      <div class="pr-subtitle mt-1">Detalle Score</div>
+      <div class="pr-section mb-3">
+        <div class="pr-module-container">
+          <div class="cli-card">
+            <div style="padding: 2px 2px">
+              <div>
+                <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
+                <div class="buscar">
+                  <div class="row g-3">
+                    <div class="col-sm-3 cli-form-element">
+                      <label class="form-label">N° Documento</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Ingrese Doc."
+                        formControlName="num_doc"/>
+                    </div>
 
+                    <div class="col-sm-3 cli-form-element">
+                      <label class="form-label">Estado</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Selecione"
+                        formControlName="id_estado"/>
+                    </div>
 
-            <div class="cli-card">
-  <div style="padding: 2px 2px">
-    <div>
-      <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
-      <div class="buscar">
-          <div class="row g-3" >
-            <div class="col-sm-3 cli-form-element">
-              <label class="form-label">N° Documento</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Ingrese Código"
-                formControlName="num_doc"/>
-            </div>
+                    <div class="col-sm-4 cli-form-element">
+                      <label class="form-label">Fecha Proceso</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Selecione"
+                        formControlName="fecha_proceso"/>
+                    </div>
 
-            <div class="col-sm-3 cli-form-element">
-              <label class="form-label">Estado</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Ingrese nombre(s)"
-                formControlName="id_estado"/>
-            </div>
+                    <div class="col-sm-2">
+                      <div style="margin-top: 18px; display: flex">
+                        <button
+                          type="button"
+                          matTooltip="Buscar"
+                          class="btn-hardware btn-blue-light"
+                          style="border-radius: 2px"
+                          (click)="cargarOBuscarScoreDetalle()">
+                          <mat-icon class="icon-18">search</mat-icon>
+                        </button>
+                        <button
+                          type="submit"
+                          matTooltip="Limpiar"
+                          class="btn-hardware btn-cancel"
+                          style="border-radius: 2px"
+                          (click)="limpiarFiltro()">
+                          <mat-icon class="icon-18">rotate_left</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-            <div class="col-sm-4 cli-form-element">
-              <label class="form-label">Fecha Proceso</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Ingrese Apellidos"
-                formControlName="fecha_proceso"/>
-            </div>
+                <!-- BOTON MODAL PARA AGREGAR PEERSONAL ----------------------------------------------------->
+                <div style="display: flex">
+                  <div class="flex-1"></div>
+                  <div style="color: #345df3">
+                    Total :
+                    <span class="total">{{ listScoreDetalle.length }} Score detalle</span>
+                  </div>
+                </div>
 
-            <div class="col-sm-2">
-              <div style="margin-top: 18px; display: flex;">
-                <button
-                  type="button"
-                  matTooltip="Buscar"
-                  class="btn-hardware btn-blue-light"
-                  style="border-radius: 2px; "
-                  (click)="cargarOBuscarScoreDetalle()"
-                  ><mat-icon class="icon-18">search</mat-icon>
-                 </button>
-                 <button
-                  type="submit"
-                  matTooltip="Limpiar"
-                  class="btn-hardware btn-cancel"
-                  style="border-radius: 2px;"
-                  (click)="limpiarFiltro()"
-                ><mat-icon class="icon-18">rotate_left</mat-icon>
-                </button>
+                <!-- TABLA DE LISTADO PERSONAL ------------------------------------------------------------------>
+                <div style="overflow: auto; min-height: 150px">
+                  <table class="cli-table stripedtable underlinedtable">
+                    <thead>
+                      <tr class="bgc-blue-light c-white">
+                        <!-- <th>Acción</th> -->
+                        <th>ID Score DET</th>
+                        <th>ID Score</th>
+                        <th>Tipo Doc</th>
+                        <th>N° Documento</th>
+                        <th>Segmento</th>
+                        <th>Score</th>
+                        <th>Nombres Apell.</th>
+                        <th>Q_Lineas</th>
+                        <th>Cód. Financ.</th>
+                        <th>Estado</th>
+                        <th>Fecha Proceso</th>
+                        <th>Solicitante</th>
+                        <th>Cargo Fijo Máx.</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr
+                        *ngFor="let score of listScoreDetalle | paginate: {
+                                  itemsPerPage: pageSize,
+                                  id: 'score',
+                                  currentPage: page,
+                                  totalItems: totalScore }">
+
+                        <td style="min-width: 90px;">{{ score.idScored }}</td>
+                        <td style="min-width: 80px;">{{ score.idscore }}</td>
+                        <td style="min-width: 80px;">{{ score.tipo_documento }}</td>
+                        <td style="min-width: 100px;">{{ score.numero_documento }}</td>
+                        <td>{{ score.segmento }}</td>
+                        <td class="w100">{{ score.score }}</td>
+                        <td style="min-width: 150px;">{{ score.nombres | uppercase }}</td>
+                        <td>{{ score.q_lineas }}</td>
+                        <td style="min-width: 90px;">{{ score.codigo_fin }}</td>
+                        <td>{{ score.estado }}</td>
+                        <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
+                        <td class="w100">{{ score.solicitante }}</td>
+                        <td style="min-width: 110px;">{{ score.cargo_fijo_max }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="cli-loader" *ngIf="loadingItem">
+                    <mat-spinner
+                      style="margin-right: 20px"
+                      diameter="20"
+                    ></mat-spinner>cargando...
+                  </div>
+
+                  <div
+                    *ngIf="!loadingItem && listScoreDetalle.length == 0"
+                    class="cli-loader mt-5"
+                    style="color: #f83434">
+                    No hay Score disponible para mostrar
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer pb-0 pt-3">
+                <pagination-controls
+                  previousLabel="Anterior"
+                  nextLabel="Siguiente"
+                  [responsive]="false"
+                  id="score"
+                  (pageChange)="cambiarPagina($event)"
+                >
+                </pagination-controls>
               </div>
             </div>
           </div>
-      </div>
-
-      <!-- BOTON MODAL PARA AGREGAR PEERSONAL ----------------------------------------------------->
-      <div style="display: flex">
-        <div class="flex-1"></div>
-        <div style="color: #345df3;">
-          Total : <span class="total">{{ listScoreDetalle.length }} Score detalle</span>
         </div>
       </div>
-
-      <!-- TABLA DE LISTADO PERSONAL ------------------------------------------------------------------>
-      <div style="overflow: auto; min-height: 150px">
-        <table class="cli-table stripedtable underlinedtable">
-          <thead>
-            <tr class="bgc-blue-light c-white">
-              <!-- <th>Acción</th> -->
-              <th>ID Score</th>
-              <th>Tipo Doc</th>
-              <th>N° Documento</th>
-              <th>Segmento</th>
-              <th>Score</th>
-              <th>Nombres Apell.</th>
-              <th>Q_Lineas</th>
-              <th>Cód. Financ.</th>
-              <th>Estado</th>
-              <th>Fecha Proceso</th>
-              <th>Solicitante</th>
-              <th>Cargo Fijo Máx.</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr *ngFor="let score of listScoreDetalle | paginate:
-                      { itemsPerPage: pageSize,
-                        id:'score',
-                        currentPage : page,
-                        totalItems  : totalScore
-                      } ">
-              <!-- <td class="w50">
-                <div class="cli-table-actions">
-                  <button matTooltip="Actualizar"
-                    class="icon-btn btn-trans c-blue"
-                    (click)="actualizarScore(score)"
-                    ><mat-icon class="icon-13">edit</mat-icon>
-                  </button>
-                </div>
-              </td> -->
-              <td class="w150"> {{ score.idscored }}</td>
-              <td class="w150"> {{ score.tipo_documento }}</td>
-              <td >{{ score.numero_documento }}</td>
-              <td>{{ score.segmento }}</td>
-              <td class="w100">{{ score.score }}</td>
-              <td>{{ score.nombres | uppercase}}</td>
-              <td>{{ score.q_lineas }}</td>
-              <td>{{ score.codigo_fin }}</td>
-              <td>{{ score.estado }}</td>
-              <td style="min-width: 95px">{{ score.fecha_proceso }}</td>
-              <td class="w100">{{ score.solicitante }}</td>
-              <td class="w100">{{ score.cargo_fijo_max   }}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="cli-loader" *ngIf="loadingItem">
-          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
-        </div>
-
-        <div
-          *ngIf="!loadingItem && listScoreDetalle.length == 0"
-          class="cli-loader mt-5"
-          style="color: #f83434"
-          >No hay Score disponible para mostrar
-        </div>
-      </div>
-    </div>
-
-    <div class="card-footer pb-0 pt-3">
-      <pagination-controls
-        previousLabel="Anterior"
-        nextLabel="Siguiente"
-        [responsive]="false"
-        id="persona"
-        (pageChange)="cambiarPagina($event)">
-      </pagination-controls>
-    </div>
-  </div>
-</div>
-          </div>
-        </div>
 
       <!-- MOTIVOS Y COMENTARIOS ------------------------------------------------------------------------->
-        <div class="pr-subtitle mt-1">Motivos - Comentarios</div>
-        <div class="pr-section mb-3">
-          <div class="pr-module-container">
-            <div class="row">
-              <div class="col-sm-6 cli-form-element">
-                <label>Motivo(notas)</label>
-                <textarea
-                  class="form-control"
-                  style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
-                  rows="3"
-                  placeholder="Describa algún Motivo del evento"
-                  formControlName="motivos">
-                </textarea>
-              </div>
-
-              <div class="col-sm-6 cli-form-element">
-                <label>Comentarios Generales</label>
-                <textarea
-                  class="form-control"
-                  style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
-                  rows="3"
-                  placeholder="Describa algún Comentario del evento"
-                  formControlName="comentarios">
-                </textarea>
-              </div>
+      <!-- <div class="pr-subtitle mt-1">Observación</div>
+      <div class="pr-section mb-3">
+        <div class="pr-module-container">
+          <div class="row">
+            <div class="col-sm-12 cli-form-element">
+              <textarea
+                class="form-control_filtro"
+                style="background-image: none;
+                  border-color: #a5a4a4;
+                  font-size: 14px;"
+                rows="3"
+                placeholder="Describa alguna Observación del Score"
+                formControlName="observacion">
+              </textarea>
             </div>
           </div>
-      </div>
+        </div>
+      </div> -->
 
       <!-- HISTORICO DE HARDWARE ------------------------------------------------------------------------->
-      <div *ngIf="DATA_EVENTO">
-        <!-- <div class="pr-subtitle mt-2">Histórico de cambios</div>
+      <div *ngIf="DATA_SCORE">
+        <div class="pr-subtitle mt-2">Histórico de cambios</div>
         <div class="pr-section mb-3">
           <div class="pr-module-container">
             <div style="overflow: auto; min-height: 100px; max-height: 160px;">
@@ -268,7 +281,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
 
@@ -277,10 +290,11 @@
       <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
         <mat-icon class="icon-18">cancel</mat-icon> Cancelar
       </button>
-      <button class="cli-btn btn-m btn-blue"
-              (click)="crearOactualizarEvento()"
-              [disabled]="scoreForm.invalid"
-              ><mat-icon class="icon-18">save</mat-icon> {{actionBtn}}
+      <button
+        class="cli-btn btn-m btn-blue"
+        (click)="crearOactualizarScore()"
+        [disabled]="scoreForm.invalid">
+        <mat-icon class="icon-18">save</mat-icon> {{ actionBtn }}
       </button>
     </div>
   </div>

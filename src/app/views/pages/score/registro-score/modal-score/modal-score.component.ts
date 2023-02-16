@@ -1,6 +1,6 @@
 import { DatePipe, formatDate } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup,  } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -9,25 +9,15 @@ import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
-
-export class Usuario {
-  id!: number;
-  username!: string;
-  password!: string;
-  firstName!: string;
-  lastName!: string;
-  token!: string;
-  user:any;
-}
-
 @Component({
   selector: 'app-modal-evento',
   templateUrl: './modal-score.component.html',
   styleUrls: ['./modal-score.component.scss']
 })
-export class ModalScoreComponent implements OnInit {
+export class ModalStoreComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
   scoreForm!: FormGroup;
+  iniciativa_Id = this.DATA_SCORE.idScoreM
 
   page = 1;
   totalScore: number = 0;
@@ -44,42 +34,41 @@ export class ModalScoreComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
     public datepipe: DatePipe,
-    private dialogRef: MatDialogRef<ModalScoreComponent>,
-    @Inject(MAT_DIALOG_DATA) public DATA_EVENTO: any
+    private dialogRef: MatDialogRef<ModalStoreComponent>,
+    @Inject(MAT_DIALOG_DATA) public DATA_SCORE: any
   ) {
     // this.usuario = JSON.parse(localStorage.getItem('currentUser')
   }
 
   ngOnInit(): void {
     this.newFilfroForm();
-    // this.cargarEventoByID();
+
     this.cargarOBuscarScoreDetalle();
+    this.cargarSCoreByID();
     this.getUsuario();
     this.getListEstado();
 
-    this.ListaHistoricoCambios(this.DATA_EVENTO);
+    this.ListaHistoricoCambios(this.DATA_SCORE);
 
-    console.log('DATA_EVENTO', this.DATA_EVENTO);
-    console.log('DATA_EVEN_ESTADO_TICKET', this.DATA_EVENTO.tipo_evento);
-    console.log('DATA_EVEN_COD_EVENTO', this.DATA_EVENTO.cod_evento);
+    console.log('DATA_SCORE', this.DATA_SCORE);
+    console.log('DATA_SCORE_ID', this.DATA_SCORE.idScoreM);
     // console.log('FECHA_INCIO', moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
     console.log('HORA_X', formatDate(new Date(), 'hh:mm', 'en-US', ''));
     }
 
     newFilfroForm(){
       this.scoreForm = this.fb.group({
-        num_doc     : [''],
-        id_estado_d   : [''],
-        fecha_proceso : [''],
+        num_doc        : [''],
+        id_estado_d    : [''],
+        fecha_proceso  : [''],
+        solicitante    : [''],
 
+        id_score       : [''],
+        id_estado      : [''],
+        fecha_envio    : [''],
+        fecha_solicitud: [''],
 
-        id_score: [''],
-        id_estado: [''],
-        fecha_envio: [''],
-
-
-        motivos: [''],
-        comentarios: [''],
+        observacion    : [''],
       })
     }
 
@@ -89,6 +78,7 @@ export class ModalScoreComponent implements OnInit {
     let parametro: any[] = [{
       "queryId": 56,
       "mapValue": {
+          p_idScore     : this.DATA_SCORE.idScoreM,
           p_creado_por  : this.scoreForm.value.num_doc,
           p_id_estado   : this.scoreForm.value.id_estado,
           p_solicitante : this.scoreForm.value.solicitante,
@@ -99,7 +89,7 @@ export class ModalScoreComponent implements OnInit {
     this.scoreService.cargarOBuscarScoreDetalle(parametro[0]).subscribe((resp: any) => {
     this.blockUI.stop();
 
-     console.log('Lista-score_D', resp, resp.list.length);
+     console.log('Lista-score_DX', resp, resp.list.length);
       this.listScoreDetalle = [];
       this.listScoreDetalle = resp.list;
 
@@ -107,22 +97,21 @@ export class ModalScoreComponent implements OnInit {
     });
   }
 
-  crearOactualizarEvento() {
+  crearOactualizarScore() {
     this.spinner.show();
 
-    if (!this.DATA_EVENTO) {
+    if (!this.DATA_SCORE) {
       if (this.scoreForm.valid) {
         // this.crearEvento()
       }
     } else {
-      this.actualizarEvento();
-      // this.cargarEventoByID();
+      this.actualizarScore();
+      // this.cargarSCoreByID();
     }
     this.spinner.hide();
   }
 
-
-   actualizarEvento(){
+   actualizarScore(){
     this.spinner.show();
 
     const formValues = this.scoreForm.getRawValue();
@@ -130,7 +119,7 @@ export class ModalScoreComponent implements OnInit {
     let parametro: any[] = [{
         queryId: 27,
         mapValue: {
-          p_id_registro            : this.DATA_EVENTO.idreg ,
+          p_id_registro            : this.DATA_SCORE.idreg ,
           p_id_tipoEvento          : formValues.tipo_evento ,
           p_cdescripcion           : formValues.descripcion ,
           p_estado                 : formValues.estado ,
@@ -169,12 +158,12 @@ export class ModalScoreComponent implements OnInit {
       this.spinner.hide();
 
       // console.log('DATA_ACTUALIZADO', resp);
-      // this.cargarEventoByID();
+      // this.cargarSCoreByID();
       this.dialogRef.close('Actualizar')
 
       Swal.fire({
         title: 'Actualizar Score!',
-        text : `Score:  ${this.DATA_EVENTO.cod_evento }, actualizado con éxito`,
+        text : `Score:  ${this.DATA_SCORE.cod_evento }, actualizado con éxito`,
         icon : 'success',
         confirmButtonText: 'Ok'
         })
@@ -188,62 +177,34 @@ export class ModalScoreComponent implements OnInit {
   };
 
   actionBtn: string = 'Registrar';
-  // cargarEventoByID(){
-  //   if (this.DATA_EVENTO) {
-  //   this.actionBtn = 'Actualizar'
-  //     this.scoreForm.controls['cod_evento'         ].setValue(this.DATA_EVENTO.cod_evento);
-  //     this.scoreForm.controls['tipo_evento'        ].setValue(this.DATA_EVENTO.id_tipo_evento);
-  //     this.scoreForm.controls['prioridad'          ].setValue(this.DATA_EVENTO.id_prioridad);
-  //     this.scoreForm.controls['descripcion'        ].setValue(this.DATA_EVENTO.descripcion);
-  //     this.scoreForm.controls['estado'             ].setValue(this.DATA_EVENTO.id_estado);
-  //     this.scoreForm.controls['motivo'             ].setValue(this.DATA_EVENTO.id_motivo);
-  //     this.scoreForm.controls['aplicacion'         ].setValue(this.DATA_EVENTO.id_aplicacion );
-  //     this.scoreForm.controls['servicios'          ].setValue(this.DATA_EVENTO.cantidad );
-  //     this.scoreForm.controls['h_deteccion'        ].setValue(this.DATA_EVENTO.hora_deteccion);
-  //     this.scoreForm.controls['h_inicio'           ].setValue(this.DATA_EVENTO.hora_inicio);
-  //     this.scoreForm.controls['modo_notificacion'  ].setValue(this.DATA_EVENTO.id_modonotificacion);
-  //     this.scoreForm.controls['h_notificacion'     ].setValue(this.DATA_EVENTO.hora_notificacion);
-  //     this.scoreForm.controls['destinatario'       ].setValue(this.DATA_EVENTO.destinatario );
-  //     this.scoreForm.controls['h_fin'              ].setValue(this.DATA_EVENTO.hora_fin);
-  //     this.scoreForm.controls['ticket_generado'    ].setValue(this.DATA_EVENTO.codigo_ticket_generado);
-  //     this.scoreForm.controls['h_generacion'       ].setValue(this.DATA_EVENTO.hora_generacion);
-  //     this.scoreForm.controls['estado_ticket'      ].setValue(this.DATA_EVENTO.id_estadoticket);
-  //     this.scoreForm.controls['area_responsable'   ].setValue(this.DATA_EVENTO.id_area_responsable);
-  //     this.scoreForm.controls['h_solucion'         ].setValue(this.DATA_EVENTO.hora_resolucion);
-  //     this.scoreForm.controls['pbi'                ].setValue(this.DATA_EVENTO.pbi );
-  //     this.scoreForm.controls['eta_pbi'            ].setValue(this.DATA_EVENTO.eta_pbi);
-  //     this.scoreForm.controls['motivo_notas'       ].setValue(this.DATA_EVENTO.notas );
-  //     this.scoreForm.controls['comentarios'        ].setValue(this.DATA_EVENTO.comentariosgenerales);
-  //     this.scoreForm.controls['medidas_correctivas'].setValue(this.DATA_EVENTO.medidas_correctivas);
+  cargarSCoreByID(){
+    if (this.DATA_SCORE) {
+    this.actionBtn = 'Actualizar'
+      this.scoreForm.controls['id_score'   ].setValue(this.DATA_SCORE.idScoreM );
+      this.scoreForm.controls['solicitante'].setValue(this.DATA_SCORE.solicitante);
+      this.scoreForm.controls['id_estado_d'].setValue(this.DATA_SCORE.idEstado);
+      this.scoreForm.controls['id_estado'  ].setValue(this.DATA_SCORE.idEstado);
+      // this.scoreForm.controls['observacion'].setValue(this.DATA_SCORE.id_motivo);
 
-  //     if (this.DATA_EVENTO.f_fin) {
-  //       let fecha_x = this.DATA_EVENTO.f_fin
-  //       const str   = fecha_x.split('/');
-  //       const year  = Number(str[2]);
-  //       const month = Number(str[1]);
-  //       const date  = Number(str[0]);
-  //       this.scoreForm.controls['fecha_fin'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
-  //     }
+      if (this.DATA_SCORE.fecha_solicitud) {
+        let fecha_x = this.DATA_SCORE.fecha_solicitud
+        const str   = fecha_x.split('/');
+        const year  = Number(str[2]);
+        const month = Number(str[1]);
+        const date  = Number(str[0]);
+        this.scoreForm.controls['fecha_solicitud'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
+      }
 
-  //     if (this.DATA_EVENTO.f_inicio) {
-  //       let fecha_x = this.DATA_EVENTO.f_inicio
-  //       const str   = fecha_x.split('/');
-  //       const year  = Number(str[2]);
-  //       const month = Number(str[1]);
-  //       const date  = Number(str[0]);
-  //       this.scoreForm.controls['fecha_inicio'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
-  //     }
-
-  //     if (this.DATA_EVENTO.f_resolucion) {
-  //       let fecha_x = this.DATA_EVENTO.f_resolucion
-  //       const str   = fecha_x.split('/');
-  //       const year  = Number(str[2]);
-  //       const month = Number(str[1]);
-  //       const date  = Number(str[0]);
-  //       this.scoreForm.controls['fecha_resolucion'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
-  //     }
-  //   }
-  // }
+      if (this.DATA_SCORE.fecha_envio) {
+        let fecha_x = this.DATA_SCORE.fecha_envio
+        const str   = fecha_x.split('/');
+        const year  = Number(str[2]);
+        const month = Number(str[1]);
+        const date  = Number(str[0]);
+        this.scoreForm.controls['fecha_envio'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
+      }
+    }
+  }
 
 
   campoNoValido(campo: string): boolean {
@@ -260,9 +221,9 @@ export class ModalScoreComponent implements OnInit {
     this.spinner.show();
 
     let parametro:any[] = [{
-      "queryId": 47,
+      "queryId": 56,
       "MapValue": {
-        "p_idRegistro": this.DATA_EVENTO.idreg
+        "p_idRegistro": this.DATA_SCORE.idreg
       }
     }];
     this.scoreService.ListaHistoricoCambios(parametro[0]).subscribe((resp: any) => {

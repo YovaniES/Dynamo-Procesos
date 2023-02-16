@@ -1,8 +1,10 @@
 @import "variables.scss";
 
 .modal-title {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: 400;
+  // color: #00bec0;
+  color: $color-blue;
   margin: 4px 0;
   text-align: center;
 }
@@ -58,8 +60,13 @@
 }
 
 .form-control {
-  font-size: 10px;
+  font-size: 14px;
+  text-align: center;
 }
+
+// .form-control_filtro{
+//   font-size: 10px;
+// }
 
 .card-footer:last-child {
   font-size: 10px;
@@ -67,6 +74,10 @@
 
 .w150 {
   width: 150px; // OJO: FALTA VALIDAR
+}
+
+.w50 {
+  width: 50px; // OJO: FALTA VALIDAR
 }
 
 
@@ -87,6 +98,20 @@
 }
 .estado-info {
   background-color: #20c997;
+}
+
+
+.id-iniciativa {
+  font-size: 18px;
+  text-align: center;
+  font-weight: 400;
+
+  color: #212529;
+  // font-weight: 500;
+  border: solid 0.5px $color-blue;
+  border-radius: 4px;
+  background: #f8f9fa;
+  padding: 5px;
 }
 
 @media (max-width: 768px) {

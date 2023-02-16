@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 // import { ExportExcellService } from 'src/app/core/services/export-excell.service';
-import { ModalScoreComponent } from './modal-score/modal-score.component';
+import { ModalStoreComponent } from './modal-score/modal-score.component';
 
 @Component({
   selector: 'app-registro-score',
@@ -49,7 +49,7 @@ export class RegistroScoreComponent implements OnInit {
     })
   };
 
-  listaEventos: any[] = [];
+  listScore: any[] = [];
   cargarOBuscarScore(){
     this.blockUI.start("Cargando Score...");
     let parametro: any[] = [{
@@ -66,48 +66,12 @@ export class RegistroScoreComponent implements OnInit {
     this.blockUI.stop();
 
      console.log('Lista-score', resp, resp.list.length);
-      this.listaEventos = [];
-      this.listaEventos = resp.list;
+      this.listScore = [];
+      this.listScore = resp.list;
 
       this.spinner.hide();
     });
   }
-
-  // eliminarEvento(id: number, cod_evento: string){
-  //   this.spinner.show();
-
-  //   let parametro:any[] = [{
-  //     queryId: 46,
-  //     mapValue: {
-  //       p_idRegistro: id,
-  //     }
-  //   }];
-  //   Swal.fire({
-  //     title: '¿Eliminar Score?',
-  //     text: `¿Estas seguro que deseas eliminar el Score: ${cod_evento}?`,
-  //     icon: 'question',
-  //     confirmButtonColor: '#ff6070',
-  //     cancelButtonColor: '#0d6efd',
-  //     confirmButtonText: 'Si, Eliminar!',
-  //     showCancelButton: true,
-  //     cancelButtonText: 'Cancelar',
-  //   }).then((resp) => {
-  //     if (resp.value) {
-  //       this.ScoreService.eliminarEvento(parametro[0]).subscribe(resp => {
-
-  //         this.cargarOBuscarScore();
-
-  //           Swal.fire({
-  //             title: 'Eliminar Evento',
-  //             text: `El Score: ${cod_evento}, fue eliminado con éxito`,
-  //             icon: 'success',
-  //           });
-  //         });
-  //     }
-  //   });
-  //   this.spinner.hide();
-  // }
-
 
   listEstadoTicket: any[] = [];
   getListEstScore() {
@@ -133,7 +97,7 @@ export class RegistroScoreComponent implements OnInit {
 
     if (this.totalfiltro != this.totalPersonal) {
       this.ScoreService.cargarOBuscarScore(offset.toString()).subscribe((resp: any) => {
-          this.listaEventos = resp.list;
+          this.listScore = resp.list;
           this.spinner.hide();
         });
     } else {
@@ -143,7 +107,7 @@ export class RegistroScoreComponent implements OnInit {
   }
 
   // crearEvento() {
-  //   const dialogRef = this.dialog.open(ModalScoreComponent, { width: '70%', height: '90%'});
+  //   const dialogRef = this.dialog.open(ModalStoreComponent, { width: '70%', height: '90%'});
   //   dialogRef.afterClosed().subscribe((resp) => {
   //     if (resp) {
   //       this.cargarOBuscarScore();
@@ -151,10 +115,10 @@ export class RegistroScoreComponent implements OnInit {
   //   });
   // }
 
-  actualizarPersonal(DATA: any) {
-    console.log('DATA_EVENTO', DATA);
+  actualizarScore(DATA: any) {
+    console.log('DATA_SCORE_MAESTRA', DATA);
 
-    const dialogRef = this.dialog.open(ModalScoreComponent, { width: '70%', height: '95%', data: DATA});
+    const dialogRef = this.dialog.open(ModalStoreComponent, { width: '70%', height: '95%', data: DATA});
     dialogRef.afterClosed().subscribe((resp) => {
         if (resp) {
           this.cargarOBuscarScore();
@@ -174,6 +138,6 @@ export class RegistroScoreComponent implements OnInit {
   // }
 
   exportarRegistro() {
-    // this.exportExcellService.exportarExcel(this.listaEventos, 'Evento');
+    // this.exportExcellService.exportarExcel(this.listScore, 'Evento');
   }
 }
