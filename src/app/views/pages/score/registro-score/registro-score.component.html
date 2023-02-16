@@ -17,7 +17,7 @@
               <label>Estado Score</label>
               <select class="cli-input-white" formControlName="id_estado">
                 <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="estado.id_correlativo" *ngFor="let estado of listEstadoTicket">{{estado.valor_texto_1}}</option>
+                <option [value]="estado.idEstado" *ngFor="let estado of listEstado">{{estado.cNombre}}</option>
               </select>
             </div>
 
@@ -91,7 +91,9 @@
       <div style="overflow: auto; min-height: 300px">
         <table class="cli-table stripedtable underlinedtable">
           <thead>
-            <tr class="bgc-blue-light c-white">
+            <!-- <tr class="bgc-green c-white"> -->
+            <!-- <tr class="bgc-purple c-white"> -->
+            <tr class="bgc-orange c-white">
               <th>Acción</th>
               <th>ID Score</th>
               <th>Solicitante</th>

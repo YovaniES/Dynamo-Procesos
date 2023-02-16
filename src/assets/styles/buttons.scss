@@ -65,13 +65,13 @@
 .btn-cancel {
   background-color: #FFF;
   transition: ease 0.3s;
-  color: #007bff;
-  border: solid 1px #007bff;
+  color: #bb96ff;
+  border: solid 1px #bb96ff;
   &:hover:enabled {
     background-color: $color-grey-1;
   }
   &:hover:enabled:active {
-    background-color: #5493ff;
+    background-color: #d0b7fe;
     color: #FFF;
   }
 }
@@ -150,14 +150,14 @@
 }
 
 .btn-blue-light {
-  background-color: #019df4bd;
+  background-color: #bb96ff;
   color: #fff;
   transition: ease 0.3s;
   &:hover:enabled {
     background-color: #009aff5e;
   }
   &:hover:enabled:active {
-    background-color: #257cfdd9;
+    background-color: #9662f6;
   }
 }
 
@@ -186,14 +186,15 @@
 }
 
 .btn-blue {
-  background-color: $color-blue;
+  // background-color: $color-blue;
+  background-color: #bb96ff;
   color: #fff;
   transition: ease 0.3s;
   &:hover:enabled {
-    background-color: $color-blue-l;
+    background-color: #8f53ff;
   }
   &:hover:enabled:active {
-    background-color: $color-blue-d;
+    background-color: #dbc7ff;
   }
 }
 .btn-turq {

@@ -86,22 +86,26 @@
 .active-link {
   color: #011821 !important;
   background: #f2f4ff;
-  border-right: 4px #0daef4 solid;
+  border-right: 4px #bb96ff solid;
+  // border-right: 4px #0daef4 solid;
   font-weight: 600;
   // border-right: 4px #03fff2 solid;
 }
 
 .active-sublink {
   background-color: #e9edf21a;
-  // background-color: #c2c3c92e;
-  // border-right: 4px #03fff2 solid;
-  border-right: 4px #00d4ff solid;
-  color: #00d4ff !important;
-  // color: #03fff2 !important;
+  // border-right: 4px #00d4ff solid;
+  // color: #00d4ff !important;
+
+  border-right: 4px #bb96ff solid;
+  color: #bb96ff !important;
+
 }
 
 .menu-link-open {
-  background-color: #0daef4;
+  background-color: #bb96ff;
+  // background-color: #0daef4;
+
   color: #fff;
 
   border-radius: 6px;
@@ -139,9 +143,6 @@
   // background: #f2f4ff;
   background: #3b414ab5;
 
-
-
-
   // background: #3c3949;
   flex-grow: 1;
   flex-direction: column;
@@ -173,8 +174,8 @@
   transition: 0.3s ease;
 }
 .submenu-link:hover {
-  color: #0daef4;
-  // color: #303030;
+  // color: #0daef4;
+  color: #bb96ff;
   text-decoration: none;
   // background-color: #f8faf8;
 }

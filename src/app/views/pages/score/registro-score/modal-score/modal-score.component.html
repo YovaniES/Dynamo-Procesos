@@ -32,12 +32,20 @@
             </div>
 
             <div class="col-sm-3 cli-form-element">
-              <label>Estado</label>
-              <select class="cli-input-white" formControlName="id_estado">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="estado.id_correlativo"*ngFor="let estado of listEstado">{{ estado.valor_texto_1 }}</option>
+              <label>Envío</label>
+              <select class="cli-input-white" formControlName="id_envio">
+                <option [value]="10" disabled>- Seleccione -</option>
+                <option [value]= 0 >Individual</option>
+                <option [value]= 1 >Masivo</option>
               </select>
-              <!-- <small class="text-alert" *ngIf="campoNoValido('estado')">* Ingrese el Estado es obligatorio</small> -->
+            </div>
+
+            <div class="col-sm-3 cli-form-element">
+              <label>Estado</label>
+              <select class="cli-input-white" formControlName="id_estado_m">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="estado.idEstado"*ngFor="let estado of listEstado">{{ estado.cNombre }}</option>
+              </select>
             </div>
 
             <!-- <div class="col-sm-3 cli-form-element">
@@ -60,18 +68,14 @@
               </mat-form-field>
             </div>
 
-
-            <div class="col-sm-3 cli-form-element">
+            <!-- <div class="col-sm-3 cli-form-element">
               <label class="form-label">Fecha Envío</label>
-              <mat-form-field color="accent" appearance="outline">
-                <mat-date-range-input [rangePicker]="picker_fe">
-                  <input matStartDate formControlName="fecha_envio" >
-                  <!-- <input matEndDate   formControlName="fecha_envio" > -->
-                </mat-date-range-input>
+              <mat-form-field appearance="outline">
+                <input matInput [matDatepicker]="picker_fe" formControlName="fecha_envio" >
                 <mat-datepicker-toggle matSuffix [for]="picker_fe"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker_fe></mat-date-range-picker>
+                <mat-datepicker #picker_fe></mat-datepicker>
               </mat-form-field>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -96,25 +100,26 @@
                     </div>
 
                     <div class="col-sm-3 cli-form-element">
-                      <label class="form-label">Estado</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Selecione"
-                        formControlName="id_estado"/>
+                      <label>Estado</label>
+                      <select class="cli-input-white" formControlName="id_estado_d">
+                        <option [value]="0" disabled>- Seleccione -</option>
+                        <option [value]="estado.idEstado"*ngFor="let estado of listEstado">{{ estado.cNombre }}</option>
+                      </select>
                     </div>
 
-                    <div class="col-sm-4 cli-form-element">
+                    <div class="col-sm-3 cli-form-element">
                       <label class="form-label">Fecha Proceso</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Selecione"
-                        formControlName="fecha_proceso"/>
+                      <mat-form-field appearance="outline">
+                        <!-- <mat-label>Choose a date</mat-label> -->
+                        <input matInput [matDatepicker]="picker_p" formControlName="fecha_proceso" >
+                        <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                        <mat-datepicker-toggle matSuffix [for]="picker_p"></mat-datepicker-toggle>
+                        <mat-datepicker #picker_p></mat-datepicker>
+                      </mat-form-field>
                     </div>
 
-                    <div class="col-sm-2">
-                      <div style="margin-top: 18px; display: flex">
+                    <div class="col-sm-3">
+                      <div style="margin-top: 27px; display: flex">
                         <button
                           type="button"
                           matTooltip="Buscar"
@@ -139,7 +144,7 @@
                 <!-- BOTON MODAL PARA AGREGAR PEERSONAL ----------------------------------------------------->
                 <div style="display: flex">
                   <div class="flex-1"></div>
-                  <div style="color: #345df3">
+                  <div style="color: #bb96ff">
                     Total :
                     <span class="total">{{ listScoreDetalle.length }} Score detalle</span>
                   </div>
@@ -151,15 +156,16 @@
                     <thead>
                       <tr class="bgc-blue-light c-white">
                         <!-- <th>Acción</th> -->
-                        <th>ID Score DET</th>
+                        <!-- <th>ID Score DET</th> -->
                         <th>ID Score</th>
                         <th>Tipo Doc</th>
                         <th>N° Documento</th>
                         <th>Segmento</th>
                         <th>Score</th>
                         <th>Nombres Apell.</th>
-                        <th>Q_Lineas</th>
+                        <th>Q Lineas</th>
                         <th>Cód. Financ.</th>
+                        <th>ID Requerimiento.</th>
                         <th>Estado</th>
                         <th>Fecha Proceso</th>
                         <th>Solicitante</th>
@@ -176,14 +182,15 @@
                                   totalItems: totalScore }">
 
                         <td style="min-width: 90px;">{{ score.idScored }}</td>
-                        <td style="min-width: 80px;">{{ score.idscore }}</td>
+                        <!-- <td style="min-width: 80px;">{{ score.idscore }}</td> -->
                         <td style="min-width: 80px;">{{ score.tipo_documento }}</td>
                         <td style="min-width: 100px;">{{ score.numero_documento }}</td>
                         <td>{{ score.segmento }}</td>
                         <td class="w100">{{ score.score }}</td>
                         <td style="min-width: 150px;">{{ score.nombres | uppercase }}</td>
-                        <td>{{ score.q_lineas }}</td>
+                        <td style="min-width: 85px;">{{ score.q_lineas }}</td>
                         <td style="min-width: 90px;">{{ score.codigo_fin }}</td>
+                        <td style="min-width: 90px;">{{ score.idrequerimiento }}</td>
                         <td>{{ score.estado }}</td>
                         <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
                         <td class="w100">{{ score.solicitante }}</td>
@@ -224,7 +231,7 @@
       </div>
 
       <!-- MOTIVOS Y COMENTARIOS ------------------------------------------------------------------------->
-      <!-- <div class="pr-subtitle mt-1">Observación</div>
+      <div class="pr-subtitle mt-1">Observación</div>
       <div class="pr-section mb-3">
         <div class="pr-module-container">
           <div class="row">
@@ -241,7 +248,7 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
 
       <!-- HISTORICO DE HARDWARE ------------------------------------------------------------------------->
       <div *ngIf="DATA_SCORE">
@@ -286,8 +293,10 @@
     </div>
 
     <!-- --------------------------------------------BOTONES ------------------------------------------>
-    <div class="cli-form-buttons" style="margin-top: 8%">
-      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+    <div class="cli-form-buttons">
+      <button
+         class="cli-btn btn-m btn-cancel"
+         type="submit" (click)="close()">
         <mat-icon class="icon-18">cancel</mat-icon> Cancelar
       </button>
       <button
@@ -295,6 +304,18 @@
         (click)="crearOactualizarScore()"
         [disabled]="scoreForm.invalid">
         <mat-icon class="icon-18">save</mat-icon> {{ actionBtn }}
+      </button>
+
+      <button
+         class="cli-btn btn-m btn-cancel"
+         type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Observado
+      </button>
+
+      <button
+         class="cli-btn btn-m btn-cancel"
+         type="submit" (click)="close()">
+        <mat-icon class="icon-18">forward_to_inbox</mat-icon> Enviar
       </button>
     </div>
   </div>

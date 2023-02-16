@@ -21,7 +21,7 @@ export class ModalStoreComponent implements OnInit {
 
   page = 1;
   totalScore: number = 0;
-  pageSize = 5;
+  pageSize = 10;
 
   usuario: any;
   loadingItem: boolean = false;
@@ -59,6 +59,7 @@ export class ModalStoreComponent implements OnInit {
     newFilfroForm(){
       this.scoreForm = this.fb.group({
         num_doc        : [''],
+        id_estado_m    : [''],
         id_estado_d    : [''],
         fecha_proceso  : [''],
         solicitante    : [''],
@@ -68,6 +69,7 @@ export class ModalStoreComponent implements OnInit {
         fecha_envio    : [''],
         fecha_solicitud: [''],
 
+        id_envio       : [''],
         observacion    : [''],
       })
     }
@@ -80,7 +82,7 @@ export class ModalStoreComponent implements OnInit {
       "mapValue": {
           p_idScore     : this.DATA_SCORE.idScoreM,
           p_creado_por  : this.scoreForm.value.num_doc,
-          p_id_estado   : this.scoreForm.value.id_estado,
+          p_id_estado   : this.scoreForm.value.id_estado_d,
           p_solicitante : this.scoreForm.value.solicitante,
           inicio        : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),
           fin           : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
@@ -182,9 +184,10 @@ export class ModalStoreComponent implements OnInit {
     this.actionBtn = 'Actualizar'
       this.scoreForm.controls['id_score'   ].setValue(this.DATA_SCORE.idScoreM );
       this.scoreForm.controls['solicitante'].setValue(this.DATA_SCORE.solicitante);
-      this.scoreForm.controls['id_estado_d'].setValue(this.DATA_SCORE.idEstado);
-      this.scoreForm.controls['id_estado'  ].setValue(this.DATA_SCORE.idEstado);
-      // this.scoreForm.controls['observacion'].setValue(this.DATA_SCORE.id_motivo);
+      this.scoreForm.controls['id_estado_m'].setValue(this.DATA_SCORE.idEstado);
+      // this.scoreForm.controls['id_estado'  ].setValue(this.DATA_SCORE.idEstado);
+      this.scoreForm.controls['observacion'].setValue(this.DATA_SCORE.observacion);
+      this.scoreForm.controls['id_envio'  ].setValue(this.DATA_SCORE.idEnvio);
 
       if (this.DATA_SCORE.fecha_solicitud) {
         let fecha_x = this.DATA_SCORE.fecha_solicitud
@@ -235,11 +238,11 @@ export class ModalStoreComponent implements OnInit {
 
   listEstado: any[] = [];
   getListEstado(){
-    let parametro: any[] = [{ queryId: 35 }];
+    let parametro: any[] = [{ queryId: 58 }];
 
     this.scoreService.getListEstado(parametro[0]).subscribe((resp: any) => {
       this.listEstado = resp.list;
-     //  console.log('ESTADOS', resp.list);
+      console.log('ESTADOS', resp.list);
     });
   }
 

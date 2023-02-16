@@ -80,13 +80,15 @@
   margin-left: 10px;
   padding-left: 20px;
   padding-top: 4px;
-  border-left: 1px solid $color-blue;
+  // border-left: 1px solid $color-blue;
+  border-left: 1px solid #bb96ff;
 }
 
 .pr-subtitle {
   font-size: 0.8rem;
   font-family: "Webapp-Bold";
-  color: $color-blue;
+  color: #bb96ff;
+  // color: $color-blue;
 }
 
 .pr-module {

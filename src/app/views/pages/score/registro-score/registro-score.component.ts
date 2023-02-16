@@ -25,7 +25,7 @@ export class RegistroScoreComponent implements OnInit {
   pageSize = 10;
 
   constructor(
-    private ScoreService: ScoreService,
+    private scoreService: ScoreService,
     // private exportExcellService: ExportExcellService,
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -36,7 +36,7 @@ export class RegistroScoreComponent implements OnInit {
   ngOnInit(): void {
     this.newFilfroForm();
     this.cargarOBuscarScore();
-    this.getListEstScore();
+    this.getListEstado();
   }
 
   newFilfroForm(){
@@ -44,6 +44,7 @@ export class RegistroScoreComponent implements OnInit {
       creado_por          : [''],
       solicitante         : [''],
       id_estado           : [''],
+      id_estado_d         : [''],
       fecha_solicitud_ini : [''],
       fecha_solicitud_fin : [''],
     })
@@ -62,7 +63,7 @@ export class RegistroScoreComponent implements OnInit {
           fin           : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
       }
     }];
-    this.ScoreService.cargarOBuscarScore(parametro[0]).subscribe((resp: any) => {
+    this.scoreService.cargarOBuscarScore(parametro[0]).subscribe((resp: any) => {
     this.blockUI.stop();
 
      console.log('Lista-score', resp, resp.list.length);
@@ -73,14 +74,14 @@ export class RegistroScoreComponent implements OnInit {
     });
   }
 
-  listEstadoTicket: any[] = [];
-  getListEstScore() {
-    let parametro: any[] = [{ queryId: 45 }];
+  listEstado: any[] = [];
+  getListEstado(){
+    let parametro: any[] = [{ queryId: 58 }];
 
-    this.ScoreService.getListEstScore(parametro[0]).subscribe((resp: any) => {
-        this.listEstadoTicket = resp.list;
-        console.log('EST_SCORE', resp);
-      });
+    this.scoreService.getListEstado(parametro[0]).subscribe((resp: any) => {
+      this.listEstado = resp.list;
+      console.log('ESTADOS', resp.list);
+    });
   }
 
   limpiarFiltro() {
@@ -96,7 +97,7 @@ export class RegistroScoreComponent implements OnInit {
     this.spinner.show();
 
     if (this.totalfiltro != this.totalPersonal) {
-      this.ScoreService.cargarOBuscarScore(offset.toString()).subscribe((resp: any) => {
+      this.scoreService.cargarOBuscarScore(offset.toString()).subscribe((resp: any) => {
           this.listScore = resp.list;
           this.spinner.hide();
         });
@@ -105,15 +106,6 @@ export class RegistroScoreComponent implements OnInit {
     }
     this.page = event;
   }
-
-  // crearEvento() {
-  //   const dialogRef = this.dialog.open(ModalStoreComponent, { width: '70%', height: '90%'});
-  //   dialogRef.afterClosed().subscribe((resp) => {
-  //     if (resp) {
-  //       this.cargarOBuscarScore();
-  //     }
-  //   });
-  // }
 
   actualizarScore(DATA: any) {
     console.log('DATA_SCORE_MAESTRA', DATA);
@@ -125,17 +117,6 @@ export class RegistroScoreComponent implements OnInit {
         }
       });
   }
-
-  // abrirDetalleEvento(dataDetalle: string) {
-  //   console.log('DATA_DETALLE', dataDetalle);
-
-  //   const dialogRef = this.dialog.open(ModalDetalleComponent, { width: '60%',data: dataDetalle});
-  //   dialogRef.afterClosed().subscribe((resp) => {
-  //     if (resp) {
-  //       this.cargarOBuscarScore();
-  //     }
-  //   });
-  // }
 
   exportarRegistro() {
     // this.exportExcellService.exportarExcel(this.listScore, 'Evento');
