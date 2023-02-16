@@ -8,7 +8,7 @@
     </button>
 </div>
 
-<form class="row g-3" [formGroup]="eventoForm">
+<form class="row g-3" [formGroup]="scoreForm">
   <div class="cli-form newvac-wrapper">
     <div class="chart-draw">
 
@@ -19,229 +19,186 @@
           <div class="row g-2">
 
             <div class="col-sm-3 cli-form-element" *ngIf="DATA_EVENTO">
-              <label>Código de Evento</label>
+              <label>ID Score</label>
               <input
                 type="text"
                 readonly="true"
                 class="form-control cli-input-white"
-                formControlName="cod_evento"/>
+                formControlName="id_score"/>
             </div>
 
-            <div class="col-sm-3 cli-form-element">
-              <label>Tipo de evento *</label>
-              <select class="cli-input-white" formControlName="tipo_evento" (ngModelChange)="setearTipoEvento()">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="tipo.id_correlativo" *ngFor="let tipo of listTipoIncidencia">{{ tipo.valor_texto_1 }}</option>
-              </select>
-              <small class="text-alert" *ngIf="campoNoValido('tipo_evento')">* Ingrese el Tipo es obligatorio</small>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Prioridad *</label>
-              <select class="cli-input-white" formControlName="prioridad">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="prioridad.id_correlativo" *ngFor="let prioridad of listPrioridades">{{ prioridad.valor_texto_1 }}</option>
-              </select>
-              <small class="text-alert" *ngIf="campoNoValido('prioridad')">* Ingrese la Prioridad es obligatorio</small>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>descripción *</label>
-              <select class="cli-input-white" formControlName="descripcion">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="descripcion.id_correlativo" *ngFor="let descripcion of listDescripcion">{{ descripcion.valor_texto_1 }}</option>
-              </select>
-              <small class="text-alert" *ngIf="campoNoValido('descripcion')">* Ingrese la Descripción es obligatorio</small>
-            </div>
 
             <div class="col-sm-3 cli-form-element">
               <label>Estado *</label>
-              <select class="cli-input-white" formControlName="estado">
+              <select class="cli-input-white" formControlName="id_estado">
                 <option [value]="0" disabled>- Seleccione -</option>
                 <option [value]="estado.id_correlativo" *ngFor="let estado of listEstado">{{ estado.valor_texto_1 }}</option>
               </select>
               <small class="text-alert" *ngIf="campoNoValido('estado')">* Ingrese el Estado es obligatorio</small>
             </div>
 
-            <div class="col-sm-3 cli-form-element">
-              <label>Motivo *</label>
-              <select class="cli-input-white" formControlName="motivo">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="motivo.id_correlativo" *ngFor="let motivo of listMotivos">{{ motivo.valor_texto_1 }}</option>
-              </select>
-              <small class="text-alert" *ngIf="campoNoValido('motivo')">* Ingrese el Motivo es obligatorio</small>
-            </div>
 
             <div class="col-sm-3 cli-form-element">
-              <label>Plataforma/Aplicación *</label>
-              <select class="cli-input-white" formControlName="aplicacion">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="aplicacion.id_correlativo" *ngFor="let aplicacion of listAplicaciones">{{ aplicacion.valor_texto_1 }}</option>
-              </select>
-              <small class="text-alert" *ngIf="campoNoValido('aplicacion')">* Ingrese la Aplicación es obligatorio</small>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Servicios afectados *</label>
-              <input
-                type="text"
-                class="form-control cli-input-white"
-                formControlName="servicios"/>
-                <small class="text-alert" *ngIf="campoNoValido('servicios')">* Ingrese el Servicio es obligatorio</small>
-
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Hora deteción</label>
-              <input type="time"
-                  class="form-control"
-                  formControlName="h_deteccion"/>
-                  <small class="text-alert" *ngIf="campoNoValido('h_deteccion')">* Ingrese la Hora es obligatorio</small>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Fecha Inicio *</label>
+              <label>Fecha Envío *</label>
               <input type="date"
                   class="form-control"
-                  formControlName="fecha_inicio"/>
-                  <small class="text-alert" *ngIf="campoNoValido('fecha_inicio')">* Ingrese la Fecha es obligatorio</small>
+                  formControlName="fecha_envio"/>
+                  <small class="text-alert" *ngIf="campoNoValido('fecha_envio')">* Ingrese la Fecha es obligatorio</small>
             </div>
 
-            <div class="col-sm-3 cli-form-element">
-              <label>Hora de Inicio</label>
-              <input type="time"
-                  class="form-control"
-                  formControlName="h_inicio"/>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Hora Notificación</label>
-              <input type="time"
-                  class="form-control"
-                  formControlName="h_notificacion"/>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Modo notificación *</label>
-              <select class="cli-input-white" formControlName="modo_notificacion">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="notif.id_correlativo" *ngFor="let notif of listNotificaciones">{{ notif.valor_texto_1 }}</option>
-              </select>
-              <small class="text-alert" *ngIf="campoNoValido('modo_notificacion')">* Ingrese el Modo es obligatorio</small>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Notificado a *:</label>
-              <input
-                type="text"
-                class="form-control cli-input-white"
-                formControlName="destinatario"/>
-                <small class="text-alert" *ngIf="campoNoValido('destinatario')">* Ingrese el Destinatario es obligatorio</small>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Fecha Fin</label>
-              <input type="date"
-                  class="form-control"
-                  formControlName="fecha_fin"/>
-
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Hora Fin</label>
-              <input type="time"
-                  class="form-control"
-                  formControlName="h_fin"/>
-            </div>
             </div>
         </div>
       </div>
 
-      <!-- INCIDENCIAS ------------------------------------------------------------------------->
-        <div *ngIf="setearTipoEvento()">
-        <div class="pr-subtitle mt-1">Incidencias</div>
+      <!-- DETALLES SCORE ------------------------------------------------------------------------->
+        <div class="pr-subtitle mt-1">Detalle Score</div>
         <div class="pr-section mb-3">
           <div class="pr-module-container">
-            <div class="row g-2">
+
+
+            <div class="cli-card">
+  <div style="padding: 2px 2px">
+    <div>
+      <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
+      <div class="buscar">
+          <div class="row g-3" >
             <div class="col-sm-3 cli-form-element">
-              <label>Ticket generado</label>
+              <label class="form-label">N° Documento</label>
               <input
                 type="text"
-                class="form-control cli-input-white"
-                formControlName="ticket_generado"/>
-                <small class="text-alert" *ngIf="campoNoValido('ticket_generado')">* Ingrese el Ticket es obligatorio</small>
+                class="form-control"
+                placeholder="Ingrese Código"
+                formControlName="num_doc"/>
             </div>
 
             <div class="col-sm-3 cli-form-element">
-              <label>Hora de generación</label>
-              <input type="time"
-                  class="form-control"
-                  formControlName="h_generacion"/>
-                <small class="text-alert" *ngIf="campoNoValido('h_generacion')">* Ingrese la Hora es obligatorio</small>
+              <label class="form-label">Estado</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ingrese nombre(s)"
+                formControlName="id_estado"/>
             </div>
 
-            <div class="col-sm-3 cli-form-element">
-              <label>Estado de Ticket *</label>
-              <select class="cli-input-white" formControlName="estado_ticket">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="est.id_correlativo" *ngFor="let est of listEstTicket">{{ est.valor_texto_1 }}</option>
-              </select>
-              <small class="text-alert" *ngIf="campoNoValido('estado_ticket')">* Ingrese el Estado es obligatorio</small>
+            <div class="col-sm-4 cli-form-element">
+              <label class="form-label">Fecha Proceso</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ingrese Apellidos"
+                formControlName="fecha_proceso"/>
             </div>
 
-            <div class="col-sm-3 cli-form-element">
-              <label>Área responsable *</label>
-              <select class="cli-input-white" formControlName="area_responsable">
-                <option [value]="0">- Seleccione -</option>
-                <option [value]="area.id_correlativo" *ngFor="let area of listAreaResponsable">{{ area.valor_texto_1 }}</option>
-              </select>
-              <small class="text-alert" *ngIf="campoNoValido('area_responsable')">* Ingrese el Área es obligatorio</small>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Fecha Resolución</label>
-              <input type="date"
-                  class="form-control"
-                  formControlName="fecha_resolucion"/>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Hora de resolución</label>
-              <input type="time"
-                  class="form-control"
-                  formControlName="h_solucion"/>
-            </div>
-
-              <div class="col-sm-6 cli-form-element">
-                <label>Medidas correctivas</label>
-                <textarea
-                  class="form-control"
-                  style="background-image: none; border-color: #0dcaf0; font-size: 14px;"
-                  rows="1"
-                  placeholder="Describa alguna medida correctiva de la Incidencia..."
-                  formControlName="medidas_correctivas">
-                </textarea>
+            <div class="col-sm-2">
+              <div style="margin-top: 18px; display: flex;">
+                <button
+                  type="button"
+                  matTooltip="Buscar"
+                  class="btn-hardware btn-blue-light"
+                  style="border-radius: 2px; "
+                  (click)="cargarOBuscarScoreDetalle()"
+                  ><mat-icon class="icon-18">search</mat-icon>
+                 </button>
+                 <button
+                  type="submit"
+                  matTooltip="Limpiar"
+                  class="btn-hardware btn-cancel"
+                  style="border-radius: 2px;"
+                  (click)="limpiarFiltro()"
+                ><mat-icon class="icon-18">rotate_left</mat-icon>
+                </button>
               </div>
-
-            <!-- <div class="col-sm-3 cli-form-element">
-              <label>PBI</label>
-              <input
-                type="text"
-                class="form-control cli-input-white"
-                formControlName="pbi"/>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>ETA PBI</label>
-              <input
-                type="text"
-                class="form-control cli-input-white"
-                formControlName="eta_pbi"/>
-            </div> -->
             </div>
           </div>
+      </div>
+
+      <!-- BOTON MODAL PARA AGREGAR PEERSONAL ----------------------------------------------------->
+      <div style="display: flex">
+        <div class="flex-1"></div>
+        <div style="color: #345df3;">
+          Total : <span class="total">{{ listScoreDetalle.length }} Score detalle</span>
         </div>
       </div>
+
+      <!-- TABLA DE LISTADO PERSONAL ------------------------------------------------------------------>
+      <div style="overflow: auto; min-height: 150px">
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-blue-light c-white">
+              <!-- <th>Acción</th> -->
+              <th>ID Score</th>
+              <th>Tipo Doc</th>
+              <th>N° Documento</th>
+              <th>Segmento</th>
+              <th>Score</th>
+              <th>Nombres Apell.</th>
+              <th>Q_Lineas</th>
+              <th>Cód. Financ.</th>
+              <th>Estado</th>
+              <th>Fecha Proceso</th>
+              <th>Solicitante</th>
+              <th>Cargo Fijo Máx.</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let score of listScoreDetalle | paginate:
+                      { itemsPerPage: pageSize,
+                        id:'score',
+                        currentPage : page,
+                        totalItems  : totalScore
+                      } ">
+              <!-- <td class="w50">
+                <div class="cli-table-actions">
+                  <button matTooltip="Actualizar"
+                    class="icon-btn btn-trans c-blue"
+                    (click)="actualizarScore(score)"
+                    ><mat-icon class="icon-13">edit</mat-icon>
+                  </button>
+                </div>
+              </td> -->
+              <td class="w150"> {{ score.idscored }}</td>
+              <td class="w150"> {{ score.tipo_documento }}</td>
+              <td >{{ score.numero_documento }}</td>
+              <td>{{ score.segmento }}</td>
+              <td class="w100">{{ score.score }}</td>
+              <td>{{ score.nombres | uppercase}}</td>
+              <td>{{ score.q_lineas }}</td>
+              <td>{{ score.codigo_fin }}</td>
+              <td>{{ score.estado }}</td>
+              <td style="min-width: 95px">{{ score.fecha_proceso }}</td>
+              <td class="w100">{{ score.solicitante }}</td>
+              <td class="w100">{{ score.cargo_fijo_max   }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cli-loader" *ngIf="loadingItem">
+          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>cargando...
+        </div>
+
+        <div
+          *ngIf="!loadingItem && listScoreDetalle.length == 0"
+          class="cli-loader mt-5"
+          style="color: #f83434"
+          >No hay Score disponible para mostrar
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer pb-0 pt-3">
+      <pagination-controls
+        previousLabel="Anterior"
+        nextLabel="Siguiente"
+        [responsive]="false"
+        id="persona"
+        (pageChange)="cambiarPagina($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
 
       <!-- MOTIVOS Y COMENTARIOS ------------------------------------------------------------------------->
         <div class="pr-subtitle mt-1">Motivos - Comentarios</div>
@@ -255,7 +212,7 @@
                   style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
                   rows="3"
                   placeholder="Describa algún Motivo del evento"
-                  formControlName="motivo_notas">
+                  formControlName="motivos">
                 </textarea>
               </div>
 
@@ -275,7 +232,7 @@
 
       <!-- HISTORICO DE HARDWARE ------------------------------------------------------------------------->
       <div *ngIf="DATA_EVENTO">
-        <div class="pr-subtitle mt-2">Histórico de cambios</div>
+        <!-- <div class="pr-subtitle mt-2">Histórico de cambios</div>
         <div class="pr-section mb-3">
           <div class="pr-module-container">
             <div style="overflow: auto; min-height: 100px; max-height: 160px;">
@@ -311,7 +268,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -322,7 +279,7 @@
       </button>
       <button class="cli-btn btn-m btn-blue"
               (click)="crearOactualizarEvento()"
-              [disabled]="eventoForm.invalid"
+              [disabled]="scoreForm.invalid"
               ><mat-icon class="icon-18">save</mat-icon> {{actionBtn}}
       </button>
     </div>

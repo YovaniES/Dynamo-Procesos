@@ -30,7 +30,7 @@ switch (ENVIROMENT) {
 export const API_AUTH_SESSION_AUDITORIA = PATH_AUDITORIA_AUTH + 'login';
 
 // REGISTRO EVENTO
-export const API_EVENTO = PATH_BACK_NET + 'ExecuteQuery';
+export const API_SCORE = PATH_BACK_NET + 'ExecuteQuery';
 
 
 

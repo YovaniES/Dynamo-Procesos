@@ -89,60 +89,6 @@
 
       <!-- TABLA DEL EVENTOS ------------------------------------------------------------------>
       <div style="overflow: auto; min-height: 300px">
-        <!-- <table class="cli-table stripedtable underlinedtable">
-          <thead>
-            <tr class="bgc-blue-light c-white">
-              <th>Acción</th>
-              <th>Tipo Doc</th>
-              <th>N° Documento</th>
-              <th>Segmento</th>
-              <th>Score</th>
-              <th>Nombres Apell.</th>
-              <th>Q_Lineas</th>
-              <th>Cód. Financiamiento</th>
-              <th>Estado</th>
-              <th>Fecha Proceso</th>
-              <th>Solicitante</th>
-              <th>Cargo Fijo Máx.</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr *ngFor="let score of listaEventos | paginate:
-                      { itemsPerPage: pageSize,
-                        currentPage : page,
-                        totalItems  : totalPersonal
-                      } ">
-              <td class="w50">
-                <div class="cli-table-actions">
-                  <button matTooltip ="Descargar"
-                    class="icon-btn btn-trans c-green-export"
-                    (click)="exportarRegistro()"
-                    ><mat-icon class="icon-13">file_download</mat-icon>
-                  </button>
-
-                  <button matTooltip="Actualizar"
-                    class="icon-btn btn-trans c-blue"
-                    (click)="actualizarPersonal(score)"
-                    ><mat-icon class="icon-13">edit</mat-icon>
-                  </button>
-                </div>
-              </td>
-              <td class="w150"> {{ score.tipo_documento }}</td>
-              <td >{{ score.numero_documento }}</td>
-              <td>{{ score.segmento }}</td>
-              <td class="w100">{{ score.score }}</td>
-              <td>{{ score.nombres | uppercase}}</td>
-              <td>{{ score.q_lineas }}</td>
-              <td>{{ score.codigo_fin }}</td>
-              <td>{{ score.estado }}</td>
-              <td style="min-width: 95px">{{ score.fecha_proceso }}</td>
-              <td class="w100">{{ score.solicitante }}</td>
-              <td class="w100">{{ score.cargo_fijo_max   }}</td>
-            </tr>
-          </tbody>
-        </table> -->
-
         <table class="cli-table stripedtable underlinedtable">
           <thead>
             <tr class="bgc-blue-light c-white">
@@ -167,16 +113,17 @@
                       } ">
               <td class="w50">
                 <div class="cli-table-actions">
+
+                  <button matTooltip="Actualizar"
+                  class="icon-btn btn-trans c-blue"
+                  (click)="actualizarPersonal(score)"
+                  ><mat-icon class="icon-13">settings_suggest</mat-icon>
+                </button>
+
                   <button matTooltip ="Descargar"
                     class="icon-btn btn-trans c-green-export"
                     (click)="exportarRegistro()"
                     ><mat-icon class="icon-13">file_download</mat-icon>
-                  </button>
-
-                  <button matTooltip="Actualizar"
-                    class="icon-btn btn-trans c-blue"
-                    (click)="actualizarPersonal(score)"
-                    ><mat-icon class="icon-13">settings_suggest</mat-icon>
                   </button>
                 </div>
               </td>

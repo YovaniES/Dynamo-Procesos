@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { EventoService } from 'src/app/core/services/evento.service';
+import { ScoreService } from 'src/app/core/services/score.service';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
@@ -25,7 +25,7 @@ export class RegistroScoreComponent implements OnInit {
   pageSize = 10;
 
   constructor(
-    private eventoService: EventoService,
+    private ScoreService: ScoreService,
     // private exportExcellService: ExportExcellService,
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -36,7 +36,7 @@ export class RegistroScoreComponent implements OnInit {
   ngOnInit(): void {
     this.newFilfroForm();
     this.cargarOBuscarScore();
-    this.getListEstadoTicket();
+    this.getListEstScore();
   }
 
   newFilfroForm(){
@@ -62,7 +62,7 @@ export class RegistroScoreComponent implements OnInit {
           fin           : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
       }
     }];
-    this.eventoService.cargarOBuscarScore(parametro[0]).subscribe((resp: any) => {
+    this.ScoreService.cargarOBuscarScore(parametro[0]).subscribe((resp: any) => {
     this.blockUI.stop();
 
      console.log('Lista-score', resp, resp.list.length);
@@ -93,7 +93,7 @@ export class RegistroScoreComponent implements OnInit {
   //     cancelButtonText: 'Cancelar',
   //   }).then((resp) => {
   //     if (resp.value) {
-  //       this.eventoService.eliminarEvento(parametro[0]).subscribe(resp => {
+  //       this.ScoreService.eliminarEvento(parametro[0]).subscribe(resp => {
 
   //         this.cargarOBuscarScore();
 
@@ -110,10 +110,10 @@ export class RegistroScoreComponent implements OnInit {
 
 
   listEstadoTicket: any[] = [];
-  getListEstadoTicket() {
+  getListEstScore() {
     let parametro: any[] = [{ queryId: 45 }];
 
-    this.eventoService.getListEstTicket(parametro[0]).subscribe((resp: any) => {
+    this.ScoreService.getListEstScore(parametro[0]).subscribe((resp: any) => {
         this.listEstadoTicket = resp.list;
         console.log('EST_SCORE', resp);
       });
@@ -132,7 +132,7 @@ export class RegistroScoreComponent implements OnInit {
     this.spinner.show();
 
     if (this.totalfiltro != this.totalPersonal) {
-      this.eventoService.cargarOBuscarScore(offset.toString()).subscribe((resp: any) => {
+      this.ScoreService.cargarOBuscarScore(offset.toString()).subscribe((resp: any) => {
           this.listaEventos = resp.list;
           this.spinner.hide();
         });
