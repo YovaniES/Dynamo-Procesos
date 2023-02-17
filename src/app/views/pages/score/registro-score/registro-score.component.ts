@@ -56,7 +56,7 @@ export class RegistroScoreComponent implements OnInit {
     let parametro: any[] = [{
       "queryId": 57,
       "mapValue": {
-          p_creado_por  : this.filtroForm.value.num_doc,
+          p_creado_por  : this.filtroForm.value.creado_por,
           p_id_estado   : this.filtroForm.value.id_estado,
           p_solicitante : this.filtroForm.value.solicitante,
           inicio        : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),

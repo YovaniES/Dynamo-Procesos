@@ -26,10 +26,10 @@
               <label>Solicitante</label>
               <input
                 type="text"
-                readonly="true"
                 class="form-control cli-input-white"
                 formControlName="solicitante"/>
-            </div>
+              </div>
+              <!-- readonly="true" -->
 
             <div class="col-sm-3 cli-form-element">
               <label>Envío</label>
@@ -165,7 +165,7 @@
                         <th>Nombres Apell.</th>
                         <th>Q Lineas</th>
                         <th>Cód. Financ.</th>
-                        <th>ID Requerimiento.</th>
+                        <th>ID REQ.</th>
                         <th>Estado</th>
                         <th>Fecha Proceso</th>
                         <th>Solicitante</th>
@@ -237,10 +237,8 @@
           <div class="row">
             <div class="col-sm-12 cli-form-element">
               <textarea
-                class="form-control_filtro"
-                style="background-image: none;
-                  border-color: #a5a4a4;
-                  font-size: 14px;"
+                class="form-control"
+                style="background-image: none;border-color: #a5a4a4;font-size: 14px;"
                 rows="3"
                 placeholder="Describa alguna Observación del Score"
                 formControlName="observacion">
@@ -260,20 +258,20 @@
                 <thead>
                   <tr class="bgc-turquey c-white">
                     <th>#</th>
+                    <th>ID Score</th>
                     <th>Estado</th>
-                    <th>Motivo</th>
-                    <th>Fecha y hora</th>
                     <th>Usuario</th>
+                    <th>Fecha y hora</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <tr *ngFor="let cambios of listHistoricoCambios; let i = index">
+                  <tr *ngFor="let historico of listHistoricoCambios; let i = index">
                     <td>{{ i + 1 }}</td>
-                    <td>{{ cambios.estado_evento }}</td>
-                    <td>{{ cambios.motivo_evento }}</td>
-                    <td class="w300">{{ cambios.fecha_cambio }}</td>
-                    <td>{{ cambios.usuario_responsable }}</td>
+                    <td>{{ historico.id_score_m }}</td>
+                    <td>{{ historico.cNombre }}</td>
+                    <td class="w300">{{ historico.responsable }}</td>
+                    <td>{{ historico.fecha_cambio }}</td>
                   </tr>
                 </tbody>
               </table>

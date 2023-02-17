@@ -1,6 +1,6 @@
 <div class="cli-card fit-card">
   <div class="cli-card-body">
-    <div class="modal-title c-male">Mantenimiento de Score</div>
+    <div class="modal-title c-male">Envío de Score</div>
     <div>
       <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
       <div class="card" style="border-radius: 2px; font-weight: 600; padding: 7px">
@@ -82,7 +82,7 @@
           </button> -->
 
         <div class="flex-1"></div>
-        <div class="mt-2" style="color: #345df3; font-weight: 600;">
+        <div class="mt-2" style="color: #bb96ff; font-weight: 600;">
           Total : <span class="total">{{ listScore.length }} Score</span>
         </div>
       </div>
@@ -133,7 +133,7 @@
               <td >{{ score.solicitante | uppercase }}</td>
               <td>{{ score.fecha_solicitud }}</td>
               <td class="w100">{{ score.fecha_envio }}</td>
-              <td>{{ score.idEstado}}</td>
+              <td>{{ score.estado}}</td>
               <td>{{ score.Crea }}</td>
               <td>{{ score.fecha_crea }}</td>
               <td>{{ score.Actualiza }}</td>

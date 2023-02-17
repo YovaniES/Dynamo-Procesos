@@ -63,12 +63,9 @@ export class ModalStoreComponent implements OnInit {
         id_estado_d    : [''],
         fecha_proceso  : [''],
         solicitante    : [''],
-
         id_score       : [''],
-        id_estado      : [''],
         fecha_envio    : [''],
         fecha_solicitud: [''],
-
         id_envio       : [''],
         observacion    : [''],
       })
@@ -76,14 +73,14 @@ export class ModalStoreComponent implements OnInit {
 
   listScoreDetalle: any[] = [];
   cargarOBuscarScoreDetalle(){
-    this.blockUI.start("Cargando Score...");
+    this.blockUI.start("Cargando Score detalle...");
     let parametro: any[] = [{
       "queryId": 56,
       "mapValue": {
           p_idScore     : this.DATA_SCORE.idScoreM,
-          p_creado_por  : this.scoreForm.value.num_doc,
+          p_num_doc     : this.scoreForm.value.num_doc,
           p_id_estado   : this.scoreForm.value.id_estado_d,
-          p_solicitante : this.scoreForm.value.solicitante,
+          p_fecha_proc  : this.scoreForm.value.fecha_proceso,
           inicio        : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),
           fin           : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
       }
@@ -91,7 +88,7 @@ export class ModalStoreComponent implements OnInit {
     this.scoreService.cargarOBuscarScoreDetalle(parametro[0]).subscribe((resp: any) => {
     this.blockUI.stop();
 
-     console.log('Lista-score_DX', resp, resp.list.length);
+    //  console.log('Lista-score_DX', resp, resp.list.length);
       this.listScoreDetalle = [];
       this.listScoreDetalle = resp.list;
 
@@ -119,38 +116,19 @@ export class ModalStoreComponent implements OnInit {
     const formValues = this.scoreForm.getRawValue();
 
     let parametro: any[] = [{
-        queryId: 27,
+        queryId: 59,
         mapValue: {
-          p_id_registro            : this.DATA_SCORE.idreg ,
-          p_id_tipoEvento          : formValues.tipo_evento ,
-          p_cdescripcion           : formValues.descripcion ,
-          p_estado                 : formValues.estado ,
-          p_motivo                 : formValues.motivo ,
-          p_aplicacion             : formValues.aplicacion ,
-          p_hora_deteccion         : formValues.h_deteccion ,
-          p_fecha_inicio           : formValues.fecha_inicio ,
-          p_hora_inicio            : formValues.h_inicio ,
-          p_hora_fin               : formValues.h_fin ,
-          p_fecha_fin              : formValues.fecha_fin ,
-          p_hora_notificacion      : formValues.h_notificacion ,
-          p_modo                   : formValues.modo_notificacion ,
-          p_destinatario           : formValues.destinatario ,
-          p_cantidad               : formValues.servicios ,
-          p_codigo_ticket_generado : formValues.ticket_generado ,
-          p_hora_generacion        : formValues.h_generacion ,
-          p_estic                  : formValues.estado_ticket ,
-          p_prioridad              : formValues.prioridad ,
-          p_area                   : formValues.area_responsable ,
-          p_fecha_resolucion       : formValues.fecha_resolucion ,
-          p_hora_resolucion        : formValues.h_solucion ,
-          p_pbi                    : formValues.pbi ,
-          p_eta_pbi                : formValues.eta_pbi ,
-          p_comentariosgenerales   : formValues.comentarios ,
-          p_medidas_correctivas    : formValues.medidas_correctivas ,
-          p_notas                  : formValues.motivo_notas ,
-          p_fecha_actualizacion    : '' ,
-          p_user_actualizacion     : this.userID ,
-          CONFIG_USER_ID           : this.userID ,
+          p_idScoreM           : this.DATA_SCORE.idScoreM,
+          p_solicitante        : formValues.solicitante,
+          p_fecha_solicitud    : formValues.fecha_solicitud,
+          p_fecha_envio        : formValues.fecha_envio,
+          p_idEstado           : formValues.id_estado_m,
+          p_Actualiza          : 'Jhon S',
+          p_FActualiza         : '',
+          p_observacion        : formValues.observacion,
+          p_idEnvio            : formValues.id_envio,
+
+          CONFIG_USER_ID       : this.userID ,
           CONFIG_OUT_MSG_ERROR : '' ,
           CONFIG_OUT_MSG_EXITO : ''
         },
@@ -159,16 +137,16 @@ export class ModalStoreComponent implements OnInit {
     this.scoreService.actualizarScore(parametro[0]).subscribe( {next: (resp: any) => {
       this.spinner.hide();
 
-      // console.log('DATA_ACTUALIZADO', resp);
+      console.log('DATA_ACTUALIZADO', resp);
       // this.cargarSCoreByID();
       this.dialogRef.close('Actualizar')
 
-      Swal.fire({
-        title: 'Actualizar Score!',
-        text : `Score:  ${this.DATA_SCORE.cod_evento }, actualizado con éxito`,
-        icon : 'success',
-        confirmButtonText: 'Ok'
-        })
+        Swal.fire({
+          title: 'Actualizar Score!',
+          text : `Score:  ${this.DATA_SCORE.idScoreM }, actualizado con éxito`,
+          icon : 'success',
+          confirmButtonText: 'Ok'
+          })
     }, error: () => {
       Swal.fire(
         'ERROR',
@@ -185,9 +163,8 @@ export class ModalStoreComponent implements OnInit {
       this.scoreForm.controls['id_score'   ].setValue(this.DATA_SCORE.idScoreM );
       this.scoreForm.controls['solicitante'].setValue(this.DATA_SCORE.solicitante);
       this.scoreForm.controls['id_estado_m'].setValue(this.DATA_SCORE.idEstado);
-      // this.scoreForm.controls['id_estado'  ].setValue(this.DATA_SCORE.idEstado);
       this.scoreForm.controls['observacion'].setValue(this.DATA_SCORE.observacion);
-      this.scoreForm.controls['id_envio'  ].setValue(this.DATA_SCORE.idEnvio);
+      this.scoreForm.controls['id_envio'   ].setValue(this.DATA_SCORE.idEnvio);
 
       if (this.DATA_SCORE.fecha_solicitud) {
         let fecha_x = this.DATA_SCORE.fecha_solicitud
@@ -220,13 +197,13 @@ export class ModalStoreComponent implements OnInit {
 
 
   listHistoricoCambios: any[] = [];
-  ListaHistoricoCambios(idRegistro:number){
+  ListaHistoricoCambios(idRegistro: number){
     this.spinner.show();
 
     let parametro:any[] = [{
-      "queryId": 56,
+      "queryId": 60,
       "MapValue": {
-        "p_idRegistro": this.DATA_SCORE.idreg
+        "p_idhistorico": this.DATA_SCORE.idScoreM
       }
     }];
     this.scoreService.ListaHistoricoCambios(parametro[0]).subscribe((resp: any) => {
