@@ -8,6 +8,7 @@ import { ScoreService } from 'src/app/core/services/score.service';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ROLES_ENUM } from 'src/app/core/constants/rol.constants';
 
 @Component({
   selector: 'app-modal-evento',
@@ -29,7 +30,7 @@ export class ModalStoreComponent implements OnInit {
 
   constructor(
     private scoreService: ScoreService,
-    private authService: AuthService,
+    public authService: AuthService,
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
@@ -45,6 +46,7 @@ export class ModalStoreComponent implements OnInit {
 
     this.cargarOBuscarScoreDetalle();
     this.cargarSCoreByID();
+    this.isGestorTDP();
     this.getUsuario();
     this.getListEstado();
 
@@ -71,30 +73,56 @@ export class ModalStoreComponent implements OnInit {
       })
     }
 
-  listScoreDetalle: any[] = [];
-  cargarOBuscarScoreDetalle(){
-    this.blockUI.start("Cargando Score detalle...");
-    let parametro: any[] = [{
-      "queryId": 56,
-      "mapValue": {
-          p_idScore     : this.DATA_SCORE.idScoreM,
-          p_num_doc     : this.scoreForm.value.num_doc,
-          p_id_estado   : this.scoreForm.value.id_estado_d,
-          p_fecha_proc  : this.scoreForm.value.fecha_proceso,
-          inicio        : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),
-          fin           : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
+    // hasPermission(r: ROLES_ENUM[]): boolean {
+    //   if (r) {
+    //     return this.authService.accesoBtnMail(r)
+    //   }
+    //   return true;
+    // }
+
+    rolGestorTdp: number = 0;
+    isGestorTDP(){
+      // this.authService.getRolID().suscribe( (resp: any) => {
+      //    this.rolGestorTdp = resp.user.rolId
+
+      //   console.log('ID_ROL_TDP', this.rolGestorTdp);
+      // })
+
+      this.rolGestorTdp = this.authService.getRolID();
+        console.log('ID_ROL_TDP', this.rolGestorTdp);
+    };
+
+    validarIfIsGestor(){
+      if (!this.authService.esUsuarioGestor()) {
+        this.scoreForm.controls['id_estado_m'].disable()
+        this.scoreForm.controls['id_envio'   ].disable()
       }
-    }];
-    this.scoreService.cargarOBuscarScoreDetalle(parametro[0]).subscribe((resp: any) => {
-    this.blockUI.stop();
+    }
 
-    //  console.log('Lista-score_DX', resp, resp.list.length);
-      this.listScoreDetalle = [];
-      this.listScoreDetalle = resp.list;
+    listScoreDetalle: any[] = [];
+    cargarOBuscarScoreDetalle(){
+      this.blockUI.start("Cargando Score detalle...");
+      let parametro: any[] = [{
+        "queryId": 56,
+        "mapValue": {
+            p_idScore     : this.DATA_SCORE.idScoreM,
+            p_num_doc     : this.scoreForm.value.num_doc,
+            p_id_estado   : this.scoreForm.value.id_estado_d,
+            p_fecha_proc  : this.scoreForm.value.fecha_proceso,
+            inicio        : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),
+            fin           : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
+        }
+      }];
+      this.scoreService.cargarOBuscarScoreDetalle(parametro[0]).subscribe((resp: any) => {
+      this.blockUI.stop();
 
-      this.spinner.hide();
-    });
-  }
+      //  console.log('Lista-score_DX', resp, resp.list.length);
+        this.listScoreDetalle = [];
+        this.listScoreDetalle = resp.list;
+
+        this.spinner.hide();
+      });
+    }
 
   crearOactualizarScore() {
     this.spinner.show();
@@ -183,18 +211,10 @@ export class ModalStoreComponent implements OnInit {
         const date  = Number(str[0]);
         this.scoreForm.controls['fecha_envio'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
       }
+
+      this.validarIfIsGestor();
     }
   }
-
-
-  campoNoValido(campo: string): boolean {
-    if ( this.scoreForm.get(campo)?.invalid && this.scoreForm.get(campo)?.touched ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
 
   listHistoricoCambios: any[] = [];
   ListaHistoricoCambios(idRegistro: number){

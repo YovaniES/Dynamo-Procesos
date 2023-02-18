@@ -5,7 +5,7 @@ import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 import { API_AUTH_SESSION_AUDITORIA } from '../constants/url.constants';
 import { of } from 'rxjs';
-import { ROL_GESTOR, ROL_USUARIO } from '../constants/rol.constants';
+import { ROLES_ENUM, ROL_GESTOR, ROL_USUARIO } from '../constants/rol.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,11 @@ export class AuthService {
         localStorage.setItem('currentUser', JSON.stringify(resp));
       })
     );
+  }
+
+  accesoBtnMail(roles: ROLES_ENUM[]){
+    const decodedToken_RolId: any = this.decodeToken()
+    return roles.includes(decodedToken_RolId.ROL_ID)
   }
 
   getRolID(){

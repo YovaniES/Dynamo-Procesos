@@ -27,9 +27,9 @@
               <input
                 type="text"
                 class="form-control cli-input-white"
+                readonly="true"
                 formControlName="solicitante"/>
               </div>
-              <!-- readonly="true" -->
 
             <div class="col-sm-3 cli-form-element">
               <label>Envío</label>
@@ -297,23 +297,26 @@
          type="submit" (click)="close()">
         <mat-icon class="icon-18">cancel</mat-icon> Cancelar
       </button>
-      <button
-        class="cli-btn btn-m btn-blue"
-        (click)="crearOactualizarScore()"
-        [disabled]="scoreForm.invalid">
-        <mat-icon class="icon-18">save</mat-icon> {{ actionBtn }}
-      </button>
 
       <button
-         class="cli-btn btn-m btn-cancel"
+         class="cli-btn btn-m btn-optional"
          type="submit" (click)="close()">
         <mat-icon class="icon-18">cancel</mat-icon> Observado
       </button>
 
+      <ng-container *ngIf="authService.esUsuarioGestor()">
+        <button
+           class="cli-btn btn-m btn-mail"
+           type="submit" (click)="close()">
+          <mat-icon class="icon-18">forward_to_inbox</mat-icon> Enviar
+        </button>
+      </ng-container>
+
       <button
-         class="cli-btn btn-m btn-cancel"
-         type="submit" (click)="close()">
-        <mat-icon class="icon-18">forward_to_inbox</mat-icon> Enviar
+         class="cli-btn btn-m btn-blue"
+         (click)="crearOactualizarScore()"
+         [disabled]="scoreForm.invalid">
+         <mat-icon class="icon-18">save</mat-icon> {{ actionBtn }}
       </button>
     </div>
   </div>

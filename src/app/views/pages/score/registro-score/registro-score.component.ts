@@ -6,7 +6,7 @@ import { ScoreService } from 'src/app/core/services/score.service';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
-// import { ExportExcellService } from 'src/app/core/services/export-excell.service';
+import { ExportExcellService } from 'src/app/core/services/export-excell.service';
 import { ModalStoreComponent } from './modal-score/modal-score.component';
 
 @Component({
@@ -26,7 +26,7 @@ export class RegistroScoreComponent implements OnInit {
 
   constructor(
     private scoreService: ScoreService,
-    // private exportExcellService: ExportExcellService,
+    private exportExcellService: ExportExcellService,
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
     public datepipe: DatePipe,
@@ -37,6 +37,7 @@ export class RegistroScoreComponent implements OnInit {
     this.newFilfroForm();
     this.cargarOBuscarScore();
     this.getListEstado();
+    this.cargarOBuscarScoreDetalle(1);
   }
 
   newFilfroForm(){
@@ -71,6 +72,23 @@ export class RegistroScoreComponent implements OnInit {
       this.listScore = resp.list;
 
       this.spinner.hide();
+    });
+  }
+
+  listScoreDetalle: any[] = [];
+  cargarOBuscarScoreDetalle(id_score: number){
+    // this.blockUI.start("Cargando Score detalle...");
+    let parametro: any[] = [{
+      "queryId": 56,
+      "mapValue": {
+          p_idScore : id_score,
+      }
+    }];
+    this.scoreService.cargarOBuscarScoreDetalle(parametro[0]).subscribe((resp: any) => {
+    // this.blockUI.stop();
+      this.listScoreDetalle = resp.list;
+
+      // this.spinner.hide();
     });
   }
 
@@ -119,6 +137,6 @@ export class RegistroScoreComponent implements OnInit {
   }
 
   exportarRegistro() {
-    // this.exportExcellService.exportarExcel(this.listScore, 'Evento');
+    this.exportExcellService.exportarExcel(this.listScoreDetalle, 'Score');
   }
 }
