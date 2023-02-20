@@ -15,21 +15,20 @@
     <div style="display: flex" >
       <div class="pr-subtitle mt-2">Datos del Score</div>
       <div class="flex-1"></div>
-      <div  class="id-iniciativa">ID : <span  class="total">{{iniciativa_Id}}</span></div>
+      <!-- <div  class="id-score">ID : <span  class="total">{{score_Id}}</span></div> -->
     </div>
-
 
       <div class="pr-section mb-3">
         <div class="pr-module-container">
           <div class="row g-2">
-            <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
+            <div class="col-sm-3 cli-form-element">
               <label>Solicitante</label>
               <input
                 type="text"
                 class="form-control cli-input-white"
-                readonly="true"
                 formControlName="solicitante"/>
               </div>
+              <!-- readonly="true" -->
 
             <div class="col-sm-3 cli-form-element">
               <label>Envío</label>
@@ -40,22 +39,13 @@
               </select>
             </div>
 
-            <div class="col-sm-3 cli-form-element">
+            <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
               <label>Estado</label>
               <select class="cli-input-white" formControlName="id_estado_m">
                 <option [value]="0" disabled>- Seleccione -</option>
                 <option [value]="estado.idEstado"*ngFor="let estado of listEstado">{{ estado.cNombre }}</option>
               </select>
             </div>
-
-            <!-- <div class="col-sm-3 cli-form-element">
-              <label>Fecha Envío *</label>
-              <input
-                type="date"
-                class="form-control_filtro"
-                formControlName="fecha_envio"/>
-              <small class="text-alert" *ngIf="campoNoValido('fecha_envio')">* Ingrese la Fecha es obligatorio</small>
-            </div> -->
 
             <div class="col-sm-3 cli-form-element">
               <label class="form-label">Fecha de Solcitud</label>
@@ -68,185 +58,191 @@
               </mat-form-field>
             </div>
 
-            <!-- <div class="col-sm-3 cli-form-element">
-              <label class="form-label">Fecha Envío</label>
-              <mat-form-field appearance="outline">
-                <input matInput [matDatepicker]="picker_fe" formControlName="fecha_envio" >
-                <mat-datepicker-toggle matSuffix [for]="picker_fe"></mat-datepicker-toggle>
-                <mat-datepicker #picker_fe></mat-datepicker>
-              </mat-form-field>
-            </div> -->
+              <div class="col-sm-3 cli-form-element" >
+                <label class="form-label">Fecha Envío</label>
+                <mat-form-field appearance="outline">
+                  <input matInput [matDatepicker]="picker_fe" formControlName="fecha_envio" >
+                  <mat-datepicker-toggle matSuffix [for]="picker_fe"></mat-datepicker-toggle>
+                  <mat-datepicker #picker_fe></mat-datepicker>
+                </mat-form-field>
+              </div>
           </div>
         </div>
       </div>
 
+
       <!-- DETALLES SCORE ------------------------------------------------------------------------->
-      <div class="pr-subtitle mt-1">Detalle Score</div>
-      <div class="pr-section mb-3">
-        <div class="pr-module-container">
-          <div class="cli-card">
-            <div style="padding: 2px 2px">
-              <div>
-                <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
-                <div class="buscar">
-                  <div class="row g-3">
-                    <div class="col-sm-3 cli-form-element">
-                      <label class="form-label">N° Documento</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Ingrese Doc."
-                        formControlName="num_doc"/>
-                    </div>
+      <ng-container *ngIf="DATA_SCORE">
+        <div class="pr-subtitle mt-1">Detalle Score</div>
+        <div class="pr-section mb-3">
+          <div class="pr-module-container">
+            <div class="cli-card">
+              <div style="padding: 2px 2px">
+                <div>
+                  <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
+                  <div class="buscar">
+                    <div class="row g-3">
+                      <div class="col-sm-3 cli-form-element">
+                        <label class="form-label">N° Documento</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Ingrese Doc."
+                          formControlName="num_doc"/>
+                      </div>
 
-                    <div class="col-sm-3 cli-form-element">
-                      <label>Estado</label>
-                      <select class="cli-input-white" formControlName="id_estado_d">
-                        <option [value]="0" disabled>- Seleccione -</option>
-                        <option [value]="estado.idEstado"*ngFor="let estado of listEstado">{{ estado.cNombre }}</option>
-                      </select>
-                    </div>
+                      <div class="col-sm-3 cli-form-element">
+                        <label>Estado</label>
+                        <select class="cli-input-white" formControlName="id_estado_d">
+                          <option [value]="0" disabled>- Seleccione -</option>
+                          <option [value]="estado.idEstado"*ngFor="let estado of listEstado">{{ estado.cNombre }}</option>
+                        </select>
+                      </div>
 
-                    <div class="col-sm-3 cli-form-element">
-                      <label class="form-label">Fecha Proceso</label>
-                      <mat-form-field appearance="outline">
-                        <!-- <mat-label>Choose a date</mat-label> -->
-                        <input matInput [matDatepicker]="picker_p" formControlName="fecha_proceso" >
-                        <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
-                        <mat-datepicker-toggle matSuffix [for]="picker_p"></mat-datepicker-toggle>
-                        <mat-datepicker #picker_p></mat-datepicker>
-                      </mat-form-field>
-                    </div>
+                      <div class="col-sm-3 cli-form-element">
+                        <label class="form-label">Fecha Proceso</label>
+                        <mat-form-field appearance="outline">
+                          <!-- <mat-label>Choose a date</mat-label> -->
+                          <input matInput [matDatepicker]="picker_p" formControlName="fecha_proceso" >
+                          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                          <mat-datepicker-toggle matSuffix [for]="picker_p"></mat-datepicker-toggle>
+                          <mat-datepicker #picker_p></mat-datepicker>
+                        </mat-form-field>
+                      </div>
 
-                    <div class="col-sm-3">
-                      <div style="margin-top: 27px; display: flex">
-                        <button
-                          type="button"
-                          matTooltip="Buscar"
-                          class="btn-hardware btn-blue-light"
-                          style="border-radius: 2px"
-                          (click)="cargarOBuscarScoreDetalle()">
-                          <mat-icon class="icon-18">search</mat-icon>
-                        </button>
-                        <button
-                          type="submit"
-                          matTooltip="Limpiar"
-                          class="btn-hardware btn-cancel"
-                          style="border-radius: 2px"
-                          (click)="limpiarFiltro()">
-                          <mat-icon class="icon-18">rotate_left</mat-icon>
-                        </button>
+                      <div class="col-sm-3">
+                        <div style="margin-top: 27px; display: flex">
+                          <button
+                            type="button"
+                            matTooltip="Buscar"
+                            class="btn-hardware btn-mora-light"
+                            style="border-radius: 2px"
+                            (click)="cargarOBuscarScoreDetalle()">
+                            <mat-icon class="icon-18">search</mat-icon>
+                          </button>
+                          <button
+                            type="submit"
+                            matTooltip="Limpiar"
+                            class="btn-hardware btn-cancel"
+                            style="border-radius: 2px"
+                            (click)="limpiarFiltro()">
+                            <mat-icon class="icon-18">rotate_left</mat-icon>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- BOTON MODAL PARA AGREGAR PEERSONAL ----------------------------------------------------->
-                <div style="display: flex">
-                  <div class="flex-1"></div>
-                  <div style="color: #bb96ff">
-                    Total :
-                    <span class="total">{{ listScoreDetalle.length }} Score detalle</span>
+                  <!-- BOTON MODAL PARA AGREGAR PEERSONAL ----------------------------------------------------->
+                  <div style="display: flex">
+                    <div class="flex-1"></div>
+                    <div style="color: #bb96ff">
+                      Total :
+                      <span class="total">{{ listScoreDetalle.length }} Score detalle</span>
+                    </div>
+                  </div>
+
+                  <!-- TABLA DE LISTADO PERSONAL ------------------------------------------------------------------>
+                  <div style="overflow: auto; min-height: 150px">
+                    <table class="cli-table stripedtable underlinedtable">
+                      <thead>
+                        <tr class="bgc-blue-light c-white">
+                          <!-- <th>Acción</th> -->
+                          <!-- <th>ID Score DET</th> -->
+                          <th>ID Score</th>
+                          <th>Tipo Doc</th>
+                          <th>N° Documento</th>
+                          <th>Segmento</th>
+                          <th>Score</th>
+                          <th>Nombres Apell.</th>
+                          <th>Q Lineas</th>
+                          <th>Cód. Financ.</th>
+                          <th>ID REQ.</th>
+                          <th>Estado</th>
+                          <th>Fecha Proceso</th>
+                          <th>Solicitante</th>
+                          <th>Cargo Fijo Máx.</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr
+                          *ngFor="let score of listScoreDetalle | paginate: {
+                                    itemsPerPage: pageSize,
+                                    id: 'score',
+                                    currentPage: page,
+                                    totalItems: totalScore }">
+
+                          <td style="min-width: 90px;">{{ score.idScored }}</td>
+                          <!-- <td style="min-width: 80px;">{{ score.idscore }}</td> -->
+                          <td style="min-width: 80px;">{{ score.tipo_documento }}</td>
+                          <td style="min-width: 100px;">{{ score.numero_documento }}</td>
+                          <td>{{ score.segmento }}</td>
+                          <td class="w100">{{ score.score }}</td>
+                          <td style="min-width: 150px;">{{ score.nombres | uppercase }}</td>
+                          <td style="min-width: 85px;">{{ score.q_lineas }}</td>
+                          <td style="min-width: 90px;">{{ score.codigo_fin }}</td>
+                          <td style="min-width: 90px;">{{ score.idrequerimiento }}</td>
+                          <td>{{ score.estado }}</td>
+                          <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
+                          <td class="w100">{{ score.solicitante }}</td>
+                          <td style="min-width: 110px;">{{ score.cargo_fijo_max }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <div class="cli-loader" *ngIf="loadingItem">
+                      <mat-spinner
+                        style="margin-right: 20px"
+                        diameter="20"
+                      ></mat-spinner>cargando...
+                    </div>
+
+                    <div
+                      *ngIf="!loadingItem && listScoreDetalle.length == 0"
+                      class="cli-loader mt-5"
+                      style="color: #f83434">
+                      No hay Score disponible para mostrar
+                    </div>
                   </div>
                 </div>
 
-                <!-- TABLA DE LISTADO PERSONAL ------------------------------------------------------------------>
-                <div style="overflow: auto; min-height: 150px">
-                  <table class="cli-table stripedtable underlinedtable">
-                    <thead>
-                      <tr class="bgc-blue-light c-white">
-                        <!-- <th>Acción</th> -->
-                        <!-- <th>ID Score DET</th> -->
-                        <th>ID Score</th>
-                        <th>Tipo Doc</th>
-                        <th>N° Documento</th>
-                        <th>Segmento</th>
-                        <th>Score</th>
-                        <th>Nombres Apell.</th>
-                        <th>Q Lineas</th>
-                        <th>Cód. Financ.</th>
-                        <th>ID REQ.</th>
-                        <th>Estado</th>
-                        <th>Fecha Proceso</th>
-                        <th>Solicitante</th>
-                        <th>Cargo Fijo Máx.</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      <tr
-                        *ngFor="let score of listScoreDetalle | paginate: {
-                                  itemsPerPage: pageSize,
-                                  id: 'score',
-                                  currentPage: page,
-                                  totalItems: totalScore }">
-
-                        <td style="min-width: 90px;">{{ score.idScored }}</td>
-                        <!-- <td style="min-width: 80px;">{{ score.idscore }}</td> -->
-                        <td style="min-width: 80px;">{{ score.tipo_documento }}</td>
-                        <td style="min-width: 100px;">{{ score.numero_documento }}</td>
-                        <td>{{ score.segmento }}</td>
-                        <td class="w100">{{ score.score }}</td>
-                        <td style="min-width: 150px;">{{ score.nombres | uppercase }}</td>
-                        <td style="min-width: 85px;">{{ score.q_lineas }}</td>
-                        <td style="min-width: 90px;">{{ score.codigo_fin }}</td>
-                        <td style="min-width: 90px;">{{ score.idrequerimiento }}</td>
-                        <td>{{ score.estado }}</td>
-                        <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
-                        <td class="w100">{{ score.solicitante }}</td>
-                        <td style="min-width: 110px;">{{ score.cargo_fijo_max }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                  <div class="cli-loader" *ngIf="loadingItem">
-                    <mat-spinner
-                      style="margin-right: 20px"
-                      diameter="20"
-                    ></mat-spinner>cargando...
-                  </div>
-
-                  <div
-                    *ngIf="!loadingItem && listScoreDetalle.length == 0"
-                    class="cli-loader mt-5"
-                    style="color: #f83434">
-                    No hay Score disponible para mostrar
-                  </div>
+                <div class="card-footer pb-0 pt-3">
+                  <pagination-controls
+                    previousLabel="Anterior"
+                    nextLabel="Siguiente"
+                    [responsive]="false"
+                    id="score"
+                    (pageChange)="cambiarPagina($event)"
+                  >
+                  </pagination-controls>
                 </div>
-              </div>
-
-              <div class="card-footer pb-0 pt-3">
-                <pagination-controls
-                  previousLabel="Anterior"
-                  nextLabel="Siguiente"
-                  [responsive]="false"
-                  id="score"
-                  (pageChange)="cambiarPagina($event)"
-                >
-                </pagination-controls>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </ng-container>
+
 
       <!-- MOTIVOS Y COMENTARIOS ------------------------------------------------------------------------->
-      <div class="pr-subtitle mt-1">Observación</div>
-      <div class="pr-section mb-3">
-        <div class="pr-module-container">
-          <div class="row">
-            <div class="col-sm-12 cli-form-element">
-              <textarea
-                class="form-control"
-                style="background-image: none;border-color: #a5a4a4;font-size: 14px;"
-                rows="3"
-                placeholder="Describa alguna Observación del Score"
-                formControlName="observacion">
-              </textarea>
+      <ng-container *ngIf="DATA_SCORE">
+        <div class="pr-subtitle mt-1">Observación</div>
+        <div class="pr-section mb-3">
+          <div class="pr-module-container">
+            <div class="row">
+              <div class="col-sm-12 cli-form-element">
+                <textarea
+                  class="form-control"
+                  style="background-image: none;border-color: #a5a4a4;font-size: 14px;"
+                  rows="3"
+                  placeholder="Describa alguna Observación del Score"
+                  formControlName="observacion">
+                </textarea>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </ng-container>
 
       <!-- HISTORICO DE HARDWARE ------------------------------------------------------------------------->
       <div *ngIf="DATA_SCORE">
@@ -298,22 +294,24 @@
         <mat-icon class="icon-18">cancel</mat-icon> Cancelar
       </button>
 
-      <button
-         class="cli-btn btn-m btn-optional"
-         type="submit" (click)="close()">
-        <mat-icon class="icon-18">cancel</mat-icon> Observado
-      </button>
-
-      <ng-container *ngIf="authService.esUsuarioGestor()">
+      <ng-container *ngIf="DATA_SCORE">
         <button
-           class="cli-btn btn-m btn-mail"
+           class="cli-btn btn-m btn-optional"
            type="submit" (click)="close()">
-          <mat-icon class="icon-18">forward_to_inbox</mat-icon> Enviar
+          <mat-icon class="icon-18">cancel</mat-icon> Observado
         </button>
+
+        <ng-container *ngIf="authService.esUsuarioGestor()">
+          <button
+             class="cli-btn btn-m btn-mail"
+             type="submit" (click)="close()">
+            <mat-icon class="icon-18">forward_to_inbox</mat-icon> Enviar
+          </button>
+        </ng-container>
       </ng-container>
 
       <button
-         class="cli-btn btn-m btn-blue"
+         class="cli-btn btn-m btn-mora"
          (click)="crearOactualizarScore()"
          [disabled]="scoreForm.invalid">
          <mat-icon class="icon-18">save</mat-icon> {{ actionBtn }}

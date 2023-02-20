@@ -6,7 +6,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ScoreService } from 'src/app/core/services/score.service';
 import Swal from 'sweetalert2';
-import * as moment from 'moment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ROLES_ENUM } from 'src/app/core/constants/rol.constants';
 
@@ -18,7 +17,7 @@ import { ROLES_ENUM } from 'src/app/core/constants/rol.constants';
 export class ModalStoreComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
   scoreForm!: FormGroup;
-  iniciativa_Id = this.DATA_SCORE.idScoreM
+  // score_Id = this.DATA_SCORE.idScoreM
 
   page = 1;
   totalScore: number = 0;
@@ -37,48 +36,43 @@ export class ModalStoreComponent implements OnInit {
     public datepipe: DatePipe,
     private dialogRef: MatDialogRef<ModalStoreComponent>,
     @Inject(MAT_DIALOG_DATA) public DATA_SCORE: any
-  ) {
-    // this.usuario = JSON.parse(localStorage.getItem('currentUser')
-  }
+  ) { }
 
   ngOnInit(): void {
     this.newFilfroForm();
 
-    this.cargarOBuscarScoreDetalle();
+    // this.cargarOBuscarScoreDetalle();
     this.cargarSCoreByID();
     this.isGestorTDP();
     this.getUsuario();
     this.getListEstado();
 
-    this.ListaHistoricoCambios(this.DATA_SCORE);
+    // this.ListaHistoricoCambios(this.DATA_SCORE);   // OJO DESHABILITAR
 
     console.log('DATA_SCORE', this.DATA_SCORE);
-    console.log('DATA_SCORE_ID', this.DATA_SCORE.idScoreM);
+    // console.log('DATA_SCORE_ID', this.DATA_SCORE.idScoreM);
     // console.log('FECHA_INCIO', moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
     console.log('HORA_X', formatDate(new Date(), 'hh:mm', 'en-US', ''));
     }
 
     newFilfroForm(){
       this.scoreForm = this.fb.group({
-        num_doc        : [''],
-        id_estado_m    : [''],
-        id_estado_d    : [''],
-        fecha_proceso  : [''],
         solicitante    : [''],
+        id_estado_m    : [''],
         id_score       : [''],
         fecha_envio    : [''],
         fecha_solicitud: [''],
+        user_crea      : [""],
         id_envio       : [''],
+
         observacion    : [''],
+        fecha_proceso  : [''],
+        num_doc        : [''],
+        id_estado_d    : [''],
+
       })
     }
 
-    // hasPermission(r: ROLES_ENUM[]): boolean {
-    //   if (r) {
-    //     return this.authService.accesoBtnMail(r)
-    //   }
-    //   return true;
-    // }
 
     rolGestorTdp: number = 0;
     isGestorTDP(){
@@ -129,7 +123,7 @@ export class ModalStoreComponent implements OnInit {
 
     if (!this.DATA_SCORE) {
       if (this.scoreForm.valid) {
-        // this.crearEvento()
+        this.crearScoreM()
       }
     } else {
       this.actualizarScore();
@@ -184,7 +178,39 @@ export class ModalStoreComponent implements OnInit {
     }});
   };
 
-  actionBtn: string = 'Registrar';
+  crearScoreM(){
+    const formValues = this.scoreForm.getRawValue();
+    let parametro: any =  {
+        queryId: 61,
+        mapValue: {
+          p_solicitante     : formValues.solicitante,
+          p_fecha_solicitud : formValues.fecha_solicitud,
+          p_fecha_envio     : formValues.fecha_envio,
+          p_idEstado        : 1, //ESTADO SOLICITADO,
+          p_Crea            : formValues.user_crea, // Varchar(50)
+          p_FCrea           : formValues.f_crea,
+          // p_fecha_creacion: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+          CONFIG_USER_ID       : this.userID,
+          CONFIG_OUT_MSG_ERROR : '',
+          CONFIG_OUT_MSG_EXITO : ''
+        },
+      };
+
+      console.log('VAOR', this.scoreForm.value , parametro);
+      this.scoreService.crearScore(parametro).subscribe((resp: any) => {
+        console.log('INSERT_SCORE_M', resp);
+
+        Swal.fire({
+          title: 'Crear Score!',
+          text: `Score, creado con éxito`,
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        });
+        this.close(true);
+      });
+    }
+
+  actionBtn: string = 'Agregar';
   cargarSCoreByID(){
     if (this.DATA_SCORE) {
     this.actionBtn = 'Actualizar'
@@ -257,6 +283,12 @@ export class ModalStoreComponent implements OnInit {
     this.cargarOBuscarScoreDetalle();
   };
 
+    // hasPermission(r: ROLES_ENUM[]): boolean {
+    //   if (r) {
+    //     return this.authService.accesoBtnMail(r)
+    //   }
+    //   return true;
+    // }
 
    listPageDisp: any[] = [];
    totalfiltro = 0;

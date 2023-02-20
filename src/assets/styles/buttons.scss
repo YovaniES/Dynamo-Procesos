@@ -178,7 +178,7 @@
   }
 }
 
-.btn-blue-light {
+.btn-mora-light {
   background-color: #bb96ff;
   color: #fff;
   transition: ease 0.3s;
@@ -214,7 +214,7 @@
   }
 }
 
-.btn-blue {
+.btn-mora {
   // background-color: $color-blue;
   background-color: #bb96ff;
   color: #fff;
@@ -226,6 +226,20 @@
     background-color: #dbc7ff;
   }
 }
+
+
+.btn-blue {
+  background-color: $color-blue;
+  color: #fff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-blue-l;
+  }
+  &:hover:enabled:active {
+    background-color: $color-blue-d;
+  }
+}
+
 .btn-turq {
   background-color: $color-turq;
   color: #fff;

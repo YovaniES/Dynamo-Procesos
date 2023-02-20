@@ -24,6 +24,9 @@ export class ScoreService {
   cargarOBuscarScoreDetalle(obj: any){
     return this.http.post(API_SCORE, obj);
   }
+  crearScore(obj: any){
+    return this.http.post(API_SCORE, obj);
+  }
 
   actualizarScore(obj: any){
     return this.http.post(API_SCORE, obj);

@@ -125,6 +125,16 @@ export class RegistroScoreComponent implements OnInit {
     this.page = event;
   }
 
+  CrearScore_M() {
+
+    const dialogRef = this.dialog.open(ModalStoreComponent, { width: '70%', height: '45%',});
+    dialogRef.afterClosed().subscribe((resp) => {
+        if (resp) {
+          this.cargarOBuscarScore();
+        }
+      });
+  }
+
   actualizarScore(DATA: any) {
     console.log('DATA_SCORE_MAESTRA', DATA);
 
