@@ -23,12 +23,12 @@ const routes: Routes = [
       loadChildren: () => import ('./views/pages/score/score.module').then((m)=>m.ScoreModule),
       canActivate: [ValidarTokenGuard],
     },
-    // {
-    //   path:'mantenimiento',
-    //   loadChildren: () => import ('./views/pages/mantenimiento/mantenimiento.module').then((m)=>m.MantenimientoModule),
-    //   canActivate: [ValidarTokenGuard],
-    //   // data: {rol_menu: [PERMISSION.MENU_MANTENIMIENTO]}
-    // },
+    {
+      path:'mantenimiento',
+      loadChildren: () => import ('./views/pages/mantenimiento/mantenimiento.module').then((m)=>m.MantenimientoModule),
+      canActivate: [ValidarTokenGuard],
+      // data: {rol_menu: [PERMISSION.MENU_MANTENIMIENTO]}
+    },
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     { path:'**', redirectTo:'/error/404' }
   ]

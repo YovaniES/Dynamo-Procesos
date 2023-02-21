@@ -1,0 +1,126 @@
+<div class="cli-card fit-card">
+  <div class="cli-card-body">
+    <div class="modal-title c-male">Mantenimiento Entidad</div>
+    <div>
+      <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
+      <div class="card" style="border-radius: 2px; font-weight: 600">
+        <div class="card-body" style="padding: 10px">
+          <form class="row g-3" [formGroup]="filtroForm">
+            <div class="col-sm-3 cli-form-element">
+              <label class="form-label">Entidad</label>
+              <select class="form-select" formControlName="entidad"
+                      #selectList
+                      (change)="getInfoTotalTablaEntidad(selectList.value, $event)">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="entidad.id"
+                        [id]="entidad.idPadre" *ngFor="let entidad of listEntidad">{{ entidad.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <div
+              class="col-sm-3 cli-form-buttonsx"
+              style="align-items: center; display: flex; margin-top: 36px">
+              <button
+                type="button"
+                matTooltip="Crea una nueva lista"
+                class="cli-btn btn-blue-light"
+                style="border-radius: 2px; padding: 0.225rem 0.75rem"
+                (click)="crearEntidadLista()"
+                ><mat-icon class="icon-18">add</mat-icon>
+                Crear entidad
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="pr-module-container mb-3 mt-4" *ngIf="filtroForm.controls['entidad'].value">
+      <div class="title-entidad c-male"> Listado de {{nombre}}</div>
+
+      <!-- BOTON MODAL PARA CREAR ENTIDADES ----------------------------------------------------->
+      <div style="display: flex" class="mb-1">
+        <button
+          class="cli-btn btn-blue"
+          style="margin: 0"
+          type="button"
+          (click)="agregarEntidadTabla()"
+        ><mat-icon class="icon-18">add</mat-icon>Agregar Entidad
+        </button>
+
+        <div class="flex-1"></div>
+        <div class="mt-2" style="color: #345df3; font-weight: 600">
+          Total : <span class="total">{{ listEntidadTabla.length }} Entidades</span>
+        </div>
+      </div>
+
+      <!-- TABLA DE ENTIDADES ------------------------------------------------------------------>
+      <div style="overflow: auto; min-height: 150px">
+        <table class="cli-table stripedtable underlinedtable">
+          <thead>
+            <tr class="bgc-blue-light c-white">
+              <th>Acción</th>
+              <th>ID Tabla</th>
+              <th>ID Correlativo</th>
+              <th style="text-align: left">Nombre</th>
+              <th>Descripción</th>
+              <!-- <th>Nombre Padre</th> -->
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="let entidad of listEntidadTabla | paginate:
+                      { itemsPerPage: pageSize,
+                        currentPage : page,
+                        totalItems  : totalEntidad }">
+              <td class="w90">
+                <div class="cli-table-actions">
+                  <button
+                    matTooltip="Actualizar"
+                    class="icon-btn btn-trans c-blue"
+                    (click)="actualizarEntidadTabla(entidad)"
+                    ><mat-icon class="icon-13">edit</mat-icon>
+                  </button>
+
+                  <button
+                    matTooltip="Eliminar"
+                    class="icon-btn btn-trans c-fucsia"
+                    (click)="abrirEliminarEntidad(entidad.id_tabla, entidad.id_correlativo, entidad.nombre)"
+                    ><mat-icon class="icon-13">delete_forever</mat-icon>
+                  </button>
+                </div>
+              </td>
+              <td class="w90">{{ entidad.id_tabla }}</td>
+              <td class="w90">{{ entidad.id_correlativo }}</td>
+              <td style="min-width:250px; text-align: left;">{{ entidad.valor_texto_1 }}</td>
+              <td style="text-align: left">{{ entidad.descripcion }}</td>
+              <!-- <td>{{ entidad.nombrePadre | firstCapital }}</td> -->
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="cli-loader" *ngIf="loadingItem">
+          <mat-spinner style="margin-right: 20px" diameter="20"></mat-spinner>
+          cargando...
+        </div>
+
+        <div
+          *ngIf="!loadingItem && listEntidadTabla.length == 0"
+          class="cli-loader mt-3"
+          style="color: #f83434"
+          >No hay Entidades para mostrar
+        </div>
+      </div>
+      <div class="card-footer pb-0 pt-3">
+        <pagination-controls
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          [responsive]="false"
+          (pageChange)="cambiarPagina($event)">
+        </pagination-controls>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

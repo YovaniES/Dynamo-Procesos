@@ -1,0 +1,86 @@
+<div style="display: flex">
+  <div class="flex-1"></div>
+  <div class="modal-title c-male">{{DATA_SCORE && DATA_SCORE.isCreation ? 'Agregar' : 'Actualizar'}} entidad </div>
+    <div class="flex-1"></div>
+
+    <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<form class="row g-3" [formGroup]="entidadTablaForm">
+  <div class="cli-form newvac-wrapper">
+    <div class="row g-3">
+
+      <ng-container *ngIf="!DATA_SCORE.isCreation">
+        <div class="col-sm-4 cli-form-element">
+          <div class="form-group">
+            <label>ID Tabla</label>
+            <input
+              type="number"
+              readonly="true"
+              style="text-align: center"
+              class="form-control cli-input-white"
+              formControlName="id_tabla"/>
+          </div>
+        </div>
+
+        <div class="col-sm-4 cli-form-element">
+          <div class="form-group">
+            <label>ID Correlativo </label>
+            <input
+              type="number"
+              style="text-align: center"
+              readonly="true"
+              class="form-control cli-input-white"
+              formControlName="idCorrelativo"/>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="col-sm-12 li-form-element">
+        <div class="form-group">
+          <label>Nombre *</label>
+          <input
+            type="text"
+            class="form-control cli-input-white"
+            formControlName="nombre"/>
+          <small class="text-alert" *ngIf="campoNoValido('nombre')">* El Nombre es obligatorio</small>
+        </div>
+      </div>
+
+      <div class="cli-form-element mb-2">
+        <label>Descripción</label>
+        <textarea
+          class="form-control"
+          style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
+          rows="3"
+          placeholder="Describa la entidad"
+          formControlName="descripcion"
+        ></textarea>
+      </div>
+
+      <!-- <div class="cli-form-element">
+        <label>Entidad Padre</label>
+        <select class="form-select" formControlName="idPadre">
+          <option [value]="0" disabled>- Seleccione -</option>
+          <option [value]="entidad.id_entidad"
+                   *ngFor="let entidad of entidadTabla">{{ entidad.nombre }}
+          </option>
+        </select>
+      </div> -->
+    </div>
+
+    <!-- --------------------------------------------BOTONES ------------------------------------------>
+    <div class="cli-form-buttons" style="margin-top: 8%">
+      <button class="cli-btn btn-m btn-cancel" type="submit" (click)="close()">
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+      </button>
+      <button class="cli-btn btn-m btn-blue"
+              (click)="agregarOactualizarTablaEntidad()"
+              [disabled]="entidadTablaForm.invalid"
+              ><mat-icon class="icon-18">save</mat-icon> {{btnAction}}
+      </button>
+    </div>
+  </div>
+</form>
