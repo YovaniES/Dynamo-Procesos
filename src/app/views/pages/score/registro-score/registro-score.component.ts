@@ -37,7 +37,7 @@ export class RegistroScoreComponent implements OnInit {
     this.newFilfroForm();
     this.cargarOBuscarScore();
     this.getListEstado();
-    this.cargarOBuscarScoreDetalle(1);
+    // this.cargarOBuscarScoreDetalle(1);
   }
 
   newFilfroForm(){
@@ -77,7 +77,6 @@ export class RegistroScoreComponent implements OnInit {
 
   listScoreDetalle: any[] = [];
   cargarOBuscarScoreDetalle(id_score: number){
-    // this.blockUI.start("Cargando Score detalle...");
     let parametro: any[] = [{
       "queryId": 56,
       "mapValue": {
@@ -85,11 +84,14 @@ export class RegistroScoreComponent implements OnInit {
       }
     }];
     this.scoreService.cargarOBuscarScoreDetalle(parametro[0]).subscribe((resp: any) => {
-    // this.blockUI.stop();
       this.listScoreDetalle = resp.list;
 
-      // this.spinner.hide();
+    this.exportExcellService.exportarExcel(this.listScoreDetalle, 'Score');
     });
+  }
+
+  exportarRegistro(id: number) {
+    this.cargarOBuscarScoreDetalle(id);
   }
 
   listEstado: any[] = [];
@@ -146,7 +148,5 @@ export class RegistroScoreComponent implements OnInit {
       });
   }
 
-  exportarRegistro() {
-    this.exportExcellService.exportarExcel(this.listScoreDetalle, 'Score');
-  }
+
 }

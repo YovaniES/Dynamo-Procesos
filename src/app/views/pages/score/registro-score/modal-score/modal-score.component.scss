@@ -20,7 +20,7 @@
   }
   & td {
     vertical-align: middle;
-    text-align: center;
+    // text-align: center;
     font-size: 0.7rem;
   }
   &-actions {
@@ -36,6 +36,69 @@
 
 .total {
   color: #97999b;
+}
+
+.obs-score{
+  min-width: 245px;color: #878f96;text-align: left;
+}
+
+.btn-obs {
+  border: none;
+  border-radius: 3px;
+  margin: 0 3px;
+  // font-family: "Webapp-Bold" !important;
+  display: flex;
+  align-items: center;
+  & mat-icon {
+    margin: 0 3px;
+  }
+  &:disabled {
+    background-color: #bcd7ff;
+    color: #fff;
+  }
+}
+
+.btn-obs-color{
+  // background-color: $color-blue;
+  color: #007bff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: $color-blue-l;
+    color: #fff
+  }
+  &:hover:enabled:active {
+    background-color: $color-blue-d;
+  }
+}
+
+.label {
+  // padding: 3px 10px;
+
+  padding: 2px 6px;
+  line-height: 13px;
+  color: #fff;
+  font-weight: 400;
+  border-radius: 4px;
+  font-size: 75%;
+  background-color: #398bf7;
+}
+
+.estado-reg {
+  background-color: #b5bec6;
+}
+
+.estado-compl {
+  background-color: #88f5d4;
+  color: #8c8a8a;
+}
+
+.estado-planif {
+  background-color: #ffdc73;
+  color: #8c8a8a;
+}
+
+.estado-pend {
+  background-color: #ff727f;
 }
 
 .btn-hardware {
@@ -81,26 +144,12 @@
   width: 50px; // OJO: FALTA VALIDAR
 }
 
-
-.label {
-  // padding: 3px 10px;
-  padding: 1px 6px;
-  line-height: 13px;
-  color: #fff;
-  font-weight: 400;
-  border-radius: 4px;
-  font-size: 75%;
-  background-color: #398bf7;
-  width: 190px;
-}
-
 .estado-danger {
   background-color: #ff727f;
 }
 .estado-info {
   background-color: #20c997;
 }
-
 
 .id-score {
   font-size: 18px;

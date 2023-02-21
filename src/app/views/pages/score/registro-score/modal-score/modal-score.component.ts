@@ -17,7 +17,8 @@ import { ROLES_ENUM } from 'src/app/core/constants/rol.constants';
 export class ModalStoreComponent implements OnInit {
   @BlockUI() blockUI!: NgBlockUI;
   scoreForm!: FormGroup;
-  // score_Id = this.DATA_SCORE.idScoreM
+
+  score_Id!: number;
 
   page = 1;
   totalScore: number = 0;
@@ -41,19 +42,26 @@ export class ModalStoreComponent implements OnInit {
   ngOnInit(): void {
     this.newFilfroForm();
 
-    // this.cargarOBuscarScoreDetalle();
-    this.cargarSCoreByID();
     this.isGestorTDP();
     this.getUsuario();
     this.getListEstado();
+    this.getListEstadoDetalle();
+    if (this.DATA_SCORE && this.DATA_SCORE.idScoreM){
+        this.score_Id = this.DATA_SCORE.idScoreM
 
-    // this.ListaHistoricoCambios(this.DATA_SCORE);   // OJO DESHABILITAR
+        this.cargarOBuscarScoreDetalle();
+        this.ListaHistoricoCambios(this.DATA_SCORE);
+        this.cargarSCoreByID();
+
+    }
+
 
     console.log('DATA_SCORE', this.DATA_SCORE);
     // console.log('DATA_SCORE_ID', this.DATA_SCORE.idScoreM);
     // console.log('FECHA_INCIO', moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
     console.log('HORA_X', formatDate(new Date(), 'hh:mm', 'en-US', ''));
     }
+
 
     newFilfroForm(){
       this.scoreForm = this.fb.group({
@@ -62,10 +70,10 @@ export class ModalStoreComponent implements OnInit {
         id_score       : [''],
         fecha_envio    : [''],
         fecha_solicitud: [''],
-        user_crea      : [""],
+        // user_crea      : [""],
         id_envio       : [''],
-
         observacion    : [''],
+
         fecha_proceso  : [''],
         num_doc        : [''],
         id_estado_d    : [''],
@@ -110,7 +118,7 @@ export class ModalStoreComponent implements OnInit {
       this.scoreService.cargarOBuscarScoreDetalle(parametro[0]).subscribe((resp: any) => {
       this.blockUI.stop();
 
-      //  console.log('Lista-score_DX', resp, resp.list.length);
+       console.log('Lista-score_D', resp, resp.list.length);
         this.listScoreDetalle = [];
         this.listScoreDetalle = resp.list;
 
@@ -212,7 +220,6 @@ export class ModalStoreComponent implements OnInit {
 
   actionBtn: string = 'Agregar';
   cargarSCoreByID(){
-    if (this.DATA_SCORE) {
     this.actionBtn = 'Actualizar'
       this.scoreForm.controls['id_score'   ].setValue(this.DATA_SCORE.idScoreM );
       this.scoreForm.controls['solicitante'].setValue(this.DATA_SCORE.solicitante);
@@ -239,7 +246,6 @@ export class ModalStoreComponent implements OnInit {
       }
 
       this.validarIfIsGestor();
-    }
   }
 
   listHistoricoCambios: any[] = [];
@@ -266,6 +272,16 @@ export class ModalStoreComponent implements OnInit {
     this.scoreService.getListEstado(parametro[0]).subscribe((resp: any) => {
       this.listEstado = resp.list;
       console.log('ESTADOS', resp.list);
+    });
+  }
+
+  listEstadoDetalle: any[] = [];
+  getListEstadoDetalle(){
+    let parametro: any[] = [{ queryId: 62 }];
+
+    this.scoreService.getListEstadoDetalle(parametro[0]).subscribe((resp: any) => {
+      this.listEstadoDetalle = resp.list;
+      console.log('ESTADOS_DETALLE', resp.list);
     });
   }
 

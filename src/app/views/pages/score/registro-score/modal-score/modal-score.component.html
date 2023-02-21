@@ -1,6 +1,6 @@
 <div style="display: flex">
   <div class="flex-1"></div>
-  <div class="modal-title c-male">{{ DATA_SCORE ? "Actualizar" : "Agregar" }} score</div>
+  <div class="modal-title c-male">{{ DATA_SCORE ? "Actualizar" : "Agregar" }} solicitud</div>
   <div class="flex-1"></div>
 
   <button (click)="close()" class="icon-btn btn-trans c-orange moda-close-btn">
@@ -15,7 +15,7 @@
     <div style="display: flex" >
       <div class="pr-subtitle mt-2">Datos del Score</div>
       <div class="flex-1"></div>
-      <!-- <div  class="id-score">ID : <span  class="total">{{score_Id}}</span></div> -->
+      <div  class="id-score">ID : <span  class="total">{{score_Id}}</span></div>
     </div>
 
       <div class="pr-section mb-3">
@@ -50,7 +50,6 @@
             <div class="col-sm-3 cli-form-element">
               <label class="form-label">Fecha de Solcitud</label>
               <mat-form-field appearance="outline">
-                <!-- <mat-label>Choose a date</mat-label> -->
                 <input matInput [matDatepicker]="picker_fs" formControlName="fecha_solicitud" >
                 <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
                 <mat-datepicker-toggle matSuffix [for]="picker_fs"></mat-datepicker-toggle>
@@ -58,14 +57,14 @@
               </mat-form-field>
             </div>
 
-              <div class="col-sm-3 cli-form-element" >
+              <!-- <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
                 <label class="form-label">Fecha Envío</label>
                 <mat-form-field appearance="outline">
                   <input matInput [matDatepicker]="picker_fe" formControlName="fecha_envio" >
                   <mat-datepicker-toggle matSuffix [for]="picker_fe"></mat-datepicker-toggle>
                   <mat-datepicker #picker_fe></mat-datepicker>
                 </mat-form-field>
-              </div>
+              </div> -->
           </div>
         </div>
       </div>
@@ -95,14 +94,13 @@
                         <label>Estado</label>
                         <select class="cli-input-white" formControlName="id_estado_d">
                           <option [value]="0" disabled>- Seleccione -</option>
-                          <option [value]="estado.idEstado"*ngFor="let estado of listEstado">{{ estado.cNombre }}</option>
+                          <option [value]="estado.id_correlativo"*ngFor="let estado of listEstadoDetalle">{{ estado.valor_texto_1 }}</option>
                         </select>
                       </div>
 
                       <div class="col-sm-3 cli-form-element">
                         <label class="form-label">Fecha Proceso</label>
                         <mat-form-field appearance="outline">
-                          <!-- <mat-label>Choose a date</mat-label> -->
                           <input matInput [matDatepicker]="picker_p" formControlName="fecha_proceso" >
                           <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
                           <mat-datepicker-toggle matSuffix [for]="picker_p"></mat-datepicker-toggle>
@@ -142,7 +140,7 @@
                     </div>
                   </div>
 
-                  <!-- TABLA DE LISTADO PERSONAL ------------------------------------------------------------------>
+                  <!-- TABLA DE LISTADO SCORE_DETALLE ------------------------------------------------------------------>
                   <div style="overflow: auto; min-height: 150px">
                     <table class="cli-table stripedtable underlinedtable">
                       <thead>
@@ -162,6 +160,7 @@
                           <th>Fecha Proceso</th>
                           <th>Solicitante</th>
                           <th>Cargo Fijo Máx.</th>
+                          <th>Observ.</th>
                         </tr>
                       </thead>
 
@@ -183,10 +182,30 @@
                           <td style="min-width: 85px;">{{ score.q_lineas }}</td>
                           <td style="min-width: 90px;">{{ score.codigo_fin }}</td>
                           <td style="min-width: 90px;">{{ score.idrequerimiento }}</td>
-                          <td>{{ score.estado }}</td>
+
+                          <td style="min-width: 118px;">
+                            <span *ngIf="score.estado == 'Solicitado'"       class="label estado-compl"> {{ score.estado | uppercase }}</span>
+                            <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label estado-planif">{{ score.estado | uppercase }}</span>
+                            <span *ngIf="score.estado == 'No existe LB'"     class="label estado-pend "> {{ score.estado | uppercase }}</span>
+                          </td>
+
                           <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
                           <td class="w100">{{ score.solicitante }}</td>
                           <td style="min-width: 110px;">{{ score.cargo_fijo_max }}</td>
+                          <td class="obs-score">
+                            <ng-container *ngIf="score.estado != 'Solicitado'">
+                              <div style="display: flex">
+                                <button
+                                  class="btn-obs btn-obs-color"
+                                  style="margin: 0"
+                                  type="button"
+                                  matTooltip="Actualizar"
+                                  ><mat-icon class="icon-13">loupe</mat-icon>
+                                </button>{{ score.observacion }}
+                                <!-- (click)="CrearScore_M()" -->
+                            </div>
+                            </ng-container>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -224,7 +243,7 @@
       </ng-container>
 
 
-      <!-- MOTIVOS Y COMENTARIOS ------------------------------------------------------------------------->
+      <!-- COMENTARIOS U OBSERVACION ------------------------------------------------------------------------->
       <ng-container *ngIf="DATA_SCORE">
         <div class="pr-subtitle mt-1">Observación</div>
         <div class="pr-section mb-3">
@@ -233,8 +252,8 @@
               <div class="col-sm-12 cli-form-element">
                 <textarea
                   class="form-control"
-                  style="background-image: none;border-color: #a5a4a4;font-size: 14px;"
-                  rows="3"
+                  style="background-image: none;border-color: #a5a4a4;font-size: 12px;"
+                  rows="2"
                   placeholder="Describa alguna Observación del Score"
                   formControlName="observacion">
                 </textarea>
