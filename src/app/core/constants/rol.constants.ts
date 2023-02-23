@@ -4,9 +4,18 @@ export const ROL_USUARIO = {
 }
 
 export const ROL_GESTOR = {
-  // rolID: '106',
-  rolID: '1',
-  name: 'Gestor'
+  rolID   : '202',
+  name_rol: 'Gestor TDP'
+}
+
+export const ROL_SOLICITANTE = {
+  rolID   : '201',
+  name_rol: 'Solicitante'
+}
+
+export const ADMIN = {
+  rolID   : '200',
+  name_rol: 'Admin'
 }
 
 export enum ROLES_ENUM {
@@ -16,7 +25,4 @@ export enum ROLES_ENUM {
   SUPER_ADMIN = '105',
   GESTOR      = '106',
   LIDER       = '107',
-
-  ADMIN2      = 1,
-  AUDITOR     = 2
 }

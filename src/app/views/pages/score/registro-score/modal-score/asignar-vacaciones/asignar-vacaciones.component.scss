@@ -1,0 +1,28 @@
+@import "variables.scss";
+
+.text-alert {
+  font-size: 10px;
+  color: #f66d7a;
+  margin-top: 0;
+}
+
+.modal-title {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin: 4px 0;
+  text-align: center;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0.14em;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0 0;
+}
+
+.pr-subtitle {
+  font-size: 12px;
+  font-family: "Webapp-Bold";
+  color: $color-green;
+}

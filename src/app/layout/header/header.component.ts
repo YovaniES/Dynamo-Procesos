@@ -25,8 +25,7 @@ export class HeaderComponent implements OnInit {
 
   currentUser: string = ''
   userFullName() {
-    this.authService.getCurrentUser()
-        .subscribe((resp) => {
+    this.authService.getCurrentUser().subscribe((resp) => {
           this.currentUser = resp.user.nombres + ' '+ resp.user.apellidoPaterno ;
           // console.log('USER-NEW', this.currentUser);
         })

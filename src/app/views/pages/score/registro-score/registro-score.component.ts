@@ -129,7 +129,7 @@ export class RegistroScoreComponent implements OnInit {
 
   CrearScore_M() {
 
-    const dialogRef = this.dialog.open(ModalStoreComponent, { width: '70%', height: '45%',});
+    const dialogRef = this.dialog.open(ModalStoreComponent, { width: '70%', height: '30%',});
     dialogRef.afterClosed().subscribe((resp) => {
         if (resp) {
           this.cargarOBuscarScore();

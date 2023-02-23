@@ -1,6 +1,6 @@
 <div class="cli-card fit-card">
   <div class="cli-card-body">
-    <div class="modal-title c-male">Envío de Score</div>
+    <div class="modal-title c-male">Solicitud Envío de Score</div>
     <div>
       <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
       <div class="card" style="border-radius: 2px; font-weight: 600; padding: 7px">
@@ -123,11 +123,11 @@
                 </div>
               </td>
               <td class="w150"> {{ score.idScoreM }}</td>
-              <td >{{ score.solicitante | uppercase }}</td>
+              <td >{{ score.solicitante}}</td>
               <td>{{ score.fecha_solicitud }}</td>
               <td class="w100">{{ score.fecha_envio }}</td>
               <td>{{ score.estado}}</td>
-              <td>{{ score.Crea }}</td>
+              <td>{{ score.Crea | uppercase }}</td>
               <td>{{ score.fecha_crea }}</td>
               <td>{{ score.Actualiza }}</td>
               <td style="min-width: 95px">{{ score.fecha_actualizacion }}</td>

@@ -18,8 +18,11 @@ switch (ENVIROMENT) {
 
 
     // PATH_AUDITORIA_AUTH = 'http://sistemanocseguridadapi.indratools.com/aut/seguridad/';
-    PATH_AUDITORIA_AUTH = 'http://auditoriaseguridadapi2.indratools.com/aut/seguridad/';
     // PATH_AUDITORIA_AUTH =  'http://localhost:3080/aut/seguridad';
+
+
+    // PATH_AUDITORIA_AUTH = 'http://auditoriaseguridadapi2.indratools.com/aut/seguridad/';
+    PATH_AUDITORIA_AUTH = 'http://seguridadweb.indratools.com/aut/seguridad/'
 
     break;
   default:

@@ -1,13 +1,15 @@
 import { DatePipe, formatDate } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup,  } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators,  } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ScoreService } from 'src/app/core/services/score.service';
 import Swal from 'sweetalert2';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ROLES_ENUM } from 'src/app/core/constants/rol.constants';
+import { AsignarVacacionesComponent } from './asignar-vacaciones/asignar-vacaciones.component';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-modal-evento',
@@ -27,6 +29,7 @@ export class ModalStoreComponent implements OnInit {
   usuario: any;
   loadingItem: boolean = false;
   userID: number = 0;
+  userName: string = '';
 
   constructor(
     private scoreService: ScoreService,
@@ -35,15 +38,16 @@ export class ModalStoreComponent implements OnInit {
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
     public datepipe: DatePipe,
+    private dialog: MatDialog,
     private dialogRef: MatDialogRef<ModalStoreComponent>,
     @Inject(MAT_DIALOG_DATA) public DATA_SCORE: any
   ) { }
 
   ngOnInit(): void {
     this.newFilfroForm();
-
     this.isGestorTDP();
-    this.getUsuario();
+    this.getUsername();
+    this.getUserID();
     this.getListEstado();
     this.getListEstadoDetalle();
     if (this.DATA_SCORE && this.DATA_SCORE.idScoreM){
@@ -52,35 +56,45 @@ export class ModalStoreComponent implements OnInit {
         this.cargarOBuscarScoreDetalle();
         this.ListaHistoricoCambios(this.DATA_SCORE);
         this.cargarSCoreByID();
-
     }
-
-
     console.log('DATA_SCORE', this.DATA_SCORE);
     // console.log('DATA_SCORE_ID', this.DATA_SCORE.idScoreM);
-    // console.log('FECHA_INCIO', moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
-    console.log('HORA_X', formatDate(new Date(), 'hh:mm', 'en-US', ''));
     }
 
 
     newFilfroForm(){
       this.scoreForm = this.fb.group({
+        // solicitante    : [this.userName],
         solicitante    : [''],
         id_estado_m    : [''],
         id_score       : [''],
-        fecha_envio    : [''],
+        fecha_envio    : ['', Validators.required],
         fecha_solicitud: [''],
-        // user_crea      : [""],
-        id_envio       : [''],
+        id_envio       : ['', Validators.required],
         observacion    : [''],
 
         fecha_proceso  : [''],
         num_doc        : [''],
         id_estado_d    : [''],
-
       })
     }
 
+    scorelData: any;
+    readExcell(e: any){
+      let file = e.target.files[0];
+      let fileReader = new FileReader();
+
+      fileReader.readAsBinaryString(file)
+
+      fileReader.onload = e => {
+        var wb = XLSX.read(fileReader.result, { type: 'binary'})
+        var sheetNames = wb.SheetNames;
+
+        this.scorelData = XLSX.utils.sheet_to_json(wb.Sheets[sheetNames[0]])
+
+        console.log('DATA_EXCELL', this.scorelData);
+      }
+    }
 
     rolGestorTdp: number = 0;
     isGestorTDP(){
@@ -153,7 +167,7 @@ export class ModalStoreComponent implements OnInit {
           p_fecha_solicitud    : formValues.fecha_solicitud,
           p_fecha_envio        : formValues.fecha_envio,
           p_idEstado           : formValues.id_estado_m,
-          p_Actualiza          : 'Jhon S',
+          p_Actualiza          : this.userName,
           p_FActualiza         : '',
           p_observacion        : formValues.observacion,
           p_idEnvio            : formValues.id_envio,
@@ -191,7 +205,8 @@ export class ModalStoreComponent implements OnInit {
     let parametro: any =  {
         queryId: 61,
         mapValue: {
-          p_solicitante     : formValues.solicitante,
+          p_solicitante     : this.userName,
+          // p_solicitante     : formValues.solicitante,
           p_fecha_solicitud : formValues.fecha_solicitud,
           p_fecha_envio     : formValues.fecha_envio,
           p_idEstado        : 1, //ESTADO SOLICITADO,
@@ -285,10 +300,18 @@ export class ModalStoreComponent implements OnInit {
     });
   }
 
-  getUsuario(){
+  getUserID(){
     this.authService.getCurrentUser().subscribe( resp => {
       this.userID   = resp.user.userId;
-      // console.log('ID-USER', this.userID);
+      console.log('ID-USER', this.userID);
+    })
+   }
+
+
+   getUsername(){
+    this.authService.getCurrentUser().subscribe( resp => {
+      this.userName = resp.userName
+      console.log('USER_NAME', this.userName);
     })
    }
 
@@ -323,6 +346,27 @@ export class ModalStoreComponent implements OnInit {
        this.page = event;
    }
 
+   asignarVacaciones(){
+    // const diasVacaciones = this.scoreService.calcularDifDias(this.scoreForm.controls['fechaFinVac'].value, this.vacacionesForm.controls['fechaInicVac'].value);
+    // console.log('FORMULARIO', this.vacacionesForm.value, this.utilService.calcularDifDias(this.vacacionesForm.controls['fechaFinVac'].value, this.vacacionesForm.controls['fechaInicVac'].value));
+    const dialogRef = this.dialog.open(AsignarVacacionesComponent, { width:'35%', data: {vacForm: this.scoreForm.value, isCreation: true, } });
+
+    dialogRef.afterClosed().subscribe(resp => {
+      console.log('CLOSE', resp);
+
+      if (resp) {
+        // this.cargarPeriodoVacaciones()
+      }
+    })
+  };
+
+  campoNoValido(campo: string): boolean {
+    if (this.scoreForm.get(campo)?.invalid && this.scoreForm.get(campo)?.touched) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   close(succes?: boolean) {
     this.dialogRef.close(succes);

@@ -40,13 +40,13 @@ export class AuthService {
     if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_USUARIO.rolID ) {
       return null
     } else {
-      return usuarioLogeado.unique_name
+      return usuarioLogeado.name
     }
   }
 
   getRolId(){
     const usuarioLogeado: any = this.decodeToken();
-    // console.log('ROL_ID', usuarioLogeado);
+    console.log('ROL_ID_TOKEN', usuarioLogeado);
 
     if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_USUARIO.rolID ) {
       return null
@@ -66,12 +66,7 @@ export class AuthService {
     }
   }
 
-  getUsername() {
-    const decodedToken: any = this.decodeToken();
-    // console.log('UNIQUE_NAME', decodedToken);
-    return decodedToken ? decodedToken.unique_name : '';
-  }
-
+    //userName:jahgamarra
   // unique_name:"jysantiago"
   getCurrentUser() {
     const currentUser: any = localStorage.getItem('currentUser');
@@ -79,6 +74,12 @@ export class AuthService {
     return of(currentUser ? JSON.parse(currentUser) : '');
   }
 
+  getUsername() {
+    const decodedToken: any = this.decodeToken();
+    console.log('UNIQUE_NAME', decodedToken, decodedToken.name);
+    console.log('USER_NAME', decodedToken.name);
+    return decodedToken ? decodedToken.name : '';
+  }
 
   decodeToken() {
     const token = localStorage.getItem('token');

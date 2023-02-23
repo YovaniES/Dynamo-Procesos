@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent  {
 
   loginForm: FormGroup = this.fb.group({
+    idaplicacion: [4],
     username    : ['', [Validators.required]],
     password    : ['', [Validators.required, Validators.minLength(6)]],
   });
