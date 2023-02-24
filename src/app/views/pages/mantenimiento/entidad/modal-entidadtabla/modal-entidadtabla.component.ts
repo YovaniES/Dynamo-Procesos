@@ -90,7 +90,7 @@ export class ModalEntidadtablaComponent implements OnInit {
     const formValues = this.entidadTablaForm.getRawValue();
 
     let parametro: any =  {
-        queryId: 52,
+        queryId: 70,
         mapValue: {
           "param_nombre"        : formValues.nombre,
           "param_descripcion"   : formValues.descripcion,

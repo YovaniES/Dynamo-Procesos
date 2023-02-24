@@ -31,11 +31,10 @@
               </div>
 
             <div class="col-sm-3 cli-form-element">
-              <label>Envío</label>
+              <label>Formato de Envío</label>
               <select class="cli-input-white" formControlName="id_envio">
-                <option [value]="10" disabled>- Seleccione -</option>
-                <option [value]= 0 >Individual</option>
-                <option [value]= 1 >Masivo</option>
+                  <option [value]="0" disabled>- Seleccione -</option>
+                  <option [value]="f.id_correlativo" *ngFor="let f of listFormEnvio">{{ f.valor_texto_1 }}</option>
               </select>
               <small class="form-text text-alert" *ngIf="campoNoValido('id_envio')">* Selecione el Envío es obligatorio</small>
             </div>
@@ -47,6 +46,16 @@
                 <option [value]="estado.idEstado"*ngFor="let estado of listEstado">{{ estado.cNombre }}</option>
               </select>
             </div>
+
+            <!-- <div class="col-sm-3 cli-form-element">
+              <label>Carga Arch.</label>
+              <select class="cli-input-white" formControlName="id_carga">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="carga.id_correlativo" *ngFor="let carga of listCargaArchivo">{{ carga.valor_texto_1 }}</option>
+              </select>
+              <small class="form-text text-alert" *ngIf="campoNoValido('id_carga')">* Selecione el tipo de carga es obligatorio</small>
+            </div> -->
+
 
             <!-- <div class="col-sm-3 cli-form-element">
               <label class="form-label">Fecha de Solcitud</label>
@@ -67,13 +76,12 @@
               <small class="form-text text-alert" *ngIf="campoNoValido('fecha_envio')">* Indique la fecha de Envío es obligatorio</small>
             </div>
 
-            <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
+            <!-- <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
               <label>Importar</label>
               <input type="file"
               (change)="readExcell($event)">
-            </div>
+            </div> -->
             <!-- value="" -->
-
           </div>
         </div>
       </div>
@@ -84,12 +92,35 @@
         <div class="pr-subtitle mt-1">Detalle Score</div>
         <div class="pr-section mb-3">
           <div class="pr-module-container">
+            <div class="row g-2">
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Carga Arch.</label>
+                <select class="cli-input-white" formControlName="id_carga">
+                  <option [value]="0" disabled>- Seleccione -</option>
+                  <option [value]="carga.id_correlativo" *ngFor="let carga of listCargaArchivo">{{ carga.valor_texto_1 }}</option>
+                </select>
+                <small class="form-text text-alert" *ngIf="campoNoValido('id_carga')">* Selecione el tipo de carga es obligatorio</small>
+              </div>
+
+              <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
+                <label>Importar</label>
+                <input type="file"
+                (change)="readExcell($event)">
+              </div>
+              <!-- value="" -->
+            </div>
+          </div>
+        </div>
+
+        <div class="pr-section mb-3">
+          <div class="pr-module-container">
             <div class="cli-card">
               <div style="padding: 2px 2px">
                 <div>
                   <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
                   <div class="buscar">
-                    <div class="row g-3">
+                    <div class="row ">
                       <div class="col-sm-3 cli-form-element">
                         <label class="form-label">N° Documento</label>
                         <input
@@ -137,152 +168,150 @@
                           </button>
                         </div>
                       </div>
-                    </div>
-                  </div>
 
-                  <!-- BOTON MODAL PARA AGREGAR PEERSONAL ----------------------------------------------------->
-                  <div style="display: flex">
-                    <div class="flex-1"></div>
-                    <div style="color: #bb96ff">
-                      Total :
-                      <span class="total">{{ listScoreDetalle.length }} Score detalle</span>
-                    </div>
-                  </div>
+                      <div style="display: flex">
 
-                  <!-- TABLA DE LISTADO SCORE_DETALLE ------------------------------------------------------------------>
-                  <div style="overflow: auto; min-height: 150px">
-                    <table class="cli-table stripedtable underlinedtable">
-                      <thead>
-                        <tr class="bgc-blue-light c-white">
-                          <!-- <th>Acción</th> -->
-                          <!-- <th>ID Score DET</th> -->
-                          <th>ID Score</th>
-                          <th>Tipo Doc</th>
-                          <th>N° Documento</th>
-                          <th>Segmento</th>
-                          <th>Score</th>
-                          <th>Nombres Apell.</th>
-                          <th>Q Lineas</th>
-                          <th>Cód. Financ.</th>
-                          <th>ID REQ.</th>
-                          <th>Estado</th>
-                          <th>Fecha Proceso</th>
-                          <th>Solicitante</th>
-                          <th>Cargo Fijo Máx.</th>
-                          <th>Observ.</th>
-                        </tr>
-                      </thead>
+                        <div class="flex-1"></div>
+                        <div style="color: #bb96ff">
+                          Total :
+                          <span class="total">{{ listScoreDetalle.length }} Score detalle</span>
+                        </div>
+                      </div>
 
-                      <!-- CAPACIDADFINANCIAMIENTO: 300
-                      CARGOFIJOMAXIMO: 200
-                      COD.FINANCIAMIENTO: 5
-                      FECHAPROCESO:44966
-                      Financiamiento:0
-                      N°DOCUMENTO:"222107360"
-                      OBSERVACIONES:"CEXparapruebasdebidoalamodalidaddecampañayscore"
-                      QLINEAS:0
-                      SCORE:2709
-                      Segmento:"Móvil"
-                      TIPODOCUMENTO:"CEX" -->
-                      <tbody>
-                        <tr
-                          *ngFor="let score of scorelData | paginate: {
-                                    itemsPerPage: pageSize,
-                                    id: 'score',
-                                    currentPage: page,
-                                    totalItems: totalScore }">
-                          <td style="min-width: 90px;">{{ score.CAPACIDADFINANCIAMIENTO }}</td>
-                          <!-- <td style="min-width: 80px;">{{ score.idscore }}</td> -->
-                          <td style="min-width: 80px;">{{ score.CARGOFIJOMAXIMO }}</td>
-                          <td style="min-width: 100px;">{{ score.NDOCUMENTO}}</td>
-                          <td>{{ score.FECHAPROCESO }}</td>
-                          <td class="w100">{{ score.score }}</td>
-                          <td style="min-width: 150px;">{{ score.SCORE }}</td>
-                          <td style="min-width: 85px;" >{{ score.QLINEAS }}</td>
-                          <td style="min-width: 90px;" >{{ score.Segmento }}</td>
-                          <td style="min-width: 90px;" >{{ score.TIPODOCUMENTO }}</td>
+                      <!-- TABLA DE LISTADO SCORE_DETALLE ------------------------------------------------------------------>
+                      <div style="overflow: auto; min-height: 150px">
+                        <table class="cli-table stripedtable underlinedtable">
+                          <thead>
+                            <tr class="bgc-blue-light c-white">
+                              <!-- <th>Acción</th> -->
+                              <!-- <th>ID Score DET</th> -->
+                              <th>ID Score</th>
+                              <th>Tipo Doc</th>
+                              <th>N° Documento</th>
+                              <th>Segmento</th>
+                              <th>Score</th>
+                              <th>Nombres Apell.</th>
+                              <th>Q Lineas</th>
+                              <th>Cód. Financ.</th>
+                              <th>ID REQ.</th>
+                              <th>Estado</th>
+                              <th>Fecha Proceso</th>
+                              <th>Solicitante</th>
+                              <th>Cargo Fijo Máx.</th>
+                              <th>Observ.</th>
+                            </tr>
+                          </thead>
 
-                          <td style="min-width: 118px;">
-                            <span *ngIf="score.estado == 'Solicitado'"       class="label estado-compl"> {{ score.estado | uppercase }}</span>
-                            <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label estado-planif">{{ score.estado | uppercase }}</span>
-                            <span *ngIf="score.estado == 'No existe LB'"     class="label estado-pend "> {{ score.estado | uppercase }}</span>
-                          </td>
+                          <!-- CAPACIDADFINANCIAMIENTO: 300
+                          CARGOFIJOMAXIMO: 200
+                          COD.FINANCIAMIENTO: 5
+                          FECHAPROCESO:44966
+                          Financiamiento:0
+                          N°DOCUMENTO:"222107360"
+                          OBSERVACIONES:"CEXparapruebasdebidoalamodalidaddecampañayscore"
+                          QLINEAS:0
+                          SCORE:2709
+                          Segmento:"Móvil"
+                          TIPODOCUMENTO:"CEX" -->
+                          <tbody>
+                            <!-- <tr
+                              *ngFor="let score of scorelData | paginate: {
+                                        itemsPerPage: pageSize,
+                                        id: 'score',
+                                        currentPage: page,
+                                        totalItems: totalScore }">
+                              <td style="min-width: 90px;" >{{ score.CAPACIDADFINANCIAMIENTO }}</td>
+                              <td style="min-width: 80px;" >{{ score.CARGOFIJOMAXIMO }}</td>
+                              <td style="min-width: 100px;">{{ score.NDOCUMENTO}}</td>
+                              <td>{{ score.FECHAPROCESO }}</td>
+                              <td class="w100">{{ score.score }}</td>
+                              <td style="min-width: 150px;">{{ score.SCORE }}</td>
+                              <td style="min-width: 85px;" >{{ score.QLINEAS }}</td>
+                              <td style="min-width: 90px;" >{{ score.Segmento }}</td>
+                              <td style="min-width: 90px;" >{{ score.TIPODOCUMENTO }}</td>
 
-                          <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
-                          <td class="w100">{{ score.solicitante }}</td>
-                          <td style="min-width: 110px;">{{ score.cargo_fijo_max }}</td>
-                          <td class="obs-score">
-                            <ng-container *ngIf="score.estado != 'Solicitado'">
-                              <div style="display: flex">
-                                <button
-                                  class="btn-obs btn-obs-color"
-                                  style="margin: 0"
-                                  type="button"
-                                  (click)="asignarVacaciones()"
-                                  matTooltip="Actualizar"
-                                  ><mat-icon class="icon-13">loupe</mat-icon>
-                                </button>{{ score.OBSERVACIONES }}
-                                <!-- (click)="CrearScore_M()" -->
-                            </div>
-                            </ng-container>
-                          </td>
-                        </tr>
+                              <td style="min-width: 118px;">
+                                <span *ngIf="score.estado == 'Solicitado'"       class="label estado-compl"> {{ score.estado | uppercase }}</span>
+                                <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label estado-planif">{{ score.estado | uppercase }}</span>
+                                <span *ngIf="score.estado == 'No existe LB'"     class="label estado-pend "> {{ score.estado | uppercase }}</span>
+                              </td>
 
-                        <!-- <tr
-                        *ngFor="let score of listScoreDetalle | paginate: {
-                                  itemsPerPage: pageSize,
-                                  id: 'score',
-                                  currentPage: page,
-                                  totalItems: totalScore }">
-                        <td style="min-width: 90px;">{{ score.idScored }}</td>
-                        <td style="min-width: 80px;">{{ score.tipo_documento }}</td>
-                        <td style="min-width: 100px;">{{ score.numero_documento }}</td>
-                        <td>{{ score.segmento }}</td>
-                        <td class="w100">{{ score.score }}</td>
-                        <td style="min-width: 150px;">{{ score.nombres | uppercase }}</td>
-                        <td style="min-width: 85px;" >{{ score.q_lineas }}</td>
-                        <td style="min-width: 90px;" >{{ score.codigo_fin }}</td>
-                        <td style="min-width: 90px;" >{{ score.idrequerimiento }}</td>
+                              <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
+                              <td class="w100">{{ score.solicitante }}</td>
+                              <td style="min-width: 110px;">{{ score.cargo_fijo_max }}</td>
+                              <td class="obs-score">
+                                <ng-container *ngIf="score.estado != 'Solicitado'">
+                                  <div style="display: flex">
+                                    <button
+                                      class="btn-obs btn-obs-color"
+                                      style="margin: 0"
+                                      type="button"
+                                      (click)="asignarObservacion()"
+                                      matTooltip="Actualizar"
+                                      ><mat-icon class="icon-13">loupe</mat-icon>
+                                    </button>{{ score.OBSERVACIONES }}
+                                </div>
+                                </ng-container>
+                              </td>
+                            </tr> -->
 
-                        <td style="min-width: 118px;">
-                          <span *ngIf="score.estado == 'Solicitado'"       class="label estado-compl"> {{ score.estado | uppercase }}</span>
-                          <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label estado-planif">{{ score.estado | uppercase }}</span>
-                          <span *ngIf="score.estado == 'No existe LB'"     class="label estado-pend "> {{ score.estado | uppercase }}</span>
-                        </td>
+                            <tr
+                            *ngFor="let score of listScoreDetalle | paginate: {
+                                      itemsPerPage: pageSize,
+                                      id: 'score',
+                                      currentPage: page,
+                                      totalItems: totalScore }">
+                            <td style="min-width: 90px;">{{ score.idScored }}</td>
+                            <td style="min-width: 80px;">{{ score.tipo_documento }}</td>
+                            <td style="min-width: 100px;">{{ score.numero_documento }}</td>
+                            <td>{{ score.segmento }}</td>
+                            <td class="w100">{{ score.score }}</td>
+                            <td style="min-width: 150px;">{{ score.nombres | uppercase }}</td>
+                            <td style="min-width: 85px;" >{{ score.q_lineas }}</td>
+                            <td style="min-width: 90px;" >{{ score.codigo_fin }}</td>
+                            <td style="min-width: 90px;" >{{ score.idrequerimiento }}</td>
 
-                        <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
-                        <td class="w100">{{ score.solicitante }}</td>
-                        <td style="min-width: 110px;">{{ score.cargo_fijo_max }}</td>
-                        <td class="obs-score">
-                          <ng-container *ngIf="score.estado != 'Solicitado'">
-                            <div style="display: flex">
-                              <button
-                                class="btn-obs btn-obs-color"
-                                style="margin: 0"
-                                type="button"
-                                (click)="asignarVacaciones()"
-                                matTooltip="Actualizar"
-                                ><mat-icon class="icon-13">loupe</mat-icon>
-                              </button>{{ score.observacion }}
-                          </div>
-                          </ng-container>
-                        </td>
-                      </tr> -->
-                      </tbody>
-                    </table>
+                            <td style="min-width: 118px;">
+                              <span *ngIf="score.estado == 'Solicitado'"       class="label estado-compl"> {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label estado-planif">{{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'No existe LB'"     class="label estado-pend "> {{ score.estado | uppercase }}</span>
+                            </td>
 
-                    <div class="cli-loader" *ngIf="loadingItem">
-                      <mat-spinner
-                        style="margin-right: 20px"
-                        diameter="20"
-                      ></mat-spinner>cargando...
-                    </div>
+                            <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
+                            <td class="w100">{{ score.solicitante }}</td>
+                            <td style="min-width: 110px;">{{ score.cargo_fijo_max }}</td>
+                            <td class="obs-score">
+                              <ng-container *ngIf="score.estado != 'Solicitado'">
+                                <div style="display: flex">
+                                  <button
+                                    class="btn-obs btn-obs-color"
+                                    style="margin: 0"
+                                    type="button"
+                                    (click)="asignarObservacion()"
+                                    matTooltip="Actualizar"
+                                    ><mat-icon class="icon-13">loupe</mat-icon>
+                                  </button>{{ score.observacion }}
+                              </div>
+                              </ng-container>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
 
-                    <div
-                      *ngIf="!loadingItem && listScoreDetalle.length == 0"
-                      class="cli-loader mt-5"
-                      style="color: #f83434">
-                      No hay Score disponible para mostrar
+                        <div class="cli-loader" *ngIf="loadingItem">
+                          <mat-spinner
+                            style="margin-right: 20px"
+                            diameter="20"
+                          ></mat-spinner>cargando...
+                        </div>
+
+                        <div
+                          *ngIf="!loadingItem && listScoreDetalle.length == 0"
+                          class="cli-loader mt-5"
+                          style="color: #f83434">
+                          No hay Score disponible para mostrar
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -324,7 +353,7 @@
         </div>
       </ng-container>
 
-      <!-- HISTORICO DE HARDWARE ------------------------------------------------------------------------->
+      <!-- HISTORICO DE SCORE ------------------------------------------------------------------------->
       <div *ngIf="DATA_SCORE">
         <div class="pr-subtitle mt-2">Histórico de cambios</div>
         <div class="pr-section mb-3">

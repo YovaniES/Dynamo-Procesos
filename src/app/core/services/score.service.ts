@@ -36,6 +36,14 @@ export class ScoreService {
     return this.http.post(API_SCORE, obj);
   }
 
+  getListFormatoEnvio(obj: any){
+    return this.http.post(API_SCORE, obj);
+  }
+
+  getListCargaArchivo(obj: any){
+    return this.http.post(API_SCORE, obj);
+  }
+
   getListEstadoDetalle(obj: any){
     return this.http.post(API_SCORE, obj);
   }

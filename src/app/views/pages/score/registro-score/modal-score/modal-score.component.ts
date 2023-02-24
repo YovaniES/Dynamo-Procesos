@@ -8,7 +8,7 @@ import { ScoreService } from 'src/app/core/services/score.service';
 import Swal from 'sweetalert2';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ROLES_ENUM } from 'src/app/core/constants/rol.constants';
-import { AsignarVacacionesComponent } from './asignar-vacaciones/asignar-vacaciones.component';
+import { AsignarObservacionComponent } from './asignar-observacion/asignar-observacion.component';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -50,6 +50,8 @@ export class ModalStoreComponent implements OnInit {
     this.getUserID();
     this.getListEstado();
     this.getListEstadoDetalle();
+    this.getListFormatoEnvio();
+    this.getListCargaArchivo();
     if (this.DATA_SCORE && this.DATA_SCORE.idScoreM){
         this.score_Id = this.DATA_SCORE.idScoreM
 
@@ -72,7 +74,7 @@ export class ModalStoreComponent implements OnInit {
         fecha_solicitud: [''],
         id_envio       : ['', Validators.required],
         observacion    : [''],
-
+        id_carga       : ['', Validators.required],
         fecha_proceso  : [''],
         num_doc        : [''],
         id_estado_d    : [''],
@@ -98,12 +100,6 @@ export class ModalStoreComponent implements OnInit {
 
     rolGestorTdp: number = 0;
     isGestorTDP(){
-      // this.authService.getRolID().suscribe( (resp: any) => {
-      //    this.rolGestorTdp = resp.user.rolId
-
-      //   console.log('ID_ROL_TDP', this.rolGestorTdp);
-      // })
-
       this.rolGestorTdp = this.authService.getRolID();
         console.log('ID_ROL_TDP', this.rolGestorTdp);
     };
@@ -171,7 +167,6 @@ export class ModalStoreComponent implements OnInit {
           p_FActualiza         : '',
           p_observacion        : formValues.observacion,
           p_idEnvio            : formValues.id_envio,
-
           CONFIG_USER_ID       : this.userID ,
           CONFIG_OUT_MSG_ERROR : '' ,
           CONFIG_OUT_MSG_EXITO : ''
@@ -210,9 +205,10 @@ export class ModalStoreComponent implements OnInit {
           p_fecha_solicitud : formValues.fecha_solicitud,
           p_fecha_envio     : formValues.fecha_envio,
           p_idEstado        : 1, //ESTADO SOLICITADO,
-          p_Crea            : formValues.user_crea, // Varchar(50)
+          p_Crea            : this.userName,
           p_FCrea           : formValues.f_crea,
-          // p_fecha_creacion: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+          p_idEnvio         : formValues.id_envio,
+          p_id_carga        : formValues.id_carga,
           CONFIG_USER_ID       : this.userID,
           CONFIG_OUT_MSG_ERROR : '',
           CONFIG_OUT_MSG_EXITO : ''
@@ -241,6 +237,7 @@ export class ModalStoreComponent implements OnInit {
       this.scoreForm.controls['id_estado_m'].setValue(this.DATA_SCORE.idEstado);
       this.scoreForm.controls['observacion'].setValue(this.DATA_SCORE.observacion);
       this.scoreForm.controls['id_envio'   ].setValue(this.DATA_SCORE.idEnvio);
+      this.scoreForm.controls['id_carga'   ].setValue(this.DATA_SCORE.id_carga);
 
       if (this.DATA_SCORE.fecha_solicitud) {
         let fecha_x = this.DATA_SCORE.fecha_solicitud
@@ -300,6 +297,26 @@ export class ModalStoreComponent implements OnInit {
     });
   }
 
+  listFormEnvio: any[] = [];
+  getListFormatoEnvio(){
+    let parametro: any[] = [{ queryId: 72 }];
+
+    this.scoreService.getListFormatoEnvio(parametro[0]).subscribe((resp: any) => {
+      this.listFormEnvio = resp.list;
+      console.log('FORMATO_ENVIO', resp.list);
+    });
+  }
+
+  listCargaArchivo: any[] = [];
+  getListCargaArchivo(){
+    let parametro: any[] = [{ queryId: 71 }];
+
+    this.scoreService.getListCargaArchivo(parametro[0]).subscribe((resp: any) => {
+      this.listCargaArchivo = resp.list;
+      console.log('CARGA_ARCH', resp.list);
+    });
+  }
+
   getUserID(){
     this.authService.getCurrentUser().subscribe( resp => {
       this.userID   = resp.user.userId;
@@ -346,10 +363,8 @@ export class ModalStoreComponent implements OnInit {
        this.page = event;
    }
 
-   asignarVacaciones(){
-    // const diasVacaciones = this.scoreService.calcularDifDias(this.scoreForm.controls['fechaFinVac'].value, this.vacacionesForm.controls['fechaInicVac'].value);
-    // console.log('FORMULARIO', this.vacacionesForm.value, this.utilService.calcularDifDias(this.vacacionesForm.controls['fechaFinVac'].value, this.vacacionesForm.controls['fechaInicVac'].value));
-    const dialogRef = this.dialog.open(AsignarVacacionesComponent, { width:'35%', data: {vacForm: this.scoreForm.value, isCreation: true, } });
+   asignarObservacion(){
+    const dialogRef = this.dialog.open(AsignarObservacionComponent, { width:'35%', data: {vacForm: this.scoreForm.value, isCreation: true, } });
 
     dialogRef.afterClosed().subscribe(resp => {
       console.log('CLOSE', resp);

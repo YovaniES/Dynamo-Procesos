@@ -92,8 +92,9 @@
               <th>Solicitante</th>
               <th>Fecha Solic.</th>
               <th>Fecha Envío</th>
+              <th>F. Envío</th>
+              <!-- <th>Carga </th> -->
               <th>Estado</th>
-              <th>Creado Por:</th>
               <th>Fecha Creación</th>
               <th>Actualizado Por:</th>
               <th>Fecha Actualizado</th>
@@ -123,11 +124,12 @@
                 </div>
               </td>
               <td class="w150"> {{ score.idScoreM }}</td>
-              <td >{{ score.solicitante}}</td>
+              <td>{{ score.solicitante}}</td>
               <td>{{ score.fecha_solicitud }}</td>
               <td class="w100">{{ score.fecha_envio }}</td>
+              <td class="w100">{{ score.envio }}</td>
+              <!-- <td class="w100">{{ score.carga }}</td> -->
               <td>{{ score.estado}}</td>
-              <td>{{ score.Crea | uppercase }}</td>
               <td>{{ score.fecha_crea }}</td>
               <td>{{ score.Actualiza }}</td>
               <td style="min-width: 95px">{{ score.fecha_actualizacion }}</td>

@@ -8,7 +8,7 @@
   </button>
 </div>
 
-<form class="row g-3" [formGroup]="asigVacacionesForm">
+<form class="row g-3" [formGroup]="asigObservacionForm">
   <div class="cli-form newvac-wrapper">
     <div class="chart-draw">
       <!-- REGISTRAR PERIODO DE LAS VACACIONES---------------------------------------------------------- -->
@@ -54,7 +54,7 @@
       </button>
       <button
         class="cli-btn btn-m btn-blue"
-        [disabled]="asigVacacionesForm.invalid"
+        [disabled]="asigObservacionForm.invalid"
         (click)="agregarOactualizarPeriodo()">
         <mat-icon class="icon-18">save</mat-icon> {{titleBtn}}
       </button>

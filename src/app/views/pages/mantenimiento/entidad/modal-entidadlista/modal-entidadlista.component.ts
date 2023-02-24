@@ -63,7 +63,7 @@ export class ModalEntidadlistaComponent implements OnInit {
     const formValues = this.entidadForm.getRawValue();
 
     let parametro: any =  {
-        queryId: 54,
+        queryId: 69,
         mapValue: {
           "param_nombre"        : formValues.nombre,
           "param_descripcion"   : formValues.descripcion,

@@ -3,7 +3,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
-import { API_AUTH_SESSION_AUDITORIA } from '../constants/url.constants';
+import { API_AUTH_SESSION_SCORE } from '../constants/url.constants';
 import { of } from 'rxjs';
 import { ROLES_ENUM, ROL_GESTOR, ROL_USUARIO } from '../constants/rol.constants';
 
@@ -15,9 +15,13 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login_auditoria(loginData: any) {
-    return this.http.post<any>(API_AUTH_SESSION_AUDITORIA, loginData).pipe(
+  login_score(loginData: any) {
+    return this.http.post<any>(API_AUTH_SESSION_SCORE, loginData).pipe(
       tap((resp: any) => {
+        console.log('LOGIN_SCORE', resp);
+        console.log('LOGIN_SCORE_ACCESO', resp.user.acceso);
+        console.log('LOGIN_SCORE_APLIC', resp.user.aplicacion);
+
         localStorage.setItem('token', resp.user.token);
         localStorage.setItem('currentUser', JSON.stringify(resp));
       })
@@ -55,9 +59,10 @@ export class AuthService {
     }
   }
 
+  // rolId:202
   esUsuarioGestor(): boolean{
     const usuarioLogeado:any = this.decodeToken();
-    // console.log('ROL_ID', usuarioLogeado);
+    // console.log('ROL_ID_LOGUEADO', usuarioLogeado.ROL_ID);
 
     if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_GESTOR.rolID ) {
       return false

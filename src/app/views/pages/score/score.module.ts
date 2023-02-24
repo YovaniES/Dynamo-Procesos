@@ -8,19 +8,18 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { CoreModule } from 'src/app/core/core.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { RegistroScoreComponent } from './registro-score/registro-score.component';
-import { AsignarVacacionesComponent } from './registro-score/modal-score/asignar-vacaciones/asignar-vacaciones.component';
+import { AsignarObservacionComponent } from './registro-score/modal-score/asignar-observacion/asignar-observacion.component';
 
 
 @NgModule({
   declarations: [
     RegistroScoreComponent,
     ModalStoreComponent,
-    AsignarVacacionesComponent
+    AsignarObservacionComponent
   ],
   imports: [
     CommonModule,
     ScoreRoutingModule,
-
     CoreModule,
 
     NgxPaginationModule,

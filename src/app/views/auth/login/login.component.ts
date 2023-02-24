@@ -27,9 +27,9 @@ export class LoginComponent  {
   ) {}
 
   login() {
-    this.authService.login_auditoria( this.loginForm.value ).pipe(first()).subscribe( resp => {
+    this.authService.login_score( this.loginForm.value ).pipe(first()).subscribe( resp => {
 
-        if (resp) {
+        if (resp.user.acceso != 0 && resp.user.aplicacion == 4) {
           this.spinner.hide();
 
           Swal.fire(

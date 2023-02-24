@@ -67,7 +67,7 @@ export class EntidadComponent implements OnInit {
     this.blockUI.start("Cargando lista de entidades...");
 
     let parametro: any[] = [{
-      "queryId": 62,
+      "queryId": 63,
       "mapValue": { param_id_tabla: idTabla }
     }];
     this.entidadService.cargarOBuscarEntidades(parametro[0]).subscribe((resp: any) => {
