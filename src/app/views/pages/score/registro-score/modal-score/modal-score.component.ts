@@ -78,6 +78,8 @@ export class ModalStoreComponent implements OnInit {
         fecha_proceso  : [''],
         num_doc        : [''],
         id_estado_d    : [''],
+        nombre         : ['YOVANI'],
+        version        : []
       })
     }
 
@@ -128,7 +130,7 @@ export class ModalStoreComponent implements OnInit {
       this.scoreService.cargarOBuscarScoreDetalle(parametro[0]).subscribe((resp: any) => {
       this.blockUI.stop();
 
-       console.log('Lista-score_D', resp, resp.list.length);
+       console.log('D A T A - score_D', resp, resp.list.length);
         this.listScoreDetalle = [];
         this.listScoreDetalle = resp.list;
 
@@ -167,6 +169,7 @@ export class ModalStoreComponent implements OnInit {
           p_FActualiza         : '',
           p_observacion        : formValues.observacion,
           p_idEnvio            : formValues.id_envio,
+          p_idVersion          : formValues.version,
           CONFIG_USER_ID       : this.userID ,
           CONFIG_OUT_MSG_ERROR : '' ,
           CONFIG_OUT_MSG_EXITO : ''
@@ -200,15 +203,15 @@ export class ModalStoreComponent implements OnInit {
     let parametro: any =  {
         queryId: 61,
         mapValue: {
-          p_solicitante     : this.userName,
-          // p_solicitante     : formValues.solicitante,
-          p_fecha_solicitud : formValues.fecha_solicitud,
-          p_fecha_envio     : formValues.fecha_envio,
-          p_idEstado        : 1, //ESTADO SOLICITADO,
-          p_Crea            : this.userName,
-          p_FCrea           : formValues.f_crea,
-          p_idEnvio         : formValues.id_envio,
-          p_id_carga        : formValues.id_carga,
+          p_solicitante        : this.userName,
+          // p_solicitante        : formValues.solicitante,
+          p_fecha_solicitud    : formValues.fecha_solicitud,
+          p_fecha_envio        : formValues.fecha_envio,
+          p_idEstado           : 1, //ESTADO SOLICITADO,
+          p_Crea               : this.userName,
+          p_FCrea              : formValues.f_crea,
+          p_idEnvio            : formValues.id_envio,
+          p_id_carga           : formValues.id_carga,
           CONFIG_USER_ID       : this.userID,
           CONFIG_OUT_MSG_ERROR : '',
           CONFIG_OUT_MSG_EXITO : ''
@@ -238,6 +241,7 @@ export class ModalStoreComponent implements OnInit {
       this.scoreForm.controls['observacion'].setValue(this.DATA_SCORE.observacion);
       this.scoreForm.controls['id_envio'   ].setValue(this.DATA_SCORE.idEnvio);
       this.scoreForm.controls['id_carga'   ].setValue(this.DATA_SCORE.id_carga);
+      this.scoreForm.controls['version'    ].setValue(this.DATA_SCORE.version);
 
       if (this.DATA_SCORE.fecha_solicitud) {
         let fecha_x = this.DATA_SCORE.fecha_solicitud
@@ -283,7 +287,7 @@ export class ModalStoreComponent implements OnInit {
 
     this.scoreService.getListEstado(parametro[0]).subscribe((resp: any) => {
       this.listEstado = resp.list;
-      console.log('ESTADOS', resp.list);
+      // console.log('ESTADOS', resp.list);
     });
   }
 
@@ -293,7 +297,7 @@ export class ModalStoreComponent implements OnInit {
 
     this.scoreService.getListEstadoDetalle(parametro[0]).subscribe((resp: any) => {
       this.listEstadoDetalle = resp.list;
-      console.log('ESTADOS_DETALLE', resp.list);
+      // console.log('ESTADOS_DETALLE', resp.list);
     });
   }
 
@@ -303,7 +307,7 @@ export class ModalStoreComponent implements OnInit {
 
     this.scoreService.getListFormatoEnvio(parametro[0]).subscribe((resp: any) => {
       this.listFormEnvio = resp.list;
-      console.log('FORMATO_ENVIO', resp.list);
+      // console.log('FORMATO_ENVIO', resp.list);
     });
   }
 
@@ -313,7 +317,7 @@ export class ModalStoreComponent implements OnInit {
 
     this.scoreService.getListCargaArchivo(parametro[0]).subscribe((resp: any) => {
       this.listCargaArchivo = resp.list;
-      console.log('CARGA_ARCH', resp.list);
+      // console.log('CARGA_ARCH', resp.list);
     });
   }
 

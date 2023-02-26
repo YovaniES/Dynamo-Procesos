@@ -38,7 +38,6 @@ export class RegistroScoreComponent implements OnInit {
     this.cargarOBuscarScore();
     this.getListEstado();
     this.getListFormatoEnvio();
-    // this.cargarOBuscarScoreDetalle(1);
   }
 
   newFilfroForm(){
@@ -101,7 +100,7 @@ export class RegistroScoreComponent implements OnInit {
 
     this.scoreService.getListEstado(parametro[0]).subscribe((resp: any) => {
       this.listEstado = resp.list;
-      console.log('ESTADOS', resp.list);
+      // console.log('ESTADOS', resp.list);
     });
   }
 
@@ -111,7 +110,6 @@ export class RegistroScoreComponent implements OnInit {
 
     this.scoreService.getListFormatoEnvio(parametro[0]).subscribe((resp: any) => {
       this.listFormEnvio = resp.list;
-      console.log('ESTADOS', resp.list);
     });
   }
 

@@ -12,40 +12,56 @@
   <div class="cli-form newvac-wrapper">
     <div class="chart-draw">
       <!-- DATOS DEL EVENTO ------------------------------------------------------------------------->
-    <div style="display: flex" *ngIf="DATA_SCORE">
-      <div class="pr-subtitle mt-2">Datos del Score</div>
-      <div class="flex-1"></div>
-      <div  class="id-score">ID : <span  class="total">{{score_Id}}</span></div>
-    </div>
+
+      <div style="display: flex" *ngIf="DATA_SCORE">
+        <div class="pr-subtitle mt-2">Datos del Score</div>
+
+        <div class="flex-1" style="background: #f4f4f4;"></div>
+          <ng-container class="input-group">
+            <div class="input-group-text" style="background: #f4f4f4; color: #858d95;"><mat-icon>person</mat-icon></div>
+            <div class="cli-user">{{scoreForm.controls['solicitante'].value | uppercase}}</div>
+          </ng-container>
+          <div class="flex-1" style="background: #f4f4f4;"></div>
+          <div class="id-score">ID : <span  class="total">{{score_Id}}</span></div>
+      </div>
 
       <div class="pr-section mb-3">
         <div class="pr-module-container">
           <div class="row g-2">
-            <div class="col-sm-3 cli-form-element">
+              <!-- <div class="col-sm-3 cli-form-element">
               <label>Solicitante</label>
               <input
                 type="text"
                 readonly="true"
                 class="form-control cli-input-white"
                 formControlName="solicitante"/>
+              </div> -->
+
+              <div class="col-sm-3 cli-form-element">
+                <label>Horario</label>
+                <select class="cli-input-white" formControlName="id_carga">
+                  <option [value]="0" disabled>- Seleccione -</option>
+                  <option [value]="carga.id_correlativo" *ngFor="let carga of listCargaArchivo">{{ carga.valor_texto_1 }}</option>
+                </select>
+                <small class="form-text text-alert" *ngIf="campoNoValido('id_carga')">* Selecione el tipo de carga es obligatorio</small>
               </div>
 
-            <div class="col-sm-3 cli-form-element">
-              <label>Formato de Envío</label>
-              <select class="cli-input-white" formControlName="id_envio">
-                  <option [value]="0" disabled>- Seleccione -</option>
-                  <option [value]="f.id_correlativo" *ngFor="let f of listFormEnvio">{{ f.valor_texto_1 }}</option>
-              </select>
-              <small class="form-text text-alert" *ngIf="campoNoValido('id_envio')">* Selecione el Envío es obligatorio</small>
-            </div>
+              <div class="col-sm-3 cli-form-element">
+                <label>Formato de Envío</label>
+                <select class="cli-input-white" formControlName="id_envio">
+                    <option [value]="0" disabled>- Seleccione -</option>
+                    <option [value]="f.id_correlativo" *ngFor="let f of listFormEnvio">{{ f.valor_texto_1 }}</option>
+                </select>
+                <small class="form-text text-alert" *ngIf="campoNoValido('id_envio')">* Selecione el Envío es obligatorio</small>
+              </div>
 
-            <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
-              <label>Estado</label>
-              <select class="cli-input-white" formControlName="id_estado_m">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="estado.idEstado"*ngFor="let estado of listEstado">{{ estado.cNombre }}</option>
-              </select>
-            </div>
+              <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
+                <label>Estado</label>
+                <select class="cli-input-white" formControlName="id_estado_m">
+                  <option [value]="0" disabled>- Seleccione -</option>
+                  <option [value]="estado.idEstado"*ngFor="let estado of listEstado">{{ estado.cNombre }}</option>
+                </select>
+              </div>
 
             <!-- <div class="col-sm-3 cli-form-element">
               <label>Carga Arch.</label>
@@ -55,7 +71,6 @@
               </select>
               <small class="form-text text-alert" *ngIf="campoNoValido('id_carga')">* Selecione el tipo de carga es obligatorio</small>
             </div> -->
-
 
             <!-- <div class="col-sm-3 cli-form-element">
               <label class="form-label">Fecha de Solcitud</label>
@@ -75,13 +90,6 @@
               </mat-form-field>
               <small class="form-text text-alert" *ngIf="campoNoValido('fecha_envio')">* Indique la fecha de Envío es obligatorio</small>
             </div>
-
-            <!-- <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
-              <label>Importar</label>
-              <input type="file"
-              (change)="readExcell($event)">
-            </div> -->
-            <!-- value="" -->
           </div>
         </div>
       </div>
@@ -92,45 +100,29 @@
         <div class="pr-subtitle mt-1">Detalle Score</div>
         <div class="pr-section mb-3">
           <div class="pr-module-container">
-            <div class="row g-2">
-
-              <div class="col-sm-3 cli-form-element">
-                <label>Carga Arch.</label>
-                <select class="cli-input-white" formControlName="id_carga">
-                  <option [value]="0" disabled>- Seleccione -</option>
-                  <option [value]="carga.id_correlativo" *ngFor="let carga of listCargaArchivo">{{ carga.valor_texto_1 }}</option>
-                </select>
-                <small class="form-text text-alert" *ngIf="campoNoValido('id_carga')">* Selecione el tipo de carga es obligatorio</small>
-              </div>
-
-              <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
-                <label>Importar</label>
-                <input type="file"
-                (change)="readExcell($event)">
-              </div>
-              <!-- value="" -->
-            </div>
-          </div>
-        </div>
-
-        <div class="pr-section mb-3">
-          <div class="pr-module-container">
             <div class="cli-card">
               <div style="padding: 2px 2px">
                 <div>
                   <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
                   <div class="buscar">
                     <div class="row ">
-                      <div class="col-sm-3 cli-form-element">
+
+                      <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
+                        <label>Importar</label>
+                        <input type="file"
+                        (change)="readExcell($event)">
+                      </div>
+
+                      <div class="col-sm-2 cli-form-element">
                         <label class="form-label">N° Documento</label>
                         <input
                           type="text"
-                          class="form-control"
+                          class="form-control cli-input-white"
                           placeholder="Ingrese Doc."
                           formControlName="num_doc"/>
                       </div>
 
-                      <div class="col-sm-3 cli-form-element">
+                      <div class="col-sm-2 cli-form-element">
                         <label>Estado</label>
                         <select class="cli-input-white" formControlName="id_estado_d">
                           <option [value]="0" disabled>- Seleccione -</option>
@@ -148,7 +140,7 @@
                         </mat-form-field>
                       </div>
 
-                      <div class="col-sm-3">
+                      <div class="col-sm-2">
                         <div style="margin-top: 27px; display: flex">
                           <button
                             type="button"
@@ -170,16 +162,17 @@
                       </div>
 
                       <div style="display: flex">
+                        <div class="version">Versión : <span  class="total">{{scoreForm.controls['version'].value }}</span></div>
+
 
                         <div class="flex-1"></div>
                         <div style="color: #bb96ff">
-                          Total :
-                          <span class="total">{{ listScoreDetalle.length }} Score detalle</span>
+                          Total :<span class="total">{{ listScoreDetalle.length }} Score detalle</span>
                         </div>
                       </div>
 
                       <!-- TABLA DE LISTADO SCORE_DETALLE ------------------------------------------------------------------>
-                      <div style="overflow: auto; min-height: 150px">
+                      <div style="overflow: auto; min-height: 320px">
                         <table class="cli-table stripedtable underlinedtable">
                           <thead>
                             <tr class="bgc-blue-light c-white">
@@ -202,17 +195,6 @@
                             </tr>
                           </thead>
 
-                          <!-- CAPACIDADFINANCIAMIENTO: 300
-                          CARGOFIJOMAXIMO: 200
-                          COD.FINANCIAMIENTO: 5
-                          FECHAPROCESO:44966
-                          Financiamiento:0
-                          N°DOCUMENTO:"222107360"
-                          OBSERVACIONES:"CEXparapruebasdebidoalamodalidaddecampañayscore"
-                          QLINEAS:0
-                          SCORE:2709
-                          Segmento:"Móvil"
-                          TIPODOCUMENTO:"CEX" -->
                           <tbody>
                             <!-- <tr
                               *ngFor="let score of scorelData | paginate: {
