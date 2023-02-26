@@ -196,7 +196,7 @@
                           </thead>
 
                           <tbody>
-                            <tr
+                            <!-- <tr
                               *ngFor="let score of scoreData | paginate: {
                                         itemsPerPage: pageSize,
                                         id: 'score',
@@ -235,10 +235,10 @@
                                 </div>
                                 </ng-container>
                               </td>
-                            </tr>
+                            </tr> -->
 
-                            <!-- <tr
-                            *ngFor="let score of listScoreDetalle | paginate: {
+                            <tr
+                            *ngFor="let score of scoreData | paginate: {
                                       itemsPerPage: pageSize,
                                       id: 'score',
                                       currentPage: page,
@@ -276,7 +276,7 @@
                               </div>
                               </ng-container>
                             </td>
-                          </tr> -->
+                          </tr>
                           </tbody>
                         </table>
 
