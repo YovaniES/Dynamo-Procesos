@@ -10,6 +10,11 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ROLES_ENUM } from 'src/app/core/constants/rol.constants';
 import { AsignarObservacionComponent } from './asignar-observacion/asignar-observacion.component';
 import * as XLSX from 'xlsx';
+import { ScoreDetalleService } from 'src/app/core/services/score-detalle.service';
+import { ScoreDetalle } from 'src/app/core/models/scored.models';
+import { mapearListadoDetalleScore } from 'src/app/core/mapper/detalle-score.mapper';
+// import { Score, ScoreDetalle } from 'src/app/core/models/scored.models';
+// import { mapearListadoDetalleScore } from 'src/app/core/mapper/detalle-score.mapper';
 
 @Component({
   selector: 'app-modal-evento',
@@ -34,6 +39,7 @@ export class ModalStoreComponent implements OnInit {
   constructor(
     private scoreService: ScoreService,
     public authService: AuthService,
+    private scoreDetalleService: ScoreDetalleService,
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
@@ -78,12 +84,11 @@ export class ModalStoreComponent implements OnInit {
         fecha_proceso  : [''],
         num_doc        : [''],
         id_estado_d    : [''],
-        nombre         : ['YOVANI'],
         version        : []
       })
     }
 
-    scorelData: any;
+    scoreData: any;
     readExcell(e: any){
       let file = e.target.files[0];
       let fileReader = new FileReader();
@@ -94,10 +99,21 @@ export class ModalStoreComponent implements OnInit {
         var wb = XLSX.read(fileReader.result, { type: 'binary'})
         var sheetNames = wb.SheetNames;
 
-        this.scorelData = XLSX.utils.sheet_to_json(wb.Sheets[sheetNames[0]])
+        this.scoreData = XLSX.utils.sheet_to_json(wb.Sheets[sheetNames[0]])
 
-        console.log('DATA_EXCELL', this.scorelData);
+        console.log('DATA_EXCELL', this.scoreData);
+
+        this.registrarListadoDetalleScore();
       }
+    }
+
+    registrarListadoDetalleScore(){
+      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreData, this.DATA_SCORE.idScoreM)
+
+      this.scoreDetalleService.registrarListadoDetalleScore(listScoreDetalle).subscribe(resp => {
+        console.log('DATA_SCORE', resp);
+
+      })
     }
 
     rolGestorTdp: number = 0;
@@ -367,8 +383,9 @@ export class ModalStoreComponent implements OnInit {
        this.page = event;
    }
 
-   asignarObservacion(){
-    const dialogRef = this.dialog.open(AsignarObservacionComponent, { width:'35%', data: {vacForm: this.scoreForm.value, isCreation: true, } });
+   asignarObservacion(DATA: any){
+    // const dialogRef = this.dialog.open(AsignarObservacionComponent, { width:'35%', data: {dataModal: DATA, isCreation: true, } });
+    const dialogRef = this.dialog.open(AsignarObservacionComponent, { width:'35%', data: DATA });
 
     dialogRef.afterClosed().subscribe(resp => {
       console.log('CLOSE', resp);

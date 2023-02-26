@@ -48,7 +48,8 @@ export class ScoreService {
     return this.http.post(API_SCORE, obj);
   }
 
-  listaDetalleByID(obj: any){
+  actualizarObservacion(obj: any){
     return this.http.post(API_SCORE, obj);
   }
+
 }

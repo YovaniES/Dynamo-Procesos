@@ -1,6 +1,7 @@
 const ENVIROMENT: string = 'PROD';
 
 let PATH_BACK_NET  = '';
+let PATH_SCORE_NET = '';
 let PATH_SCORE_AUTH = '';
 switch (ENVIROMENT) {
   case 'DEV':
@@ -12,6 +13,7 @@ switch (ENVIROMENT) {
     break;
   case 'PROD':
     PATH_BACK_NET       = 'https://localhost:3061/api/configurador/';
+    PATH_SCORE_NET       = 'https://localhost:7131/api/Score';
 
     // PATH_BACK_NET       = 'http://backwebprocesos.indratools.com/api/configurador/';
 
@@ -32,3 +34,4 @@ export const API_AUTH_SESSION_SCORE = PATH_SCORE_AUTH + 'login';
 
 // REGISTRO EVENTO
 export const API_SCORE = PATH_BACK_NET + 'ExecuteQuery';
+export const API_SCORE_DETALLE = PATH_SCORE_NET;
