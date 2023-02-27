@@ -10,7 +10,7 @@ export class ScoreDetalleService {
 
   constructor(private http: HttpClient) {}
 
-  registrarListadoDetalleScore(listDetalle: ScoreDetalle[]) {
+  insertarListadoDetalleScore(listDetalle: ScoreDetalle[]) {
     return this.http.post(API_SCORE_DETALLE + '/Guardar', listDetalle);
   }
 

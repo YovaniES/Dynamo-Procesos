@@ -41,7 +41,7 @@ export class ScoreService {
     return this.http.post(API_SCORE, obj);
   }
 
-  getListCargaArchivo(obj: any){
+  getListHorarioEnvio(obj: any){
     return this.http.post(API_SCORE, obj);
   }
 

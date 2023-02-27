@@ -57,7 +57,7 @@ export class ModalStoreComponent implements OnInit {
     this.getListEstado();
     this.getListEstadoDetalle();
     this.getListFormatoEnvio();
-    this.getListCargaArchivo();
+    this.getListHorarioEnvio();
     if (this.DATA_SCORE && this.DATA_SCORE.idScoreM){
         this.score_Id = this.DATA_SCORE.idScoreM
 
@@ -78,7 +78,8 @@ export class ModalStoreComponent implements OnInit {
         id_score       : [''],
         fecha_envio    : ['', Validators.required],
         fecha_solicitud: [''],
-        id_envio       : ['', Validators.required],
+        id_hor_envio   : ['', Validators.required],
+        id_form_envio  : [''],
         observacion    : [''],
         id_carga       : ['', Validators.required],
         fecha_proceso  : [''],
@@ -88,7 +89,7 @@ export class ModalStoreComponent implements OnInit {
       })
     }
 
-    scoreData: any;
+    scoreDataImport: any;
     readExcell(e: any){
       let file = e.target.files[0];
       let fileReader = new FileReader();
@@ -99,18 +100,19 @@ export class ModalStoreComponent implements OnInit {
         var wb = XLSX.read(fileReader.result, { type: 'binary'})
         var sheetNames = wb.SheetNames;
 
-        this.scoreData = XLSX.utils.sheet_to_json(wb.Sheets[sheetNames[0]])
+        this.scoreDataImport = XLSX.utils.sheet_to_json(wb.Sheets[sheetNames[0]])
 
-        console.log('DATA_EXCELL', this.scoreData);
+        console.log('DATA_EXCELL', this.scoreDataImport);
 
-        this.registrarListadoDetalleScore();
+        this.insertarListadoDetalleScore();
+
       }
     }
 
-    registrarListadoDetalleScore(){
-      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreData, this.DATA_SCORE.idScoreM, this.scoreForm.controls['version'].value)
+    insertarListadoDetalleScore(){
+      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreDataImport, this.DATA_SCORE.idScoreM, this.scoreForm.controls['version'].value)
 
-      this.scoreDetalleService.registrarListadoDetalleScore(listScoreDetalle).subscribe((resp: any) => {
+      this.scoreDetalleService.insertarListadoDetalleScore(listScoreDetalle).subscribe((resp: any) => {
         if( resp && resp.message == 'ok'){
           Swal.fire({
             title: 'Importar Score!',
@@ -123,19 +125,6 @@ export class ModalStoreComponent implements OnInit {
         }
         console.log('DATA_SCORE_DETALLE', resp);
       })
-    }
-
-    rolGestorTdp: number = 0;
-    isGestorTDP(){
-      this.rolGestorTdp = this.authService.getRolID();
-        console.log('ID_ROL_TDP', this.rolGestorTdp);
-    };
-
-    validarIfIsGestor(){
-      if (!this.authService.esUsuarioGestor()) {
-        this.scoreForm.controls['id_estado_m'].disable()
-        this.scoreForm.controls['id_envio'   ].disable()
-      }
     }
 
     listScoreDetalle: any[] = [];
@@ -193,7 +182,7 @@ export class ModalStoreComponent implements OnInit {
           p_Actualiza          : this.userName,
           p_FActualiza         : '',
           p_observacion        : formValues.observacion,
-          p_idEnvio            : formValues.id_envio,
+          p_idEnvio            : formValues.id_hor_envio,
           p_idVersion          : formValues.version,
           CONFIG_USER_ID       : this.userID ,
           CONFIG_OUT_MSG_ERROR : '' ,
@@ -229,14 +218,13 @@ export class ModalStoreComponent implements OnInit {
         queryId: 61,
         mapValue: {
           p_solicitante        : this.userName,
-          // p_solicitante        : formValues.solicitante,
           p_fecha_solicitud    : formValues.fecha_solicitud,
           p_fecha_envio        : formValues.fecha_envio,
-          p_idEstado           : 1, //ESTADO SOLICITADO,
+          p_idEstado           : 1, //ESTADO REGISTRADO,
           p_Crea               : this.userName,
           p_FCrea              : formValues.f_crea,
-          p_idEnvio            : formValues.id_envio,
-          p_id_carga           : formValues.id_carga,
+          p_idEnvio            : formValues.id_hor_envio,
+          p_iVersion           : '',
           CONFIG_USER_ID       : this.userID,
           CONFIG_OUT_MSG_ERROR : '',
           CONFIG_OUT_MSG_EXITO : ''
@@ -257,60 +245,16 @@ export class ModalStoreComponent implements OnInit {
       });
     }
 
-    crearScoreDetalle(){
-      const formValues = this.scoreForm.getRawValue();
-      let parametro: any =  {
-          queryId: 73,
-          mapValue: {
-            p_idscore             : formValues.idscore,
-            p_tipo_doc            : formValues.tipo_doc,
-            p_numero_doc          : formValues.numero_doc,
-            p_segmento            : formValues.segmento,
-            p_nombres             : formValues.nombres,
-            p_q_lineas            : formValues.q_lineas,
-            p_capacidad_fin       : formValues.capacidad_fin,
-            p_codigo_fin          : formValues.codigo_fin,
-            p_fecha_proc          : formValues.fecha_proc,
-            p_score               : formValues.score,
-            p_cargo_fijo_max      : formValues.cargo_fijo_max,
-            p_observacion         : formValues.observacion,
-            p_id_estado           : formValues.id_estado,
-            p_idrequerimiento     : formValues.idrequerimiento,
-            p_solicitante         : formValues.solicitante,
-            p_Actualiza           : formValues.Actualiza,
-            p_FActualiza          : formValues.FActualiza,
-            p_idCarga             : formValues.idCarga,
-            p_iVersion            : formValues.iVersion,
-            CONFIG_USER_ID        : this.userID,
-            CONFIG_OUT_MSG_ERROR  : '',
-            CONFIG_OUT_MSG_EXITO  : ''
-          },
-        };
-
-        // console.log('VAOR', this.scoreForm.value , parametro);
-        this.scoreDetalleService.crearScoreDetalle(parametro).subscribe((resp: any) => {
-          console.log('INSERT_SCORE_D', resp);
-
-          Swal.fire({
-            title: 'Crear Score detalle!',
-            text: `Score, creado con éxito`,
-            icon: 'success',
-            confirmButtonText: 'Ok',
-          });
-          this.close(true);
-        });
-      }
-
   actionBtn: string = 'Agregar';
   cargarSCoreByID(){
     this.actionBtn = 'Actualizar'
-      this.scoreForm.controls['id_score'   ].setValue(this.DATA_SCORE.idScoreM );
-      this.scoreForm.controls['solicitante'].setValue(this.DATA_SCORE.solicitante);
-      this.scoreForm.controls['id_estado_m'].setValue(this.DATA_SCORE.idEstado);
-      this.scoreForm.controls['observacion'].setValue(this.DATA_SCORE.observacion);
-      this.scoreForm.controls['id_envio'   ].setValue(this.DATA_SCORE.idEnvio);
-      this.scoreForm.controls['id_carga'   ].setValue(this.DATA_SCORE.id_carga);
-      this.scoreForm.controls['version'    ].setValue(this.DATA_SCORE.version);
+      this.scoreForm.controls['id_score'    ].setValue(this.DATA_SCORE.idScoreM );
+      this.scoreForm.controls['solicitante' ].setValue(this.DATA_SCORE.solicitante);
+      this.scoreForm.controls['id_estado_m' ].setValue(this.DATA_SCORE.idEstado);
+      this.scoreForm.controls['observacion' ].setValue(this.DATA_SCORE.observacion);
+      this.scoreForm.controls['id_hor_envio'].setValue(this.DATA_SCORE.idEnvio);
+      // this.scoreForm.controls['id_carga'   ].setValue(this.DATA_SCORE.id_carga);
+      this.scoreForm.controls['version'     ].setValue(this.DATA_SCORE.version);
 
       if (this.DATA_SCORE.fecha_solicitud) {
         let fecha_x = this.DATA_SCORE.fecha_solicitud
@@ -331,6 +275,19 @@ export class ModalStoreComponent implements OnInit {
       }
 
       this.validarIfIsGestor();
+  }
+
+  rolGestorTdp: number = 0;
+  isGestorTDP(){
+    this.rolGestorTdp = this.authService.getRolID();
+      console.log('ID_ROL_TDP', this.rolGestorTdp);
+  };
+
+  validarIfIsGestor(){
+    if (!this.authService.esUsuarioGestor()) {
+      this.scoreForm.controls['id_estado_m'].disable()
+      this.scoreForm.controls['id_hor_envio'].disable()
+    }
   }
 
   listHistoricoCambios: any[] = [];
@@ -380,13 +337,13 @@ export class ModalStoreComponent implements OnInit {
     });
   }
 
-  listCargaArchivo: any[] = [];
-  getListCargaArchivo(){
+  listHorarioEnvio: any[] = [];
+  getListHorarioEnvio(){
     let parametro: any[] = [{ queryId: 71 }];
 
-    this.scoreService.getListCargaArchivo(parametro[0]).subscribe((resp: any) => {
-      this.listCargaArchivo = resp.list;
-      // console.log('CARGA_ARCH', resp.list);
+    this.scoreService.getListHorarioEnvio(parametro[0]).subscribe((resp: any) => {
+      this.listHorarioEnvio = resp.list;
+      console.log('HORARIO_ENVIO', resp.list);
     });
   }
 

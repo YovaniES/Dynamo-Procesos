@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   userAbbreviation = '';
   fixedAside: boolean = true;
   phtouri = "NONE";
+  rolUser:string = 'Solicitante';
 
   constructor(
     private authService: AuthService,
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.initializeUser();
     this.userFullName();
+    // this.getRolName();
   }
 
   currentUser: string = ''
@@ -40,14 +42,17 @@ export class HeaderComponent implements OnInit {
     }else{
       this.nameini = names[0].substr(0,2).toUpperCase();
     }
-
-    // if (this.fullName) {
-    //   const fullNameToArray = this.fullName.split(' ').map((item: string) => {
-    //     return item.substring(0, 1).toUpperCase();
-    //   });
-    //   this.userAbbreviation = fullNameToArray.join('');
-    // }
   }
+
+  // getRolName(x:any){
+  //   // this.authService.getUserNameByRol().subscribe( (resp: any) => {
+  //   //   console.log('=====>', resp);
+
+  //   // })
+  //   this.authService.login_score(x).subscribe(resp => {
+  //     console.log('<>', resp);
+  //   })
+  // }
 
   openMobileMenu() {
     this.menuService.activeMenuMobile.emit(true);

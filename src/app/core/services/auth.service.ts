@@ -5,7 +5,7 @@ import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 import { API_AUTH_SESSION_SCORE } from '../constants/url.constants';
 import { of } from 'rxjs';
-import { ROLES_ENUM, ROL_GESTOR, ROL_USUARIO } from '../constants/rol.constants';
+import { ROLES_ENUM, ROL_GESTOR, ROL_SOLICITANTE } from '../constants/rol.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +18,10 @@ export class AuthService {
   login_score(loginData: any) {
     return this.http.post<any>(API_AUTH_SESSION_SCORE, loginData).pipe(
       tap((resp: any) => {
-        console.log('LOGIN_SCORE', resp);
-        console.log('LOGIN_SCORE_ACCESO', resp.user.acceso);
-        console.log('LOGIN_SCORE_APLIC', resp.user.aplicacion);
+        console.log('LOGIN_SCORE:', resp);
+        console.log('LOGIN_SCORE_ACCESO: ', resp.user.acceso);
+        console.log('LOGIN_SCORE_APLIC: ', resp.user.aplicacion);
+        console.log('LOGIN_SCORE_ROLNAME: ', resp.user.rolName);
 
         localStorage.setItem('token', resp.user.token);
         localStorage.setItem('currentUser', JSON.stringify(resp));
@@ -35,13 +36,14 @@ export class AuthService {
 
   getRolID(){
     const decodedToken: any = this.decodeToken();
-    // console.log('TOKEN', decodedToken);
+    console.log('TOKEN', decodedToken);
     return decodedToken ? decodedToken.ROL_ID : '';
   }
 
   getUserNameByRol(){
     const usuarioLogeado: any = this.decodeToken();
-    if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_USUARIO.rolID ) {
+
+    if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_SOLICITANTE.rolID ) {
       return null
     } else {
       return usuarioLogeado.name
@@ -52,7 +54,7 @@ export class AuthService {
     const usuarioLogeado: any = this.decodeToken();
     console.log('ROL_ID_TOKEN', usuarioLogeado);
 
-    if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_USUARIO.rolID ) {
+    if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_SOLICITANTE.rolID ) {
       return null
     } else {
       return usuarioLogeado.ROL_ID

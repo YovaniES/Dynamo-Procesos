@@ -38,21 +38,21 @@
               </div> -->
 
               <div class="col-sm-3 cli-form-element">
-                <label>Horario</label>
-                <select class="cli-input-white" formControlName="id_carga">
+                <label>H. Envío</label>
+                <select class="cli-input-white" formControlName="id_hor_envio">
                   <option [value]="0" disabled>- Seleccione -</option>
-                  <option [value]="carga.id_correlativo" *ngFor="let carga of listCargaArchivo">{{ carga.valor_texto_1 }}</option>
+                  <option [value]="carga.id_correlativo" *ngFor="let carga of listHorarioEnvio">{{ carga.valor_texto_1 }}</option>
                 </select>
-                <small class="form-text text-alert" *ngIf="campoNoValido('id_carga')">* Selecione el tipo de carga es obligatorio</small>
+                <small class="form-text text-alert" *ngIf="campoNoValido('id_hor_envio')">* Selecione el Horario de Envío es obligatorio</small>
               </div>
 
               <div class="col-sm-3 cli-form-element">
                 <label>Formato de Envío</label>
-                <select class="cli-input-white" formControlName="id_envio">
+                <select class="cli-input-white" formControlName="id_form_envio">
                     <option [value]="0" disabled>- Seleccione -</option>
                     <option [value]="f.id_correlativo" *ngFor="let f of listFormEnvio">{{ f.valor_texto_1 }}</option>
                 </select>
-                <small class="form-text text-alert" *ngIf="campoNoValido('id_envio')">* Selecione el Envío es obligatorio</small>
+                <small class="form-text text-alert" *ngIf="campoNoValido('id_form_envio')">* Selecione el Formato de Envío es obligatorio</small>
               </div>
 
               <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">

@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { ExportExcellService } from 'src/app/core/services/export-excell.service';
 import { ModalStoreComponent } from './modal-score/modal-score.component';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-registro-score',
@@ -26,6 +27,7 @@ export class RegistroScoreComponent implements OnInit {
 
   constructor(
     private scoreService: ScoreService,
+    private authService: AuthService,
     private exportExcellService: ExportExcellService,
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -59,7 +61,8 @@ export class RegistroScoreComponent implements OnInit {
       "mapValue": {
           p_creado_por  : this.filtroForm.value.creado_por,
           p_id_estado   : this.filtroForm.value.id_estado,
-          p_solicitante : this.filtroForm.value.solicitante,
+          p_solicitante : this.authService.getUserNameByRol(),
+          // p_solicitante : this.filtroForm.value.solicitante,
           inicio        : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),
           fin           : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
       }

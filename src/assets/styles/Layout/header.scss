@@ -15,13 +15,17 @@
 }
 
 .personname{
-// color: $color-hispam-dark;
     font-weight: 700;
     color: $white;
-    line-height: $header-height;
+    // line-height: $header-height;
     margin: 0 5px;
-    text-shadow: 0 1px 3px #0000002a;
+    // text-shadow: 0 1px 3px #0000002a;
 }
+.cli-rol{
+  color: #0d6efd;
+  justify-content: center;
+}
+
 .header-hiddenaside{
     left: 70px;
 }
