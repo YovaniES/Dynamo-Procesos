@@ -1,6 +1,6 @@
 import { ScoreDetalle } from '../models/scored.models';
 
-export function mapearListadoDetalleScore(scoreData: any[], idScore: number): ScoreDetalle[] {
+export function mapearListadoDetalleScore(scoreData: any[], idScore: number, version: number): ScoreDetalle[] {
   const listadoDetaalle: ScoreDetalle[] = scoreData.map((detalle) => {
     const scoreDetalle: ScoreDetalle = {
       idscore           : idScore,
@@ -9,7 +9,7 @@ export function mapearListadoDetalleScore(scoreData: any[], idScore: number): Sc
       segmento          : detalle.segmento,
       nombres           : detalle.nombres,
       q_lineas          : detalle.q_lineas,
-      capacidad_fin     : detalle.capacidad_fin, // AGREGAR
+      capacidad_fin     : detalle.capacidad_fin,
       codigo_fin        : detalle.codigo_fin,
       fecha_proceso     : detalle.fecha_proceso,
       score             : detalle.score,
@@ -20,8 +20,8 @@ export function mapearListadoDetalleScore(scoreData: any[], idScore: number): Sc
       solicitante       : detalle.solicitante,
       Actualiza         : detalle.Actualiza,
       FActualiza        : detalle.FActualiza,
-      idCarga           :  detalle.idCarga,
-      iVersion          : detalle.iVersion
+      idCarga           : detalle.idCarga,
+      iVersion          : version + 1
     };
 
     return scoreDetalle;

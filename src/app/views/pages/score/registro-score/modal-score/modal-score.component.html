@@ -196,49 +196,8 @@
                           </thead>
 
                           <tbody>
-                            <!-- <tr
-                              *ngFor="let score of scoreData | paginate: {
-                                        itemsPerPage: pageSize,
-                                        id: 'score',
-                                        currentPage: page,
-                                        totalItems: totalScore }">
-                              <td style="min-width: 90px;" >{{ score.CAPACIDADFINANCIAMIENTO }}</td>
-                              <td style="min-width: 80px;" >{{ score.CARGOFIJOMAXIMO }}</td>
-                              <td style="min-width: 100px;">{{ score.NDOCUMENTO}}</td>
-                              <td>{{ score.FECHAPROCESO }}</td>
-                              <td class="w100">{{ score.score }}</td>
-                              <td style="min-width: 150px;">{{ score.SCORE }}</td>
-                              <td style="min-width: 85px;" >{{ score.QLINEAS }}</td>
-                              <td style="min-width: 90px;" >{{ score.Segmento }}</td>
-                              <td style="min-width: 90px;" >{{ score.TIPODOCUMENTO }}</td>
-
-                              <td style="min-width: 118px;">
-                                <span *ngIf="score.estado == 'Solicitado'"       class="label estado-compl"> {{ score.estado | uppercase }}</span>
-                                <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label estado-planif">{{ score.estado | uppercase }}</span>
-                                <span *ngIf="score.estado == 'No existe LB'"     class="label estado-pend "> {{ score.estado | uppercase }}</span>
-                              </td>
-
-                              <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
-                              <td class="w100">{{ score.solicitante }}</td>
-                              <td style="min-width: 110px;">{{ score.cargo_fijo_max }}</td>
-                              <td class="obs-score">
-                                <ng-container *ngIf="score.estado != 'Solicitado'">
-                                  <div style="display: flex">
-                                    <button
-                                      class="btn-obs btn-obs-color"
-                                      style="margin: 0"
-                                      type="button"
-                                      (click)="asignarObservacion(score)"
-                                      matTooltip="Actualizar"
-                                      ><mat-icon class="icon-13">loupe</mat-icon>
-                                    </button>{{ score.OBSERVACIONES }}
-                                </div>
-                                </ng-container>
-                              </td>
-                            </tr> -->
-
-                            <tr
-                            *ngFor="let score of scoreData | paginate: {
+                          <tr
+                            *ngFor="let score of listScoreDetalle | paginate: {
                                       itemsPerPage: pageSize,
                                       id: 'score',
                                       currentPage: page,
@@ -410,5 +369,4 @@
     </div>
   </div>
 </form>
-
 

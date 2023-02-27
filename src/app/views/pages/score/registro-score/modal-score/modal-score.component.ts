@@ -108,11 +108,20 @@ export class ModalStoreComponent implements OnInit {
     }
 
     registrarListadoDetalleScore(){
-      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreData, this.DATA_SCORE.idScoreM)
+      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreData, this.DATA_SCORE.idScoreM, this.scoreForm.controls['version'].value)
 
-      this.scoreDetalleService.registrarListadoDetalleScore(listScoreDetalle).subscribe(resp => {
-        console.log('DATA_SCORE', resp);
+      this.scoreDetalleService.registrarListadoDetalleScore(listScoreDetalle).subscribe((resp: any) => {
+        if( resp && resp.message == 'ok'){
+          Swal.fire({
+            title: 'Importar Score!',
+            text : `Se importó con éxito la data`,
+            icon : 'success',
+            confirmButtonText: 'Ok'
+            })
 
+          this.cargarOBuscarScoreDetalle();
+        }
+        console.log('DATA_SCORE_DETALLE', resp);
       })
     }
 
@@ -247,6 +256,50 @@ export class ModalStoreComponent implements OnInit {
         this.close(true);
       });
     }
+
+    crearScoreDetalle(){
+      const formValues = this.scoreForm.getRawValue();
+      let parametro: any =  {
+          queryId: 73,
+          mapValue: {
+            p_idscore             : formValues.idscore,
+            p_tipo_doc            : formValues.tipo_doc,
+            p_numero_doc          : formValues.numero_doc,
+            p_segmento            : formValues.segmento,
+            p_nombres             : formValues.nombres,
+            p_q_lineas            : formValues.q_lineas,
+            p_capacidad_fin       : formValues.capacidad_fin,
+            p_codigo_fin          : formValues.codigo_fin,
+            p_fecha_proc          : formValues.fecha_proc,
+            p_score               : formValues.score,
+            p_cargo_fijo_max      : formValues.cargo_fijo_max,
+            p_observacion         : formValues.observacion,
+            p_id_estado           : formValues.id_estado,
+            p_idrequerimiento     : formValues.idrequerimiento,
+            p_solicitante         : formValues.solicitante,
+            p_Actualiza           : formValues.Actualiza,
+            p_FActualiza          : formValues.FActualiza,
+            p_idCarga             : formValues.idCarga,
+            p_iVersion            : formValues.iVersion,
+            CONFIG_USER_ID        : this.userID,
+            CONFIG_OUT_MSG_ERROR  : '',
+            CONFIG_OUT_MSG_EXITO  : ''
+          },
+        };
+
+        // console.log('VAOR', this.scoreForm.value , parametro);
+        this.scoreDetalleService.crearScoreDetalle(parametro).subscribe((resp: any) => {
+          console.log('INSERT_SCORE_D', resp);
+
+          Swal.fire({
+            title: 'Crear Score detalle!',
+            text: `Score, creado con éxito`,
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          });
+          this.close(true);
+        });
+      }
 
   actionBtn: string = 'Agregar';
   cargarSCoreByID(){
@@ -409,3 +462,5 @@ export class ModalStoreComponent implements OnInit {
   }
 
 }
+
+

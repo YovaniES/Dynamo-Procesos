@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_SCORE_DETALLE } from '../constants/url.constants';
+import { API_SCORE, API_SCORE_DETALLE } from '../constants/url.constants';
 import { ScoreDetalle } from '../models/scored.models';
 
 @Injectable({
@@ -12,5 +12,9 @@ export class ScoreDetalleService {
 
   registrarListadoDetalleScore(listDetalle: ScoreDetalle[]) {
     return this.http.post(API_SCORE_DETALLE + '/Guardar', listDetalle);
+  }
+
+  crearScoreDetalle(obj: any){
+    return this.http.post(API_SCORE, obj);
   }
 }
