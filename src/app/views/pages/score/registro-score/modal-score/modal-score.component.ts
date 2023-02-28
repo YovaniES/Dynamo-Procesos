@@ -12,6 +12,7 @@ import * as XLSX from 'xlsx';
 import { ScoreDetalleService } from 'src/app/core/services/score-detalle.service';
 import { ScoreDetalle } from 'src/app/core/models/scored.models';
 import { mapearListadoDetalleScore } from 'src/app/core/mapper/detalle-score.mapper';
+import { concatMap, of } from 'rxjs';
 
 @Component({
   selector: 'app-modal-evento',
@@ -80,7 +81,7 @@ export class ModalStoreComponent implements OnInit {
         // id_carga       : ['', Validators.required],
         fecha_proceso  : [''],
         num_doc        : [''],
-        id_estado_d    : [''],
+        id_estado_d    : [1],
         version        : [''],
         importar       : ['']
       })
@@ -88,28 +89,42 @@ export class ModalStoreComponent implements OnInit {
 
     scoreDataImport: any;
     readExcell(e: any){
+      this.spinner.show();
       let file = e.target.files[0];
       let fileReader = new FileReader();
 
       fileReader.readAsBinaryString(file)
 
       fileReader.onload = e => {
-        var wb = XLSX.read(fileReader.result, { type: 'binary'})
+        var wb = XLSX.read(fileReader.result, { type: 'binary', cellDates: true})
         var sheetNames = wb.SheetNames;
 
         this.scoreDataImport = XLSX.utils.sheet_to_json(wb.Sheets[sheetNames[0]])
 
         console.log('DATA_EXCELL-IMPORTADO', this.scoreDataImport);
-
+        this.spinner.hide();
         this.insertarListadoDetalleScore();
       }
     }
 
     insertarListadoDetalleScore(){
-      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreDataImport, this.DATA_SCORE.idScoreM, this.scoreForm.controls['version'].value)
+      this.spinner.show();
 
-      this.scoreDetalleService.insertarListadoDetalleScore(listScoreDetalle).subscribe((resp: any) => {
+      let parametro: any[] = this.mapearScore(true);
+
+      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreDataImport, this.DATA_SCORE.idScoreM, this.scoreForm.controls['id_estado_d'].value, this.scoreForm.controls['version'].value)
+
+      this.scoreService.actualizarScore(parametro[0]).pipe(
+        concatMap((resp: any) => {
+               return resp && resp.exitoMessage == 'Actualización exitosa'? this.scoreDetalleService.insertarListadoDetalleScore(listScoreDetalle): of({})
+        })
+      ).subscribe((resp: any) => {
+          console.log('ABC', resp);
+
         if( resp && resp.message == 'ok'){
+          this.spinner.hide();
+        this.scoreForm.controls['version'].setValue(this.DATA_SCORE.version + 1);
+
           Swal.fire({
             title: 'Importar Score!',
             text : `Se importó con éxito la data`,
@@ -117,7 +132,7 @@ export class ModalStoreComponent implements OnInit {
             confirmButtonText: 'Ok'
             })
 
-          this.cargarOBuscarScoreDetalle();
+            this.cargarOBuscarScoreDetalle();
         }
         console.log('DATA_SCORE_DETALLE', resp);
       })
@@ -162,29 +177,33 @@ export class ModalStoreComponent implements OnInit {
     this.spinner.hide();
   }
 
-   actualizarScore(){
-    this.spinner.show();
-
+  mapearScore(incrementarVersion?: boolean): any[]{
     const formValues = this.scoreForm.getRawValue();
 
-    let parametro: any[] = [{
-        queryId: 59,
-        mapValue: {
-          p_idScoreM           : this.DATA_SCORE.idScoreM,
-          p_solicitante        : formValues.solicitante,
-          p_fecha_solicitud    : formValues.fecha_solicitud,
-          p_fecha_envio        : formValues.fecha_envio,
-          p_idEstado           : formValues.id_estado_m,
-          p_Actualiza          : this.userName,
-          p_FActualiza         : '',
-          p_observacion        : formValues.observacion,
-          p_idEnvio            : formValues.id_hor_envio,
-          p_idVersion          : formValues.version,
-          CONFIG_USER_ID       : this.userID ,
-          CONFIG_OUT_MSG_ERROR : '' ,
-          CONFIG_OUT_MSG_EXITO : ''
-        },
-      }];
+    return  [{
+      queryId: 59,
+      mapValue: {
+        p_idScoreM           : this.DATA_SCORE.idScoreM,
+        p_solicitante        : formValues.solicitante,
+        p_fecha_solicitud    : formValues.fecha_solicitud,
+        p_fecha_envio        : formValues.fecha_envio,
+        p_idEstado           : formValues.id_estado_m,
+        p_Actualiza          : this.userName,
+        p_FActualiza         : '',
+        p_observacion        : formValues.observacion,
+        p_idEnvio            : formValues.id_hor_envio,
+        p_idVersion          : incrementarVersion? formValues.version +1 : formValues.version,
+        CONFIG_USER_ID       : this.userID ,
+        CONFIG_OUT_MSG_ERROR : '' ,
+        CONFIG_OUT_MSG_EXITO : ''
+      },
+    }];
+  }
+
+
+   actualizarScore(){
+    this.spinner.show();
+    let parametro: any[] = this.mapearScore();
 
     this.scoreService.actualizarScore(parametro[0]).subscribe( {next: (resp: any) => {
       this.spinner.hide();

@@ -7,7 +7,7 @@ export interface ScoreDetalle{
   q_lineas         : number;
   capacidad_fin    : number;
   codigo_fin       : number;
-  fecha_proceso    : string;
+  fecha_proceso    : Date;
   score            : number;
   cargo_fijo_max   : number;
   observacion      : string;

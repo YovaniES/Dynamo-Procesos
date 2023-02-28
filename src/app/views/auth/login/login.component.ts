@@ -29,7 +29,7 @@ export class LoginComponent  {
   login() {
     this.authService.login_score( this.loginForm.value ).pipe(first()).subscribe( resp => {
 
-        if (resp.user.acceso != 0 && resp.user.aplicacion == 4) {
+        if (resp.user.acceso > 0 && resp.user.aplicacion == 4) {
           this.spinner.hide();
 
           Swal.fire(
@@ -38,10 +38,12 @@ export class LoginComponent  {
             "success"
           );
           this.router.navigateByUrl('home');
+        }else{
+        Swal.fire('Error', 'Credenciales Incorrectas 123', 'error' );
         }
       }, error => {
         this.spinner.hide();
-        Swal.fire('Error', 'Credenciales Incorrectas', 'error' );
+        Swal.fire('Error', 'Error con la aplicación, contacte con el admin', 'error' );
       });
   }
 
