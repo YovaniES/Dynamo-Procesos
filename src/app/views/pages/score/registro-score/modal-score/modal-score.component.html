@@ -110,6 +110,7 @@
                       <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
                         <label>Importar</label>
                         <input type="file"
+                        formControlName="importar"
                         (change)="readExcell($event)">
                       </div>
 

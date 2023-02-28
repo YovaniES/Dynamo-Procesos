@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   fixedAside: boolean = true;
   phtouri = "NONE";
   rolUser:string = 'Solicitante';
+  userLogueado: any;
 
   constructor(
     private authService: AuthService,
@@ -23,12 +24,17 @@ export class HeaderComponent implements OnInit {
     this.initializeUser();
     this.userFullName();
     // this.getRolName();
+
+    // this.userLogueado = JSON.parse(localStorage.getItem('currentUser'))
+
   }
 
+  userRolName: string = '';
   currentUser: string = ''
   userFullName() {
     this.authService.getCurrentUser().subscribe((resp) => {
           this.currentUser = resp.user.nombres + ' '+ resp.user.apellidoPaterno ;
+          this.userRolName = resp.user.rolName
           // console.log('USER-NEW', this.currentUser);
         })
       }

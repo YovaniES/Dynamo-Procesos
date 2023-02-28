@@ -73,11 +73,23 @@ export class AuthService {
     }
   }
 
+    // rolId:202
+    esUsuarioSolicitante(): boolean{
+      const usuarioLogeado:any = this.decodeToken();
+      // console.log('ROL_ID_LOGUEADO', usuarioLogeado.ROL_ID);
+
+      if (!usuarioLogeado || usuarioLogeado.ROL_ID != ROL_SOLICITANTE.rolID ) {
+        return false
+      } else {
+        return true
+      }
+    }
+
     //userName:jahgamarra
   // unique_name:"jysantiago"
   getCurrentUser() {
     const currentUser: any = localStorage.getItem('currentUser');
-    // console.log('USER_NAME',JSON.parse(currentUser));
+    console.log('USER_LOGUEADO',JSON.parse(currentUser));
     return of(currentUser ? JSON.parse(currentUser) : '');
   }
 

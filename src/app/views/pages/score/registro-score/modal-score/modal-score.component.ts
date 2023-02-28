@@ -1,4 +1,4 @@
-import { DatePipe, formatDate } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,  } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -7,14 +7,11 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { ScoreService } from 'src/app/core/services/score.service';
 import Swal from 'sweetalert2';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ROLES_ENUM } from 'src/app/core/constants/rol.constants';
 import { AsignarObservacionComponent } from './asignar-observacion/asignar-observacion.component';
 import * as XLSX from 'xlsx';
 import { ScoreDetalleService } from 'src/app/core/services/score-detalle.service';
 import { ScoreDetalle } from 'src/app/core/models/scored.models';
 import { mapearListadoDetalleScore } from 'src/app/core/mapper/detalle-score.mapper';
-// import { Score, ScoreDetalle } from 'src/app/core/models/scored.models';
-// import { mapearListadoDetalleScore } from 'src/app/core/mapper/detalle-score.mapper';
 
 @Component({
   selector: 'app-modal-evento',
@@ -72,20 +69,20 @@ export class ModalStoreComponent implements OnInit {
 
     newFilfroForm(){
       this.scoreForm = this.fb.group({
-        // solicitante    : [this.userName],
         solicitante    : [''],
         id_estado_m    : [''],
         id_score       : [''],
         fecha_envio    : ['', Validators.required],
         fecha_solicitud: [''],
         id_hor_envio   : ['', Validators.required],
-        id_form_envio  : [''],
+        id_form_envio  : ['', Validators.required],
         observacion    : [''],
-        id_carga       : ['', Validators.required],
+        // id_carga       : ['', Validators.required],
         fecha_proceso  : [''],
         num_doc        : [''],
         id_estado_d    : [''],
-        version        : []
+        version        : [''],
+        importar       : ['']
       })
     }
 
@@ -102,10 +99,9 @@ export class ModalStoreComponent implements OnInit {
 
         this.scoreDataImport = XLSX.utils.sheet_to_json(wb.Sheets[sheetNames[0]])
 
-        console.log('DATA_EXCELL', this.scoreDataImport);
+        console.log('DATA_EXCELL-IMPORTADO', this.scoreDataImport);
 
         this.insertarListadoDetalleScore();
-
       }
     }
 
@@ -133,12 +129,12 @@ export class ModalStoreComponent implements OnInit {
       let parametro: any[] = [{
         "queryId": 56,
         "mapValue": {
-            p_idScore     : this.DATA_SCORE.idScoreM,
-            p_num_doc     : this.scoreForm.value.num_doc,
-            p_id_estado   : this.scoreForm.value.id_estado_d,
-            p_fecha_proc  : this.scoreForm.value.fecha_proceso,
-            inicio        : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),
-            fin           : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
+            p_idScore   : this.DATA_SCORE.idScoreM,
+            p_num_doc   : this.scoreForm.value.num_doc,
+            p_id_estado : this.scoreForm.value.id_estado_d,
+            p_fecha_proc: this.scoreForm.value.fecha_proceso,
+            inicio      : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),
+            fin         : this.datepipe.transform(this.scoreForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
         }
       }];
       this.scoreService.cargarOBuscarScoreDetalle(parametro[0]).subscribe((resp: any) => {
@@ -217,7 +213,7 @@ export class ModalStoreComponent implements OnInit {
     let parametro: any =  {
         queryId: 61,
         mapValue: {
-          p_solicitante        : this.userName,
+          p_solicitante        : this.userName, //Username: usuario logueado a la web
           p_fecha_solicitud    : formValues.fecha_solicitud,
           p_fecha_envio        : formValues.fecha_envio,
           p_idEstado           : 1, //ESTADO REGISTRADO,
@@ -274,7 +270,7 @@ export class ModalStoreComponent implements OnInit {
         this.scoreForm.controls['fecha_envio'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
       }
 
-      this.validarIfIsGestor();
+      this.validateIfIsSolicitante()
   }
 
   rolGestorTdp: number = 0;
@@ -285,8 +281,18 @@ export class ModalStoreComponent implements OnInit {
 
   validarIfIsGestor(){
     if (!this.authService.esUsuarioGestor()) {
-      this.scoreForm.controls['id_estado_m'].disable()
+      this.scoreForm.controls['id_estado_m' ].disable()
       this.scoreForm.controls['id_hor_envio'].disable()
+    }
+  }
+
+  // ifStado
+
+  validateIfIsSolicitante(){
+    if (!this.authService.esUsuarioSolicitante()) {
+      this.scoreForm.controls['id_estado_m' ].disable()
+      this.scoreForm.controls['id_hor_envio'].disable()
+      this.scoreForm.controls['importar'    ].disable()
     }
   }
 
