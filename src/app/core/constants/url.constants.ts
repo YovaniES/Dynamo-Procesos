@@ -1,7 +1,7 @@
 const ENVIROMENT: string = 'PROD';
 
 let PATH_API_SCORE  = '';
-let PATH_SCORE_API = '';
+let API_SAVE_DATA_IMPORT = '';
 let PATH_SCORE_AUTH = '';
 switch (ENVIROMENT) {
   case 'DEV':
@@ -13,10 +13,10 @@ switch (ENVIROMENT) {
     break;
   case 'PROD':
     PATH_API_SCORE       = 'https://localhost:3061/api/configurador/';
-    // PATH_SCORE_API       = 'https://localhost:7131/api/Score';
-    PATH_SCORE_API       = 'https://localhost:7247/api/ScoreDetalle';
+    // API_SAVE_DATA_IMPORT       = 'https://localhost:7247/api/ScoreDetalle';
 
-    // PATH_API_SCORE       = 'http://backwebprocesos.indratools.com/api/configurador/';
+    API_SAVE_DATA_IMPORT = 'http://saveimporteddata.indratools.com/api/ScoreDetalle'
+    PATH_API_SCORE       = 'http://backwebprocesos.indratools.com/api/configurador/';
 
 
     // PATH_SCORE_AUTH = 'http://sistemanocseguridadapi.indratools.com/aut/seguridad/';
@@ -35,4 +35,4 @@ export const API_AUTH_SESSION_SCORE = PATH_SCORE_AUTH + 'login';
 
 // REGISTRO EVENTO
 export const API_SCORE = PATH_API_SCORE + 'ExecuteQuery';
-export const API_SCORE_DETALLE = PATH_SCORE_API;
+export const API_IMPORT_SCORE_DETALLE = API_SAVE_DATA_IMPORT;

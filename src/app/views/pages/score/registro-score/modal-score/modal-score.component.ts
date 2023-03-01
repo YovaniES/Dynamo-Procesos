@@ -144,7 +144,7 @@ export class ModalStoreComponent implements OnInit {
     cargarOBuscarScoreDetalle(){
       this.blockUI.start("Cargando Score detalle...");
       let parametro: any[] = [{
-        "queryId": 56,
+        "queryId": 1,
         "mapValue": {
             p_idScore   : this.DATA_SCORE.idScoreM,
             p_num_doc   : this.scoreForm.value.num_doc,
@@ -183,7 +183,7 @@ export class ModalStoreComponent implements OnInit {
     const formValues = this.scoreForm.getRawValue();
 
     return  [{
-      queryId: 59,
+      queryId: 4,
       mapValue: {
         p_idScoreM           : this.DATA_SCORE.idScoreM,
         p_solicitante        : formValues.solicitante,
@@ -232,7 +232,7 @@ export class ModalStoreComponent implements OnInit {
   crearScoreM(){
     const formValues = this.scoreForm.getRawValue();
     let parametro: any =  {
-        queryId: 61,
+        queryId: 6,
         mapValue: {
           p_solicitante        : this.userName, //Username: usuario logueado a la web
           p_fecha_solicitud    : formValues.fecha_solicitud,
@@ -321,7 +321,7 @@ export class ModalStoreComponent implements OnInit {
     this.spinner.show();
 
     let parametro:any[] = [{
-      "queryId": 60,
+      "queryId": 5,
       "MapValue": {
         "p_idhistorico": this.DATA_SCORE.idScoreM
       }
@@ -335,7 +335,7 @@ export class ModalStoreComponent implements OnInit {
 
   listEstado: any[] = [];
   getListEstado(){
-    let parametro: any[] = [{ queryId: 58 }];
+    let parametro: any[] = [{ queryId: 3 }];
 
     this.scoreService.getListEstado(parametro[0]).subscribe((resp: any) => {
       this.listEstado = resp.list;
@@ -345,7 +345,7 @@ export class ModalStoreComponent implements OnInit {
 
   listEstadoDetalle: any[] = [];
   getListEstadoDetalle(){
-    let parametro: any[] = [{ queryId: 62 }];
+    let parametro: any[] = [{ queryId: 7 }];
 
     this.scoreService.getListEstadoDetalle(parametro[0]).subscribe((resp: any) => {
       this.listEstadoDetalle = resp.list;
@@ -355,7 +355,7 @@ export class ModalStoreComponent implements OnInit {
 
   listFormEnvio: any[] = [];
   getListFormatoEnvio(){
-    let parametro: any[] = [{ queryId: 72 }];
+    let parametro: any[] = [{ queryId: 16 }];
 
     this.scoreService.getListFormatoEnvio(parametro[0]).subscribe((resp: any) => {
       this.listFormEnvio = resp.list;
@@ -365,7 +365,7 @@ export class ModalStoreComponent implements OnInit {
 
   listHorarioEnvio: any[] = [];
   getListHorarioEnvio(){
-    let parametro: any[] = [{ queryId: 71 }];
+    let parametro: any[] = [{ queryId: 15 }];
 
     this.scoreService.getListHorarioEnvio(parametro[0]).subscribe((resp: any) => {
       this.listHorarioEnvio = resp.list;

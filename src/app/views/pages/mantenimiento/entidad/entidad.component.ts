@@ -67,7 +67,7 @@ export class EntidadComponent implements OnInit {
     this.blockUI.start("Cargando lista de entidades...");
 
     let parametro: any[] = [{
-      "queryId": 63,
+      "queryId": 8,
       "mapValue": { param_id_tabla: idTabla }
     }];
     this.entidadService.cargarOBuscarEntidades(parametro[0]).subscribe((resp: any) => {
@@ -100,7 +100,7 @@ export class EntidadComponent implements OnInit {
     this.spinner.show();
 
     let parametro:any[] = [{
-      queryId: 64,
+      queryId: 9,
       mapValue: {
         "param_id_tabla"      : idTabla,
         "param_id_correlativo": idCorrelativo,
@@ -155,7 +155,7 @@ export class EntidadComponent implements OnInit {
   nombreEntidad!: string;
   listEntidad: any[] = [];
   getListEntidades(){
-    let parametro: any[] = [{queryId: 48}];
+    let parametro: any[] = [{queryId: 18}];
 
     this.entidadService.getListEntidades(parametro[0]).subscribe((resp: any) => {
       this.listEntidad = resp.list;

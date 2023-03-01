@@ -63,7 +63,7 @@ export class ModalEntidadlistaComponent implements OnInit {
     const formValues = this.entidadForm.getRawValue();
 
     let parametro: any =  {
-        queryId: 69,
+        queryId: 13,
         mapValue: {
           "param_nombre"        : formValues.nombre,
           "param_descripcion"   : formValues.descripcion,
@@ -106,7 +106,7 @@ export class ModalEntidadlistaComponent implements OnInit {
 
   listEntidad: any[] = [];
   getListEntidades(){
-    let arrayParametro: any[] = [{queryId: 67}];
+    let arrayParametro: any[] = [{queryId: 12}];
 
     this.entidadService.getListEntidades(arrayParametro[0]).subscribe((resp: any) => {
       this.listEntidad = resp.list;
