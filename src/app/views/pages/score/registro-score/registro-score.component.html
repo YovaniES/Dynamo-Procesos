@@ -6,7 +6,7 @@
       <div class="card" style="border-radius: 2px; font-weight: 600; padding: 7px">
           <form class="row g-3" [formGroup]="filtroForm">
             <div class="col-sm-3 cli-form-element">
-              <label>Creado por:</label>
+              <label>Solicitante</label>
               <input
                 type="text"
                 class="form-control cli-input-white"
@@ -56,7 +56,7 @@
                 type="button"
                 class="cli-btn btn-mora-light"
                 style="border-radius: 2px; padding: 0.225rem 0.75rem"
-                (click)="cargarOBuscarScore()"
+                (click)="cargarOBuscarScoreM()"
                 ><mat-icon class="icon-18">search</mat-icon>
                 Buscar
               </button>
@@ -66,7 +66,7 @@
 
       <!-- BOTON MODAL PARA CREAR SCORE ----------------------------------------------------->
       <div style="display: flex" class="mt-4 mb-1">
-          <button
+          <button *ngIf="authService.esUsuarioSolicitante()"
             class="cli-btn btn-blue"
             style="margin: 0"
             type="button"

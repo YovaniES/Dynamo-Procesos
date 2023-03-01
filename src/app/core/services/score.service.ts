@@ -9,7 +9,7 @@ export class ScoreService {
 
   constructor(private http: HttpClient) {}
 
-  cargarOBuscarScore(obj: any) {
+  cargarOBuscarScoreM(obj: any) {
     return this.http.post(API_SCORE, obj);
   }
 
@@ -53,4 +53,7 @@ export class ScoreService {
     return this.http.post(API_SCORE, obj);
   }
 
+  exportScoreDetalle(obj: any){
+    return this.http.post(API_SCORE, obj);
+  }
 }

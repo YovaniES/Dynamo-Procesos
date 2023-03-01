@@ -76,12 +76,11 @@ export class ModalStoreComponent implements OnInit {
         fecha_envio    : ['', Validators.required],
         fecha_solicitud: [''],
         id_hor_envio   : ['', Validators.required],
-        id_form_envio  : ['', Validators.required],
+        id_form_envio  : [''],
         observacion    : [''],
-        // id_carga       : ['', Validators.required],
         fecha_proceso  : [''],
         num_doc        : [''],
-        id_estado_d    : [1],
+        id_estado_d    : [''],
         version        : [''],
         importar       : ['']
       })
@@ -89,6 +88,8 @@ export class ModalStoreComponent implements OnInit {
 
     scoreDataImport: any;
     readExcell(e: any){
+      this.blockUI.start("Espere por favor, estamos Importando la Data a la Base de Datos...");
+
       this.spinner.show();
       let file = e.target.files[0];
       let fileReader = new FileReader();
@@ -102,17 +103,17 @@ export class ModalStoreComponent implements OnInit {
         this.scoreDataImport = XLSX.utils.sheet_to_json(wb.Sheets[sheetNames[0]])
 
         console.log('DATA_EXCELL-IMPORTADO', this.scoreDataImport);
-        this.spinner.hide();
+        // this.spinner.hide();
         this.insertarListadoDetalleScore();
+        this.blockUI.stop();
+
       }
     }
 
     insertarListadoDetalleScore(){
-      this.spinner.show();
-
       let parametro: any[] = this.mapearScore(true);
 
-      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreDataImport, this.DATA_SCORE.idScoreM, this.scoreForm.controls['id_estado_d'].value, this.scoreForm.controls['version'].value)
+      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreDataImport, this.DATA_SCORE.idScoreM, this.scoreForm.controls['version'].value)
 
       this.scoreService.actualizarScore(parametro[0]).pipe(
         concatMap((resp: any) => {
@@ -122,8 +123,9 @@ export class ModalStoreComponent implements OnInit {
           console.log('ABC', resp);
 
         if( resp && resp.message == 'ok'){
-          this.spinner.hide();
-        this.scoreForm.controls['version'].setValue(this.DATA_SCORE.version + 1);
+
+          //Seteamos la version del Score_m,
+          this.scoreForm.controls['version'].setValue(this.DATA_SCORE.version + 1);
 
           Swal.fire({
             title: 'Importar Score!',
@@ -289,7 +291,8 @@ export class ModalStoreComponent implements OnInit {
         this.scoreForm.controls['fecha_envio'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
       }
 
-      this.validateIfIsSolicitante()
+      this.validateIfIsSolicitante();
+      this.validarIfIsGestor();
   }
 
   rolGestorTdp: number = 0;
@@ -304,8 +307,6 @@ export class ModalStoreComponent implements OnInit {
       this.scoreForm.controls['id_hor_envio'].disable()
     }
   }
-
-  // ifStado
 
   validateIfIsSolicitante(){
     if (!this.authService.esUsuarioSolicitante()) {

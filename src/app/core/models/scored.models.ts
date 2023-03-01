@@ -3,7 +3,7 @@ export interface ScoreDetalle{
   tipo_documento   : string;
   numero_documento : string;
   segmento         : string;
-  nombres          : string;
+  // nombres          : string;
   q_lineas         : number;
   capacidad_fin    : number;
   codigo_fin       : number;
@@ -14,8 +14,8 @@ export interface ScoreDetalle{
   id_estado        : number;
   idrequerimiento  : string;
   solicitante      : string;
-  Actualiza        : string;
-  FActualiza       : string;
+  // Actualiza        : string;
+  // FActualiza       : string;
   idCarga          : number;
   iVersion         : number
 }

@@ -1,21 +1,22 @@
 const ENVIROMENT: string = 'PROD';
 
-let PATH_BACK_NET  = '';
-let PATH_SCORE_NET = '';
+let PATH_API_SCORE  = '';
+let PATH_SCORE_API = '';
 let PATH_SCORE_AUTH = '';
 switch (ENVIROMENT) {
   case 'DEV':
     // PATH_SCORE_AUTH = 'http://auditoriaseguridadapi2.indratools.com/aut/seguridad/';
-    // PATH_BACK_NET       = 'https://localhost:3061/api/configurador/';
+    // PATH_API_SCORE       = 'https://localhost:3061/api/configurador/';
     break;
   case 'QA':
     PATH_SCORE_AUTH = '';
     break;
   case 'PROD':
-    PATH_BACK_NET       = 'https://localhost:3061/api/configurador/';
-    PATH_SCORE_NET       = 'https://localhost:7131/api/Score';
+    PATH_API_SCORE       = 'https://localhost:3061/api/configurador/';
+    // PATH_SCORE_API       = 'https://localhost:7131/api/Score';
+    PATH_SCORE_API       = 'https://localhost:7247/api/ScoreDetalle';
 
-    // PATH_BACK_NET       = 'http://backwebprocesos.indratools.com/api/configurador/';
+    // PATH_API_SCORE       = 'http://backwebprocesos.indratools.com/api/configurador/';
 
 
     // PATH_SCORE_AUTH = 'http://sistemanocseguridadapi.indratools.com/aut/seguridad/';
@@ -33,5 +34,5 @@ switch (ENVIROMENT) {
 export const API_AUTH_SESSION_SCORE = PATH_SCORE_AUTH + 'login';
 
 // REGISTRO EVENTO
-export const API_SCORE = PATH_BACK_NET + 'ExecuteQuery';
-export const API_SCORE_DETALLE = PATH_SCORE_NET;
+export const API_SCORE = PATH_API_SCORE + 'ExecuteQuery';
+export const API_SCORE_DETALLE = PATH_SCORE_API;

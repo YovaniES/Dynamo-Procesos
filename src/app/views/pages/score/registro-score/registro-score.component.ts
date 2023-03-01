@@ -4,7 +4,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ScoreService } from 'src/app/core/services/score.service';
 import { MatDialog } from '@angular/material/dialog';
-import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { ExportExcellService } from 'src/app/core/services/export-excell.service';
 import { ModalStoreComponent } from './modal-score/modal-score.component';
@@ -27,7 +26,7 @@ export class RegistroScoreComponent implements OnInit {
 
   constructor(
     private scoreService: ScoreService,
-    private authService: AuthService,
+    public authService: AuthService,
     private exportExcellService: ExportExcellService,
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -37,7 +36,7 @@ export class RegistroScoreComponent implements OnInit {
 
   ngOnInit(): void {
     this.newFilfroForm();
-    this.cargarOBuscarScore();
+    this.cargarOBuscarScoreM();
     this.getListEstado();
     this.getListFormatoEnvio();
   }
@@ -47,14 +46,13 @@ export class RegistroScoreComponent implements OnInit {
       creado_por          : [''],
       solicitante         : [''],
       id_estado           : [''],
-      id_estado_d         : [''],
       fecha_solicitud_ini : [''],
       fecha_solicitud_fin : [''],
     })
   };
 
   listScore: any[] = [];
-  cargarOBuscarScore(){
+  cargarOBuscarScoreM(){
     this.blockUI.start("Cargando Score...");
     let parametro: any[] = [{
       "queryId": 57,
@@ -67,12 +65,12 @@ export class RegistroScoreComponent implements OnInit {
           fin           : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
       }
     }];
-    this.scoreService.cargarOBuscarScore(parametro[0]).subscribe((resp: any) => {
+    this.scoreService.cargarOBuscarScoreM(parametro[0]).subscribe((resp: any) => {
     this.blockUI.stop();
+     console.log('Lista-score_m', resp, resp.list.length);
 
-     console.log('Lista-score', resp, resp.list.length);
-      this.listScore = [];
-      this.listScore = resp.list;
+     this.listScore = [];
+     this.listScore = resp.list;
 
       this.spinner.hide();
     });
@@ -94,7 +92,32 @@ export class RegistroScoreComponent implements OnInit {
   }
 
   exportarRegistro(id: number) {
-    this.cargarOBuscarScoreDetalle(id);
+    // this.cargarOBuscarScoreDetalle(id);
+    this.exportScoreDetalle(id)
+  }
+
+  // listScoreDetalleImport: any[] = [];
+  // exportScoreDetalle(){
+  //   let parametro: any[] = [{queryId: 73}];
+
+  //   this.scoreService.exportScoreDetalle(parametro[0]).subscribe((resp: any) => {
+  //       this.listScoreDetalleImport = resp.list;
+  //   });
+  // }
+
+  listScoreDetalleImport: any[] = [];
+  exportScoreDetalle(id_score: number){
+    let parametro: any[] = [{
+      "queryId": 73,
+      "mapValue": {
+          p_idScore : id_score,
+      }
+    }];
+    this.scoreService.exportScoreDetalle(parametro[0]).subscribe((resp: any) => {
+      this.listScoreDetalleImport = resp.list;
+
+    this.exportExcellService.exportarExcel(this.listScoreDetalleImport, 'Score');
+    });
   }
 
   listEstado: any[] = [];
@@ -114,13 +137,14 @@ export class RegistroScoreComponent implements OnInit {
     this.scoreService.getListFormatoEnvio(parametro[0]).subscribe((resp: any) => {
       this.listFormEnvio = resp.list;
     });
-  }
+  };
+
 
   limpiarFiltro() {
     this.filtroForm.reset('', { emitEvent: false });
     this.newFilfroForm();
 
-    this.cargarOBuscarScore();
+    this.cargarOBuscarScoreM();
   }
 
   totalfiltro = 0;
@@ -129,7 +153,7 @@ export class RegistroScoreComponent implements OnInit {
     this.spinner.show();
 
     if (this.totalfiltro != this.totalPersonal) {
-      this.scoreService.cargarOBuscarScore(offset.toString()).subscribe((resp: any) => {
+      this.scoreService.cargarOBuscarScoreM(offset.toString()).subscribe((resp: any) => {
           this.listScore = resp.list;
           this.spinner.hide();
         });
@@ -140,11 +164,11 @@ export class RegistroScoreComponent implements OnInit {
   }
 
   CrearScore_M() {
-
     const dialogRef = this.dialog.open(ModalStoreComponent, { width: '70%', height: '30%',});
+
     dialogRef.afterClosed().subscribe((resp) => {
         if (resp) {
-          this.cargarOBuscarScore();
+          this.cargarOBuscarScoreM();
         }
       });
   }
@@ -155,7 +179,7 @@ export class RegistroScoreComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalStoreComponent, { width: '70%', height: '95%', data: DATA});
     dialogRef.afterClosed().subscribe((resp) => {
         if (resp) {
-          this.cargarOBuscarScore();
+          this.cargarOBuscarScoreM();
         }
       });
   }
