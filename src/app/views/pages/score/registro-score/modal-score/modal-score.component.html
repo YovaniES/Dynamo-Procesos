@@ -339,7 +339,7 @@
       </button>
 
       <ng-container *ngIf="DATA_SCORE">
-        <ng-container *ngIf="authService.esUsuarioSolicitante()">
+        <ng-container *ngIf="authService.esUsuarioSolicitante() && scoreForm.controls['id_estado_m'].value != 1">
           <button
              class="cli-btn btn-m btn-sol-score"
              type="submit" (click)="close()">

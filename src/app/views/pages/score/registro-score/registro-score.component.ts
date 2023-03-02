@@ -68,13 +68,23 @@ export class RegistroScoreComponent implements OnInit {
     this.scoreService.cargarOBuscarScoreM(parametro[0]).subscribe((resp: any) => {
     this.blockUI.stop();
      console.log('Lista-score_m', resp, resp.list.length);
+     console.log('DATA_SCORE_M**', resp.list.filter((x: any) => x.idEstado != 1) );
 
-     this.listScore = [];
-     this.listScore = resp.list;
+
+     if (this.authService.esUsuarioGestor()) {
+       this.listScore = [];
+      //  const dataScoreDifEstReg = resp.list.filter((x: any) => x.idEstado != 1)
+       this.listScore= resp.list.filter((x: any) => x.idEstado != 1)
+      //  this.listScore = resp.list;
+      }else{
+        this.listScore = resp.list;
+      }
 
       this.spinner.hide();
     });
-  }
+  };
+
+
 
   listScoreDetalle: any[] = [];
   cargarOBuscarScoreDetalle(id_score: number){
@@ -95,15 +105,6 @@ export class RegistroScoreComponent implements OnInit {
     // this.cargarOBuscarScoreDetalle(id);
     this.exportScoreDetalle(id)
   }
-
-  // listScoreDetalleImport: any[] = [];
-  // exportScoreDetalle(){
-  //   let parametro: any[] = [{queryId: 73}];
-
-  //   this.scoreService.exportScoreDetalle(parametro[0]).subscribe((resp: any) => {
-  //       this.listScoreDetalleImport = resp.list;
-  //   });
-  // }
 
   listScoreDetalleImport: any[] = [];
   exportScoreDetalle(id_score: number){
