@@ -110,6 +110,7 @@ export class ModalStoreComponent implements OnInit {
     }
 
     insertarListadoDetalleScore(){
+      this.spinner.show();
       let parametro: any[] = this.mapearScore(true);
 
       const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreDataImport, this.DATA_SCORE.idScoreM, this.scoreForm.controls['version'].value )
@@ -132,6 +133,8 @@ export class ModalStoreComponent implements OnInit {
             icon : 'success',
             confirmButtonText: 'Ok'
             })
+
+            this.spinner.hide();
 
             this.cargarOBuscarScoreDetalle();
         }
@@ -171,16 +174,20 @@ export class ModalStoreComponent implements OnInit {
     return this.listScoreDetalle.length == 0;
   }
 
-  cambiarAestadoSolicitado(){
+  cambiarEstadoScoreM(nombreEstado: string){
     console.log(this.listEstado)
-    const estadoSolicitado = this.listEstado.find(estado => estado.cNombre.toUpperCase() == 'SOLICITADO');
+    const estadoSolicitado = this.buscarEstadoPorNombre(nombreEstado);
 
     if (estadoSolicitado) {
       this.actualizarScore(estadoSolicitado.idEstado)
     }
-
   }
 
+
+
+  buscarEstadoPorNombre(nombreEstado:string): any{
+    return this.listEstado.find(estado => estado.cNombre.toUpperCase() == nombreEstado);
+  }
 
   crearOactualizarScore() {
     this.spinner.show();
@@ -231,7 +238,8 @@ export class ModalStoreComponent implements OnInit {
       if (!estadoScore) {
         this.dialogRef.close('Actualizar')
       }else{
-        this.cargarSCoreByID();
+        // this.cargarSCoreByID(); // CARGAMOS LA DATA MAESTRA POR ID
+        this.listScoreM_ByID()
       }
 
         Swal.fire({
@@ -249,6 +257,20 @@ export class ModalStoreComponent implements OnInit {
     }});
   };
 
+  listScoreM_ByID(){
+    let parametro: any =  {
+        queryId: 20,
+        mapValue: {
+          p_idScoreM: this.DATA_SCORE.idScoreM
+        },
+      };
+
+      this.scoreService.listScoreM_ByID(parametro).subscribe((resp: any) => {
+      this.scoreForm.controls['id_estado_m' ].setValue(resp.list[0].idEstado);
+        console.log('SCORE_M_BY_ID', resp.list);
+      });
+    }
+
   crearScoreM(){
     const formValues = this.scoreForm.getRawValue();
     let parametro: any =  {
@@ -262,6 +284,7 @@ export class ModalStoreComponent implements OnInit {
           p_FCrea              : formValues.f_crea,
           p_idEnvio            : formValues.id_hor_envio,
           p_iVersion           : '',
+          p_iHoraEnvio         : formValues.id_form_envio,
           CONFIG_USER_ID       : this.userID,
           CONFIG_OUT_MSG_ERROR : '',
           CONFIG_OUT_MSG_EXITO : ''
@@ -290,7 +313,7 @@ export class ModalStoreComponent implements OnInit {
       this.scoreForm.controls['id_estado_m' ].setValue(this.DATA_SCORE.idEstado);
       this.scoreForm.controls['observacion' ].setValue(this.DATA_SCORE.observacion);
       this.scoreForm.controls['id_hor_envio'].setValue(this.DATA_SCORE.idEnvio);
-      // this.scoreForm.controls['id_carga'   ].setValue(this.DATA_SCORE.id_carga);
+      this.scoreForm.controls['id_form_envio'].setValue(this.DATA_SCORE.iHoraEnvio);
       this.scoreForm.controls['version'     ].setValue(this.DATA_SCORE.version);
 
       if (this.DATA_SCORE.fecha_solicitud) {
@@ -336,19 +359,17 @@ export class ModalStoreComponent implements OnInit {
     }
   }
 
+  // buscarEstadoPorDescripcion(descripcion: string): any{
+  //   return this.listEstado.find( (e: any) => e.cNombre.toUpperCase() == descripcion)
+  // }
 
-  buscarEstadoPorDescripcion(descripcion: string): any{
-    return this.listEstado.find( (e: any) => e.cNombre.toUpperCase() == descripcion)
-  }
-
-  validarEstadoPorDescripcion(nameEstado: string){
-    const idEstadoSolicitado = this.buscarEstadoPorDescripcion(nameEstado.toUpperCase());
-    if (idEstadoSolicitado) {
-      console.log('ID_EST_REG', idEstadoSolicitado);
-      this.actualizarScore(idEstadoSolicitado.idEstado);
-    }
-  }
-
+  // validarEstadoPorDescripcion(nameEstado: string){
+  //   const idEstadoSolicitado = this.buscarEstadoPorDescripcion(nameEstado.toUpperCase());
+  //   if (idEstadoSolicitado) {
+  //     console.log('ID_EST_REG', idEstadoSolicitado);
+  //     this.actualizarScore(idEstadoSolicitado.idEstado);
+  //   }
+  // }
 
   listHistoricoCambios: any[] = [];
   ListaHistoricoCambios(idRegistro: number){
@@ -430,13 +451,6 @@ export class ModalStoreComponent implements OnInit {
     this.cargarOBuscarScoreDetalle();
   };
 
-    // hasPermission(r: ROLES_ENUM[]): boolean {
-    //   if (r) {
-    //     return this.authService.accesoBtnMail(r)
-    //   }
-    //   return true;
-    // }
-
    listPageDisp: any[] = [];
    totalfiltro = 0;
    cambiarPagina(event: number) {
@@ -454,14 +468,21 @@ export class ModalStoreComponent implements OnInit {
        this.page = event;
    }
 
+   validarCambioScoreM(resp: any ){
+    if (resp.exitoMessage == "Actualización exitosa") {
+      this.cambiarEstadoScoreM('EN VALIDACIÓN');
+    }
+   }
+
    asignarObservacion(DATA: any){
-    // const dialogRef = this.dialog.open(AsignarObservacionComponent, { width:'35%', data: {dataModal: DATA, isCreation: true, } });
     const dialogRef = this.dialog.open(AsignarObservacionComponent, { width:'35%', data: DATA });
 
     dialogRef.afterClosed().subscribe(resp => {
       console.log('CLOSE', resp);
 
       if (resp) {
+        this.validarCambioScoreM(resp)
+
         this.cargarOBuscarScoreDetalle()
       }
     })

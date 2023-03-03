@@ -7,7 +7,6 @@ export function mapearListadoDetalleScore(scoreData: any[], idScore: number, ver
       tipo_documento    : detalle.TIPODOCUMENTO,
       numero_documento  : detalle.NUMDOCUMENTO,
       segmento          : detalle.Segmento,
-      // nombres           : '',
       q_lineas          : detalle.QLINEAS,
       capacidad_fin     : detalle.CAPACIDADFINANCIAMIENTO,
       codigo_fin        : detalle.CODFINANCIAMIENTO,
@@ -21,6 +20,8 @@ export function mapearListadoDetalleScore(scoreData: any[], idScore: number, ver
       solicitante       : detalle.Analista,
       // Actualiza         : '',
       // FActualiza        : '',
+      financiamiento    : detalle.Financiamiento,
+      nombreReq         : detalle.NombreREQ,
       idCarga           : detalle.idCarga,
       iVersion          : version + 1
     };

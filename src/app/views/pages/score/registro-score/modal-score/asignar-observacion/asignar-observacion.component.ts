@@ -59,7 +59,6 @@ export class AsignarObservacionComponent implements OnInit {
     let parametro: any[] = [{ queryId: 19,
         mapValue: {
           p_idscored               : this.DATA_SCORE_DET.idScored,
-          // p_observacion            : formValues.observacion_gestor ,
           p_id_estado              : formValues.id_estado_d,
           p_Actualiza              : this.userName,
           p_FActualiza             :'',
@@ -75,7 +74,8 @@ export class AsignarObservacionComponent implements OnInit {
 
         this.cargarObservacionByID();
 
-        this.close(true)
+        this.close(resp)
+
           Swal.fire({
             title: 'Actualizar Observación!',
             text : `La Observación fue actualizado con éxito`,
@@ -105,7 +105,7 @@ export class AsignarObservacionComponent implements OnInit {
        console.log('OBSERV_BY_ID', this.asigObservacionForm.value);
 
        this.validarIfIsSolicitante();
-      //  this.validarIfIsGestor();
+       this.validarIfIsGestor();
 
   }
 
@@ -122,7 +122,6 @@ export class AsignarObservacionComponent implements OnInit {
   validarIfIsGestor(){
     if (this.authService.esUsuarioGestor()) {
       this.asigObservacionForm.controls['observacion'].disable()
-      // this.asigObservacionForm.controls['id_estado_d'    ].disable()
     }
   }
 

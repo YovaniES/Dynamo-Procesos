@@ -15,6 +15,8 @@ export interface ScoreDetalle{
   id_estado              : number;
   idrequerimiento        : string;
   solicitante            : string;
+  financiamiento         : number,
+  nombreReq              : string,
   // Actualiza        : string;
   // FActualiza       : string;
   idCarga                : number;

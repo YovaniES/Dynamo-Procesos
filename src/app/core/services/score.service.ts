@@ -29,6 +29,10 @@ export class ScoreService {
     return this.http.post(API_SCORE, obj);
   }
 
+  listScoreM_ByID(obj: any){
+    return this.http.post(API_SCORE, obj);
+  }
+
   actualizarScore(obj: any){
     return this.http.post(API_SCORE, obj);
   }

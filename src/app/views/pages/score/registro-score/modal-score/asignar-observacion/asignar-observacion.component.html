@@ -53,7 +53,7 @@
               </select>
             </div>
 
-            <div class="cli-form-element mb-2">
+            <!-- <div class="cli-form-element mb-2">
               <label>Obervación Sistema</label>
               <textarea
                 class="form-control"
@@ -62,19 +62,18 @@
                 placeholder="Escriba algún comentario para el Gestor TDP..."
                 formControlName="observacion">
               </textarea>
-              <!-- <small class="form-text text-alert" *ngIf="campoNoValido('observacion')">* Describa la Observación es obligatorio</small> -->
-            </div>
+            </div> -->
 
             <div class="cli-form-element mb-2" *ngIf="asigObservacionForm.controls['id_estado_d'].value == 4">
-              <label>Obervación Gestor TDP</label>
+              <label>Obervación Gestor TDP*</label>
               <textarea
                 class="form-control"
                 style="background-image: none; border-color: #bdbdbd; font-size: 12px;"
                 rows="3"
-                placeholder="Escriba alguna observación sobre la solicitud del score..."
+                placeholder="Escriba alguna observación de la solicitud para el Solicitante del score..."
                 formControlName="observacion_gestor">
               </textarea>
-              <!-- <small class="form-text text-alert" *ngIf="campoNoValido('observacion_gestor')">* Describa la Observación es obligatorio</small> -->
+              <small class="form-text text-alert" *ngIf="campoNoValido('observacion_gestor')">* Describa la Observación es obligatorio</small>
             </div>
           </div>
         </div>
@@ -94,4 +93,3 @@
     </div>
   </div>
 </form>
-
