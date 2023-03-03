@@ -9,12 +9,13 @@ export function mapearListadoDetalleScore(scoreData: any[], idScore: number, ver
       segmento          : detalle.Segmento,
       // nombres           : '',
       q_lineas          : detalle.QLINEAS,
-      capacidad_fin     : detalle.CAPACIDADFINANCIAMIENTO, //Falta insertar: CAPACIDADFINANCIAMIENTO
+      capacidad_fin     : detalle.CAPACIDADFINANCIAMIENTO,
       codigo_fin        : detalle.CODFINANCIAMIENTO,
       fecha_proceso     : new Date(detalle.FECHAPROCESO),
       score             : detalle.SCORE,
       cargo_fijo_max    : detalle.CARGOFIJOMAXIMO,
       observacion       : detalle.OBSERVACIONES,
+      observacion_solicitante: '',
       id_estado         : 1,  // default = 1: REGISTRADO
       idrequerimiento   : detalle.REQ, //Falta REQ
       solicitante       : detalle.Analista,

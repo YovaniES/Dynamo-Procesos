@@ -106,14 +106,13 @@ export class ModalStoreComponent implements OnInit {
         // this.spinner.hide();
         this.insertarListadoDetalleScore();
         this.blockUI.stop();
-
       }
     }
 
     insertarListadoDetalleScore(){
       let parametro: any[] = this.mapearScore(true);
 
-      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreDataImport, this.DATA_SCORE.idScoreM, this.scoreForm.controls['version'].value)
+      const listScoreDetalle: ScoreDetalle[] = mapearListadoDetalleScore(this.scoreDataImport, this.DATA_SCORE.idScoreM, this.scoreForm.controls['version'].value )
 
       this.scoreService.actualizarScore(parametro[0]).pipe(
         concatMap((resp: any) => {
@@ -142,6 +141,8 @@ export class ModalStoreComponent implements OnInit {
 
     listScoreDetalle: any[] = [];
     cargarOBuscarScoreDetalle(){
+      this.listScoreDetalle = [];
+
       this.blockUI.start("Cargando Score detalle...");
       let parametro: any[] = [{
         "queryId": 1,
@@ -158,12 +159,28 @@ export class ModalStoreComponent implements OnInit {
       this.blockUI.stop();
 
        console.log('D A T A - score_D', resp, resp.list.length);
-        this.listScoreDetalle = [];
         this.listScoreDetalle = resp.list;
 
         this.spinner.hide();
       });
     }
+
+
+
+  get existeRegistros():boolean{
+    return this.listScoreDetalle.length == 0;
+  }
+
+  cambiarAestadoSolicitado(){
+    console.log(this.listEstado)
+    const estadoSolicitado = this.listEstado.find(estado => estado.cNombre.toUpperCase() == 'SOLICITADO');
+
+    if (estadoSolicitado) {
+      this.actualizarScore(estadoSolicitado.idEstado)
+    }
+
+  }
+
 
   crearOactualizarScore() {
     this.spinner.show();
@@ -179,7 +196,7 @@ export class ModalStoreComponent implements OnInit {
     this.spinner.hide();
   }
 
-  mapearScore(incrementarVersion?: boolean): any[]{
+  mapearScore(incrementarVersion: boolean = false, idEstado?:number): any[]{
     const formValues = this.scoreForm.getRawValue();
 
     return  [{
@@ -189,7 +206,7 @@ export class ModalStoreComponent implements OnInit {
         p_solicitante        : formValues.solicitante,
         p_fecha_solicitud    : formValues.fecha_solicitud,
         p_fecha_envio        : formValues.fecha_envio,
-        p_idEstado           : formValues.id_estado_m,
+        p_idEstado           : idEstado? idEstado: formValues.id_estado_m,
         p_Actualiza          : this.userName,
         p_FActualiza         : '',
         p_observacion        : formValues.observacion,
@@ -202,17 +219,20 @@ export class ModalStoreComponent implements OnInit {
     }];
   }
 
-
-   actualizarScore(){
+  actualizarScore(estadoScore?: number){
     this.spinner.show();
-    let parametro: any[] = this.mapearScore();
+    let parametro: any[] = this.mapearScore(false, estadoScore);
 
     this.scoreService.actualizarScore(parametro[0]).subscribe( {next: (resp: any) => {
       this.spinner.hide();
 
       console.log('DATA_ACTUALIZADO', resp);
       // this.cargarSCoreByID();
-      this.dialogRef.close('Actualizar')
+      if (!estadoScore) {
+        this.dialogRef.close('Actualizar')
+      }else{
+        this.cargarSCoreByID();
+      }
 
         Swal.fire({
           title: 'Actualizar Score!',
@@ -316,6 +336,20 @@ export class ModalStoreComponent implements OnInit {
     }
   }
 
+
+  buscarEstadoPorDescripcion(descripcion: string): any{
+    return this.listEstado.find( (e: any) => e.cNombre.toUpperCase() == descripcion)
+  }
+
+  validarEstadoPorDescripcion(nameEstado: string){
+    const idEstadoSolicitado = this.buscarEstadoPorDescripcion(nameEstado.toUpperCase());
+    if (idEstadoSolicitado) {
+      console.log('ID_EST_REG', idEstadoSolicitado);
+      this.actualizarScore(idEstadoSolicitado.idEstado);
+    }
+  }
+
+
   listHistoricoCambios: any[] = [];
   ListaHistoricoCambios(idRegistro: number){
     this.spinner.show();
@@ -384,6 +418,7 @@ export class ModalStoreComponent implements OnInit {
    getUsername(){
     this.authService.getCurrentUser().subscribe( resp => {
       this.userName = resp.userName
+      this.scoreForm.controls['solicitante'].setValue(this.userName);
       console.log('USER_NAME', this.userName);
     })
    }
@@ -427,7 +462,7 @@ export class ModalStoreComponent implements OnInit {
       console.log('CLOSE', resp);
 
       if (resp) {
-        // this.cargarPeriodoVacaciones()
+        this.cargarOBuscarScoreDetalle()
       }
     })
   };

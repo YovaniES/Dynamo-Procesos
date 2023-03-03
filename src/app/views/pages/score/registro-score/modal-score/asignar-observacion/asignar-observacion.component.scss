@@ -26,3 +26,45 @@
   font-family: "Webapp-Bold";
   color: $color-green;
 }
+
+.cli-btn:disabled {
+  background-color: #ddcbff;
+  color: #fff;
+}
+
+.s-dni {
+  font-size: 12px;
+  text-align: center;
+  font-weight: 500;
+  color: #ff65b1;
+  background: #f8f9fa;
+  padding: 5px;
+}
+
+.id-score {
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
+  color: #5cb615;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+}
+
+.cli-user{
+  display: flex;
+  align-items: center;
+  color: #25cf9d;
+  background: #f8f9fa;
+}
+
+.total {
+  color: #97999b;
+}
+
+
+.input-group-text {
+  background-color: #ffffff;
+  border: none;
+  padding: 0.5px 5px;
+}

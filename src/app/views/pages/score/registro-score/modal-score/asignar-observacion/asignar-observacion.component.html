@@ -11,6 +11,19 @@
 <form class="row g-3" [formGroup]="asigObservacionForm">
   <div class="cli-form newvac-wrapper">
     <div class="chart-draw">
+
+      <div style="display: flex" >
+        <div class="id-score">Score : <span  class="total">{{asigObservacionForm.controls['score'].value}}</span></div>
+        <div class="flex-1" style="background: #f8f9fa;"></div>
+          <ng-container class="input-group">
+            <div class="input-group-text" style="background: #f8f9fa; color: #858d95;"><mat-icon class="icon-13">contact_page</mat-icon></div>
+            <div class="cli-user">{{asigObservacionForm.controls['tipo_documento'].value | uppercase}}</div>
+          </ng-container>
+          <div class="flex-1" style="background: #f8f9fa;"></div>
+          <div class="s-dni">Número DOC : <span  class="total">{{asigObservacionForm.controls['numero_documento'].value}}</span></div>
+      </div>
+
+
       <!-- REGISTRAR PERIODO DE LAS VACACIONES---------------------------------------------------------- -->
         <div class="pr-module-container">
           <div class="row g-3">
@@ -32,16 +45,36 @@
               </mat-form-field>
             </div> -->
 
+            <div class="col-sm-12 cli-form-element">
+              <label>Estado</label>
+              <select class="cli-input-white" formControlName="id_estado_d">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="estado.id_correlativo"*ngFor="let estado of listEstadoDetalle">{{ estado.valor_texto_1 }}</option>
+              </select>
+            </div>
+
             <div class="cli-form-element mb-2">
-              <label>Obervación</label>
+              <label>Obervación Sistema</label>
+              <textarea
+                class="form-control"
+                style="background-image: none; border-color: #bdbdbd; font-size: 12px;"
+                rows="3"
+                placeholder="Escriba algún comentario para el Gestor TDP..."
+                formControlName="observacion">
+              </textarea>
+              <!-- <small class="form-text text-alert" *ngIf="campoNoValido('observacion')">* Describa la Observación es obligatorio</small> -->
+            </div>
+
+            <div class="cli-form-element mb-2" *ngIf="asigObservacionForm.controls['id_estado_d'].value == 4">
+              <label>Obervación Gestor TDP</label>
               <textarea
                 class="form-control"
                 style="background-image: none; border-color: #bdbdbd; font-size: 12px;"
                 rows="3"
                 placeholder="Escriba alguna observación sobre la solicitud del score..."
-                formControlName="observacion">
+                formControlName="observacion_gestor">
               </textarea>
-              <small class="form-text text-alert" *ngIf="campoNoValido('observacion')">* Describa la Observación es obligatorio</small>
+              <!-- <small class="form-text text-alert" *ngIf="campoNoValido('observacion_gestor')">* Describa la Observación es obligatorio</small> -->
             </div>
           </div>
         </div>
@@ -53,7 +86,7 @@
         <mat-icon class="icon-18">cancel</mat-icon> Cancelar
       </button>
       <button
-        class="cli-btn btn-m btn-blue"
+        class="cli-btn btn-m btn-mora"
         [disabled]="asigObservacionForm.invalid"
         (click)="actualizarObservacion()">
         <mat-icon class="icon-18">save</mat-icon> Actualizar

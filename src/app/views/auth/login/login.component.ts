@@ -39,7 +39,7 @@ export class LoginComponent  {
           );
           this.router.navigateByUrl('home');
         }else{
-        Swal.fire('Error', 'Credenciales Incorrectas 123', 'error' );
+        Swal.fire('Error', 'Credenciales Incorrectas para esta aplicación', 'error' );
         }
       }, error => {
         this.spinner.hide();

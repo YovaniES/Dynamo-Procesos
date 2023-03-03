@@ -5,21 +5,19 @@ let API_SAVE_DATA_IMPORT = '';
 let PATH_SCORE_AUTH = '';
 switch (ENVIROMENT) {
   case 'DEV':
+    // PATH_SCORE_AUTH =  'http://localhost:3080/aut/seguridad';
     break;
   case 'QA':
     PATH_SCORE_AUTH = '';
     break;
   case 'PROD':
-    // PATH_API_SCORE       = 'https://localhost:3061/api/configurador/';
-    // API_SAVE_DATA_IMPORT       = 'https://localhost:7247/api/ScoreDetalle';
-    API_SAVE_DATA_IMPORT = 'http://saveimporteddata.indratools.com/api/ScoreDetalle'
+    PATH_API_SCORE       = 'https://localhost:3061/api/configurador/';
+    API_SAVE_DATA_IMPORT       = 'https://localhost:7247/api/ScoreDetalle';
+    // API_SAVE_DATA_IMPORT = 'http://saveimporteddata.indratools.com/api/ScoreDetalle'
 
-    PATH_API_SCORE       = 'http://backwebprocesos.indratools.com/api/configurador/';
+    // PATH_API_SCORE       = 'http://backwebprocesos.indratools.com/api/configurador/';
 
-    // PATH_SCORE_AUTH = 'http://sistemanocseguridadapi.indratools.com/aut/seguridad/';
-    // PATH_SCORE_AUTH =  'http://localhost:3080/aut/seguridad';
-    PATH_SCORE_AUTH = 'http://seguridadweb.indratools.com/aut/seguridad/'
-
+    PATH_SCORE_AUTH     = 'http://seguridadweb.indratools.com/aut/seguridad/'
     break;
   default:
     break;

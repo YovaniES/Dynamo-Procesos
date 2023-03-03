@@ -156,7 +156,7 @@
                       </div>
 
                       <div style="display: flex">
-                        <div class="version">Versión : <span  class="total">{{scoreForm.controls['version'].value }}</span></div>
+                        <div class="version">Versión : <span  class="id-version">{{scoreForm.controls['version'].value }}</span></div>
 
 
                         <div class="flex-1"></div>
@@ -181,10 +181,10 @@
                               <th>Q Lineas</th>
                               <th>Cód. Financ.</th>
                               <th>ID REQ.</th>
-                              <th>Estado</th>
                               <th>Fecha Proceso</th>
-                              <th>Solicitante</th>
+                              <th>Analista</th>
                               <th>Cargo Fijo Máx.</th>
+                              <th>Estado</th>
                               <th>Observación.</th>
                             </tr>
                           </thead>
@@ -205,21 +205,28 @@
                             <td style="min-width: 85px;" >{{ score.q_lineas }}</td>
                             <td style="min-width: 90px;" >{{ score.codigo_fin }}</td>
                             <td style="min-width: 90px;" >{{ score.idrequerimiento }}</td>
-
-                            <td style="min-width: 118px;">
-                              <span *ngIf="score.estado == 'Solicitado'"       class="label estado-compl"> {{ score.estado | uppercase }}</span>
-                              <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label estado-planif">{{ score.estado | uppercase }}</span>
-                              <span *ngIf="score.estado == 'No existe LB'"     class="label estado-pend "> {{ score.estado | uppercase }}</span>
-                            </td>
-
                             <td style="min-width: 110px">{{ score.fecha_proceso }}</td>
                             <td style="min-width: 200px;">{{ score.solicitante }}</td>
                             <td style="min-width: 120px;">{{ score.cargo_fijo_max }}</td>
+                            <td style="min-width: 118px;">
+                              <span *ngIf="score.estado == 'Solicitado'"       class="label est-sol">         {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label est-usu-inac">    {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'No existe LB'"     class="label est-no-exit-lb "> {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'Observado'"        class="label est-observado ">  {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'Enviado'"          class="label est-enviado ">    {{ score.estado | uppercase }}</span>
+
+                              <!-- <span style="align-items: center; display: flex" *ngIf="score.estado == 'Solicitado'"      ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #398bf7;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
+                              <span style="align-items: center; display: flex; min-width: 120px;" *ngIf="score.estado == 'Usuario Ináctivo'"><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #ffdc73;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
+                              <span style="align-items: center; display: flex" *ngIf="score.estado == 'No existe LB'"    ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #ff727f;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
+                              <span style="align-items: center; display: flex" *ngIf="score.estado == 'Observado'"       ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #f200ff94;">radio_button_checked</mat-icon>{{ score.estado | uppercase}}</span>
+                              <span style="align-items: center; display: flex" *ngIf="score.estado == 'Enviado'"         ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #71e7ff;">radio_button_checked</mat-icon>{{ score.estado | uppercase}}</span> -->
+
+                            </td>
                             <td class="obs-score">
-                              <ng-container *ngIf="score.estado != 'Solicitado123333333333'">
+                              <ng-container *ngIf="authService.esUsuarioGestor() && score.estado == 'Solicitado' || score.estado == 'Observado'">
                                 <div style="display: flex">
                                   <button
-                                    class="btn-obs btn-obs-color"
+                                    class="btn-obs btn-obs"
                                     style="margin: 0"
                                     type="button"
                                     (click)="asignarObservacion(score)"
@@ -339,10 +346,11 @@
       </button>
 
       <ng-container *ngIf="DATA_SCORE">
-        <ng-container *ngIf="authService.esUsuarioSolicitante() && scoreForm.controls['id_estado_m'].value != 1">
+        <ng-container *ngIf="authService.esUsuarioSolicitante() && scoreForm.controls['id_estado_m'].value == 1 || scoreForm.controls['id_estado_m'].value == 4 ">
           <button
+             [disabled]="existeRegistros"
              class="cli-btn btn-m btn-sol-score"
-             type="submit" (click)="close()">
+             type="submit" (click)="cambiarAestadoSolicitado()">
             <mat-icon class="icon-18">credit_score</mat-icon> Solicitar Score
           </button>
         </ng-container>

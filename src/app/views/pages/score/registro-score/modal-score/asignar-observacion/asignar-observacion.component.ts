@@ -31,14 +31,22 @@ export class AsignarObservacionComponent implements OnInit {
   ngOnInit(): void {
     this.newForm();
     this.getUserID();
+    this.getUsername();
+    this.getListEstadoDetalle();
     this.cargarObservacionByID();
-    console.log('DATA_SCORE_DETALLE', this.DATA_SCORE_DET, this.DATA_SCORE_DET);
+    console.log('DATA_SCORE_DETALLE_OBS', this.DATA_SCORE_DET, this.DATA_SCORE_DET);
     console.log('DATA_SCORE_DET_OBS', this.DATA_SCORE_DET.observacion);
+    console.log('DATA_SCORE_DET_OBS_SOL', this.DATA_SCORE_DET.observacion_solicitante);
   }
 
   newForm(){
     this.asigObservacionForm = this.fb.group({
-      observacion : ['', Validators.required],
+      id_estado_d        : [''],
+      tipo_documento     : [''],
+      numero_documento   : [''],
+      score              : [''],
+      observacion_gestor : ['', Validators.required],
+      observacion       : [''], // obs sistema o excell
     })
    }
 
@@ -48,18 +56,23 @@ export class AsignarObservacionComponent implements OnInit {
     const formValues = this.asigObservacionForm.getRawValue();
     console.log('O B S', this.asigObservacionForm.value);
 
-    let parametro: any[] = [{ queryId: 131,
+    let parametro: any[] = [{ queryId: 19,
         mapValue: {
-          // p_idPeriodoVac         : this.DATA_SCORE_DET.idScored,
-          p_observacion          : formValues.observacion ,
-          // p_fecha_per_creacion   : '' ,
-          CONFIG_USER_ID         : this.userID,
-          CONFIG_OUT_MSG_ERROR: '',
-          CONFIG_OUT_MSG_EXITO: ''
+          p_idscored               : this.DATA_SCORE_DET.idScored,
+          // p_observacion            : formValues.observacion_gestor ,
+          p_id_estado              : formValues.id_estado_d,
+          p_Actualiza              : this.userName,
+          p_FActualiza             :'',
+          p_observacion_solicitante: formValues.observacion_gestor ,
+          CONFIG_USER_ID           : this.userID,
+          CONFIG_OUT_MSG_ERROR     : '',
+          CONFIG_OUT_MSG_EXITO     : ''
         },
       }];
-     this.scoreService.actualizarObservacion(parametro[0]).subscribe({next: (res) => {
+     this.scoreService.actualizarObservacion(parametro[0]).subscribe({next: (resp: any) => {
         this.spinner.hide();
+      console.log('OBS_ACTUALIZADO', resp);
+
         this.cargarObservacionByID();
 
         this.close(true)
@@ -70,8 +83,8 @@ export class AsignarObservacionComponent implements OnInit {
             confirmButtonText: 'Ok'
             });
 
-          this.asigObservacionForm.reset();
-          this.dialogRef.close('Actualizar');
+          // this.asigObservacionForm.reset();
+          // this.dialogRef.close('Actualizar');
         }, error:()=>{
           Swal.fire(
             'ERROR',
@@ -83,8 +96,42 @@ export class AsignarObservacionComponent implements OnInit {
   }
 
   cargarObservacionByID(){
-      this.asigObservacionForm.controls['observacion'].setValue(this.DATA_SCORE_DET.observacion);
-       console.log('DATOS_DET', this.asigObservacionForm.value);
+      this.asigObservacionForm.controls['observacion_gestor'].setValue(this.DATA_SCORE_DET.observacion_solicitante);
+      this.asigObservacionForm.controls['observacion'       ].setValue(this.DATA_SCORE_DET.observacion); //OBS SISTEMA
+      this.asigObservacionForm.controls['id_estado_d'       ].setValue(this.DATA_SCORE_DET.id_estado);
+      this.asigObservacionForm.controls['tipo_documento'    ].setValue(this.DATA_SCORE_DET.tipo_documento);
+      this.asigObservacionForm.controls['numero_documento'  ].setValue(this.DATA_SCORE_DET.numero_documento);
+      this.asigObservacionForm.controls['score'             ].setValue(this.DATA_SCORE_DET.score);
+       console.log('OBSERV_BY_ID', this.asigObservacionForm.value);
+
+       this.validarIfIsSolicitante();
+      //  this.validarIfIsGestor();
+
+  }
+
+  listEstadoDetalle: any[] = [];
+  getListEstadoDetalle(){
+    let parametro: any[] = [{ queryId: 7 }];
+
+    this.scoreService.getListEstadoDetalle(parametro[0]).subscribe((resp: any) => {
+      this.listEstadoDetalle = resp.list.filter((x: any) => x.id_correlativo == 1 || x.id_correlativo == 4);
+      // console.log('ESTADOS_DETALLE', resp.list);
+    });
+  }
+
+  validarIfIsGestor(){
+    if (this.authService.esUsuarioGestor()) {
+      this.asigObservacionForm.controls['observacion'].disable()
+      // this.asigObservacionForm.controls['id_estado_d'    ].disable()
+    }
+  }
+
+  validarIfIsSolicitante(){
+    if (this.authService.esUsuarioSolicitante()) {
+      this.asigObservacionForm.controls['observacion'       ].disable()
+      this.asigObservacionForm.controls['id_estado_d'       ].disable()
+      this.asigObservacionForm.controls['observacion_gestor'].disable()
+    }
   }
 
    userID: number = 0;
@@ -92,6 +139,14 @@ export class AsignarObservacionComponent implements OnInit {
     this.authService.getCurrentUser().subscribe( resp => {
       this.userID   = resp.user.userId;
       // console.log('ID-USER', this.userID);
+    })
+   }
+
+   userName: string = '';
+   getUsername(){
+    this.authService.getCurrentUser().subscribe( resp => {
+      this.userName = resp.userName
+      console.log('USER_NAME', this.userName);
     })
    }
 
@@ -107,4 +162,5 @@ export class AsignarObservacionComponent implements OnInit {
     this.dialogRef.close(succes);
   }
 }
+
 
