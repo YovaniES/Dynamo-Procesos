@@ -3,24 +3,26 @@ export interface ScoreDetalle{
   tipo_documento         : string;
   numero_documento       : string;
   segmento               : string;
-  // nombres                : string;
   q_lineas               : number;
   capacidad_fin          : number;
   codigo_fin             : number;
   fecha_proceso          : Date;
   score                  : number;
   cargo_fijo_max         : number;
-  observacion            : string;
-  observacion_solicitante: string;
+  observacion_solic      : string;
+  observacion_gestor     : string;
   id_estado              : number;
   idrequerimiento        : string;
   solicitante            : string;
   financiamiento         : number,
-  nombreReq              : string,
-  // Actualiza        : string;
-  // FActualiza       : string;
-  idCarga                : number;
-  iVersion               : number
+  nombre_req             : string,
+  // idCarga                : number;
+  item_version           : number,
+  negocio_segmento       : string,
+  tipo_transaccion       : string,
+  tipo_venta             : string,
+  gama                   : string,
+
 }
 
 

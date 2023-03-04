@@ -27,24 +27,6 @@
       <!-- REGISTRAR PERIODO DE LAS VACACIONES---------------------------------------------------------- -->
         <div class="pr-module-container">
           <div class="row g-3">
-
-            <!-- <div class="col-sm-6 cli-form-element" *ngIf="DATA_SCORE_DET.isCreation">
-              <label>Estado</label>
-              <select class="cli-input-white" formControlName="id_estado_d">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="estado.id_correlativo"*ngFor="let estado of listEstadoDetalle">{{ estado.valor_texto_1 }}</option>
-              </select>
-            </div>
-
-            <div class="col-sm-6 cli-form-element">
-              <label class="form-label">Fecha Proceso</label>
-              <mat-form-field appearance="outline">
-                <input matInput [matDatepicker]="picker_p" formControlName="fecha_proceso" >
-                <mat-datepicker-toggle matSuffix [for]="picker_p"></mat-datepicker-toggle>
-                <mat-datepicker #picker_p></mat-datepicker>
-              </mat-form-field>
-            </div> -->
-
             <div class="col-sm-12 cli-form-element">
               <label>Estado</label>
               <select class="cli-input-white" formControlName="id_estado_d">
@@ -52,17 +34,6 @@
                 <option [value]="estado.id_correlativo"*ngFor="let estado of listEstadoDetalle">{{ estado.valor_texto_1 }}</option>
               </select>
             </div>
-
-            <!-- <div class="cli-form-element mb-2">
-              <label>Obervación Sistema</label>
-              <textarea
-                class="form-control"
-                style="background-image: none; border-color: #bdbdbd; font-size: 12px;"
-                rows="3"
-                placeholder="Escriba algún comentario para el Gestor TDP..."
-                formControlName="observacion">
-              </textarea>
-            </div> -->
 
             <div class="cli-form-element mb-2" *ngIf="asigObservacionForm.controls['id_estado_d'].value == 4">
               <label>Obervación Gestor TDP*</label>

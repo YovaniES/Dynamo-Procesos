@@ -214,11 +214,11 @@ export class ModalStoreComponent implements OnInit {
         p_fecha_solicitud    : formValues.fecha_solicitud,
         p_fecha_envio        : formValues.fecha_envio,
         p_idEstado           : idEstado? idEstado: formValues.id_estado_m,
-        p_Actualiza          : this.userName,
-        p_FActualiza         : '',
+        p_actualiza          : this.userName,
+        p_f_actualiza        : '',
         p_observacion        : formValues.observacion,
         p_idEnvio            : formValues.id_hor_envio,
-        p_idVersion          : incrementarVersion? formValues.version +1 : formValues.version,
+        p_item_version       : incrementarVersion? formValues.version +1 : formValues.version,
         CONFIG_USER_ID       : this.userID ,
         CONFIG_OUT_MSG_ERROR : '' ,
         CONFIG_OUT_MSG_EXITO : ''
@@ -280,11 +280,11 @@ export class ModalStoreComponent implements OnInit {
           p_fecha_solicitud    : formValues.fecha_solicitud,
           p_fecha_envio        : formValues.fecha_envio,
           p_idEstado           : 1, //ESTADO REGISTRADO,
-          p_Crea               : this.userName,
-          p_FCrea              : formValues.f_crea,
+          p_crea_solic         : this.userName,
+          p_f_crea             : formValues.f_crea,
           p_idEnvio            : formValues.id_hor_envio,
-          p_iVersion           : '',
-          p_iHoraEnvio         : formValues.id_form_envio,
+          p_item_version       : '',
+          p_item_hora_envio    : formValues.id_form_envio,
           CONFIG_USER_ID       : this.userID,
           CONFIG_OUT_MSG_ERROR : '',
           CONFIG_OUT_MSG_EXITO : ''
@@ -308,13 +308,13 @@ export class ModalStoreComponent implements OnInit {
   actionBtn: string = 'Agregar';
   cargarSCoreByID(){
     this.actionBtn = 'Actualizar'
-      this.scoreForm.controls['id_score'    ].setValue(this.DATA_SCORE.idScoreM );
-      this.scoreForm.controls['solicitante' ].setValue(this.DATA_SCORE.solicitante);
-      this.scoreForm.controls['id_estado_m' ].setValue(this.DATA_SCORE.idEstado);
-      this.scoreForm.controls['observacion' ].setValue(this.DATA_SCORE.observacion);
-      this.scoreForm.controls['id_hor_envio'].setValue(this.DATA_SCORE.idEnvio);
-      this.scoreForm.controls['id_form_envio'].setValue(this.DATA_SCORE.iHoraEnvio);
-      this.scoreForm.controls['version'     ].setValue(this.DATA_SCORE.version);
+      this.scoreForm.controls['id_score'     ].setValue(this.DATA_SCORE.idScoreM );
+      this.scoreForm.controls['solicitante'  ].setValue(this.DATA_SCORE.solicitante);
+      this.scoreForm.controls['id_estado_m'  ].setValue(this.DATA_SCORE.idEstado);
+      this.scoreForm.controls['observacion'  ].setValue(this.DATA_SCORE.observacion);
+      this.scoreForm.controls['id_hor_envio' ].setValue(this.DATA_SCORE.idEnvio);
+      this.scoreForm.controls['id_form_envio'].setValue(this.DATA_SCORE.item_hora_envio);
+      this.scoreForm.controls['version'      ].setValue(this.DATA_SCORE.version);
 
       if (this.DATA_SCORE.fecha_solicitud) {
         let fecha_x = this.DATA_SCORE.fecha_solicitud
@@ -358,18 +358,6 @@ export class ModalStoreComponent implements OnInit {
       this.scoreForm.controls['importar'    ].disable()
     }
   }
-
-  // buscarEstadoPorDescripcion(descripcion: string): any{
-  //   return this.listEstado.find( (e: any) => e.cNombre.toUpperCase() == descripcion)
-  // }
-
-  // validarEstadoPorDescripcion(nameEstado: string){
-  //   const idEstadoSolicitado = this.buscarEstadoPorDescripcion(nameEstado.toUpperCase());
-  //   if (idEstadoSolicitado) {
-  //     console.log('ID_EST_REG', idEstadoSolicitado);
-  //     this.actualizarScore(idEstadoSolicitado.idEstado);
-  //   }
-  // }
 
   listHistoricoCambios: any[] = [];
   ListaHistoricoCambios(idRegistro: number){

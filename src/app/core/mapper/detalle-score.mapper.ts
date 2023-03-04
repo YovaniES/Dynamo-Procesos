@@ -13,17 +13,19 @@ export function mapearListadoDetalleScore(scoreData: any[], idScore: number, ver
       fecha_proceso     : new Date(detalle.FECHAPROCESO),
       score             : detalle.SCORE,
       cargo_fijo_max    : detalle.CARGOFIJOMAXIMO,
-      observacion       : detalle.OBSERVACIONES,
-      observacion_solicitante: '',
-      id_estado         : 1,  // default = 1: REGISTRADO
-      idrequerimiento   : detalle.REQ, //Falta REQ
+      observacion_solic : detalle.OBSERVACIONES,
+      observacion_gestor: '',
+      id_estado         : 1,  // default = 1: Solicitado
+      idrequerimiento   : detalle.REQ,
       solicitante       : detalle.Analista,
-      // Actualiza         : '',
-      // FActualiza        : '',
       financiamiento    : detalle.Financiamiento,
-      nombreReq         : detalle.NombreREQ,
-      idCarga           : detalle.idCarga,
-      iVersion          : version + 1
+      nombre_req        : detalle.NombreREQ,
+      // idcarga           : detalle.idCarga,
+      item_version     : version + 1,
+      negocio_segmento : detalle.NEGOCIOYSEGMENTO ,
+      tipo_transaccion : detalle.TIPOTRANSACCION ,
+      tipo_venta       : detalle.TIPODEVENTA ,
+      gama             : detalle.GAMADEEQUIPO,
     };
 
     return scoreDetalle;
