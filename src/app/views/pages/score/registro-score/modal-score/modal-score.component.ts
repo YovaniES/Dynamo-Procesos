@@ -217,8 +217,9 @@ export class ModalStoreComponent implements OnInit {
         p_actualiza          : this.userName,
         p_f_actualiza        : '',
         p_observacion        : formValues.observacion,
-        p_idEnvio            : formValues.id_hor_envio,
+        p_idEnvio            : formValues.id_form_envio,
         p_item_version       : incrementarVersion? formValues.version +1 : formValues.version,
+        p_item_hora_envio    : formValues.id_hor_envio,
         CONFIG_USER_ID       : this.userID ,
         CONFIG_OUT_MSG_ERROR : '' ,
         CONFIG_OUT_MSG_EXITO : ''
@@ -265,10 +266,10 @@ export class ModalStoreComponent implements OnInit {
         },
       };
 
-      this.scoreService.listScoreM_ByID(parametro).subscribe((resp: any) => {
-      this.scoreForm.controls['id_estado_m' ].setValue(resp.list[0].idEstado);
+      this.scoreService.listScoreM_ByID(parametro).subscribe( {next: (resp: any) => {
+      this.scoreForm.controls['id_estado_m'].setValue(resp.list[0].idEstado);
         console.log('SCORE_M_BY_ID', resp.list);
-      });
+      }});
     }
 
   crearScoreM(){
@@ -335,7 +336,10 @@ export class ModalStoreComponent implements OnInit {
       }
 
       this.validateIfIsSolicitante();
-      this.validarIfIsGestor();
+
+      if (this.scoreForm.controls['id_estado_m'].value != 1) {
+        this.validarIfIsGestor();
+      }
   }
 
   rolGestorTdp: number = 0;
@@ -344,18 +348,23 @@ export class ModalStoreComponent implements OnInit {
       console.log('ID_ROL_TDP', this.rolGestorTdp);
   };
 
+
   validarIfIsGestor(){
     if (!this.authService.esUsuarioGestor()) {
-      this.scoreForm.controls['id_estado_m' ].disable()
-      this.scoreForm.controls['id_hor_envio'].disable()
+      this.scoreForm.controls['id_estado_m'  ].disable()
+      this.scoreForm.controls['id_hor_envio' ].disable()
+      this.scoreForm.controls['id_form_envio'].disable()
+      this.scoreForm.controls['fecha_envio'  ].disable()
     }
   }
 
   validateIfIsSolicitante(){
     if (!this.authService.esUsuarioSolicitante()) {
-      this.scoreForm.controls['id_estado_m' ].disable()
-      this.scoreForm.controls['id_hor_envio'].disable()
-      this.scoreForm.controls['importar'    ].disable()
+      this.scoreForm.controls['id_estado_m'  ].disable()
+      this.scoreForm.controls['id_hor_envio' ].disable()
+      this.scoreForm.controls['importar'     ].disable()
+      this.scoreForm.controls['id_form_envio'].disable()
+      this.scoreForm.controls['fecha_envio'  ].disable()
     }
   }
 

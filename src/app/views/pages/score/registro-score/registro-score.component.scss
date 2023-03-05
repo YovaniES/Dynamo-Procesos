@@ -67,22 +67,58 @@
   align-items: center;
 }
 
+
 .label {
-  padding: 1px 6px;
+  // padding: 3px 10px;
+  padding: 2px 6px;
   line-height: 13px;
   color: #fff;
   font-weight: 400;
   border-radius: 4px;
   font-size: 75%;
   background-color: #398bf7;
-  width: 190px;
 }
 
-.estado-danger {
-  background-color: #ff727f;
+// Estados del score detalle
+// .est-sol {
+//   background-color: #88f5d4;
+//   color: #6f42c1;
+// }
+
+.est-reg {
+  background-color: #bac1c7;
+  padding: 2.5px 10px;
+  color: #fff;
 }
-.estado-info {
-  background-color: #20c997;
+
+.est-valid {
+  background-color: #ffd557;
+  padding: 2.5px 5px;
+  color: #6c757d;
+}
+
+.est-sol {
+  background-color: #4a93ffd4;
+  padding: 2.5px 13px;
+}
+// ff6473eb
+
+.est-obs {
+  background-color: #ff727f;
+  padding: 2.5px 12px;
+  color: #fff;
+}
+
+.est-aprobado {
+  background-color: #88cdf5;
+  padding: 2.5px 18px;
+  color: #fff;
+}
+
+.est-enviado {
+  background-color: #88f5d4;
+  padding: 2.5px 14px;
+  color: #6c757d;
 }
 
 

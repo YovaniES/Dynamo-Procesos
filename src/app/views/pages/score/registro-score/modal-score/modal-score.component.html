@@ -351,11 +351,12 @@
 
     <!-- --------------------------------------------BOTONES ------------------------------------------>
     <div class="cli-form-buttons">
-      <!-- <button
+      <button *ngIf="(authService.esUsuarioGestor() && (scoreForm.controls['id_estado_m'].value == 3 || scoreForm.controls['id_estado_m'].value == 2))
+              || (authService.esUsuarioSolicitante() && (scoreForm.controls['id_estado_m'].value == 1 || scoreForm.controls['id_estado_m'].value == 2 || scoreForm.controls['id_estado_m'].value == 4 ))"
          class="cli-btn btn-m btn-cancel"
          type="submit" (click)="close()">
         <mat-icon class="icon-18">cancel</mat-icon> Cancelar
-      </button> -->
+      </button>
 
       <ng-container *ngIf="DATA_SCORE">
         <ng-container *ngIf="authService.esUsuarioSolicitante()
@@ -384,6 +385,14 @@
             <mat-icon class="icon-18">forward_to_inbox</mat-icon> Enviar
           </button>
         </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="authService.esUsuarioGestor() && (scoreForm.controls['id_estado_m'].value == 2 || scoreForm.controls['id_estado_m'].value == 5)">
+        <button
+           class="cli-btn btn-m btn-mail"
+           type="submit" (click)="close()">
+          <mat-icon class="icon-18">done</mat-icon> Aprobar
+        </button>
       </ng-container>
 
       <ng-container *ngIf="(authService.esUsuarioSolicitante()
