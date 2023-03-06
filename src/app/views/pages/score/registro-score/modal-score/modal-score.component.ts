@@ -496,7 +496,6 @@ export class ModalStoreComponent implements OnInit {
   close(succes?: boolean) {
     this.dialogRef.close(succes);
   }
-
 }
 
 

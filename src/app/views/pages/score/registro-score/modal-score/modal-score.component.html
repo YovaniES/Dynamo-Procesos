@@ -352,10 +352,10 @@
     <!-- --------------------------------------------BOTONES ------------------------------------------>
     <div class="cli-form-buttons">
       <button *ngIf="(authService.esUsuarioGestor() && (scoreForm.controls['id_estado_m'].value == 3 || scoreForm.controls['id_estado_m'].value == 2))
-              || (authService.esUsuarioSolicitante() && (scoreForm.controls['id_estado_m'].value == 1 || scoreForm.controls['id_estado_m'].value == 2 || scoreForm.controls['id_estado_m'].value == 4 ))"
-         class="cli-btn btn-m btn-cancel"
+             || (authService.esUsuarioSolicitante() && (scoreForm.controls['id_estado_m'].value == 1 || scoreForm.controls['id_estado_m'].value == 4 || scoreForm.controls['id_estado_m'].value != 3 || scoreForm.controls['id_estado_m'].value == 2 ))"
+         class="cli-btn btn-m btn-salir"
          type="submit" (click)="close()">
-        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
+        <mat-icon class="icon-18">cancel</mat-icon> Salir
       </button>
 
       <ng-container *ngIf="DATA_SCORE">
@@ -372,9 +372,9 @@
 
         <ng-container *ngIf="(authService.esUsuarioGestor() && (scoreForm.controls['id_estado_m'].value == 3 || scoreForm.controls['id_estado_m'].value == 2))">
           <button
-             class="cli-btn btn-m btn-optional"
+             class="cli-btn btn-m btn-observar"
              type="submit" (click)="cambiarEstadoScoreM('OBSERVADO')">
-            <mat-icon class="icon-18">cancel</mat-icon> Observado
+            <mat-icon class="icon-18">rule</mat-icon> Observar
           </button>
         </ng-container>
 
@@ -389,7 +389,7 @@
 
       <ng-container *ngIf="authService.esUsuarioGestor() && (scoreForm.controls['id_estado_m'].value == 2 || scoreForm.controls['id_estado_m'].value == 5)">
         <button
-           class="cli-btn btn-m btn-mail"
+           class="cli-btn btn-m btn-aprobar"
            type="submit" (click)="close()">
           <mat-icon class="icon-18">done</mat-icon> Aprobar
         </button>
@@ -405,7 +405,6 @@
            <mat-icon class="icon-18">save</mat-icon> {{ actionBtn }}
         </button>
       </ng-container>
-
 
     </div>
   </div>

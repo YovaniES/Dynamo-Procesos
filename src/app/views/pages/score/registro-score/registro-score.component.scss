@@ -67,6 +67,20 @@
   align-items: center;
 }
 
+.btn-salir{
+  background-color: #FFF;
+  color: #873eff;
+  border: solid 1px #873eff;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: #d0b3ff;
+    color: #fff
+  }
+  &:hover:enabled:active {
+    background-color: #8c3ddb;
+  }
+}
+
 
 .label {
   // padding: 3px 10px;
@@ -78,12 +92,6 @@
   font-size: 75%;
   background-color: #398bf7;
 }
-
-// Estados del score detalle
-// .est-sol {
-//   background-color: #88f5d4;
-//   color: #6f42c1;
-// }
 
 .est-reg {
   background-color: #bac1c7;
@@ -98,7 +106,7 @@
 }
 
 .est-sol {
-  background-color: #4a93ffd4;
+  background-color: #438fffd4;
   padding: 2.5px 13px;
 }
 // ff6473eb
@@ -110,8 +118,8 @@
 }
 
 .est-aprobado {
-  background-color: #88cdf5;
-  padding: 2.5px 18px;
+  background-color: #00d4ff;
+  padding: 2.5px 14px;
   color: #fff;
 }
 
@@ -120,7 +128,6 @@
   padding: 2.5px 14px;
   color: #6c757d;
 }
-
 
 
 // estilos para el rango de fechas

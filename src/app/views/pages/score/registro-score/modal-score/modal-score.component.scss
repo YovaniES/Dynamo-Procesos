@@ -73,16 +73,31 @@
   }
 }
 
-.btn-obs{
-  // background-color: $color-blue;
-  color: #007bff;
+.btn-salir{
+  background-color: #FFF;
+  color: #873eff;
+  border: solid 1px #873eff;
   transition: ease 0.3s;
   &:hover:enabled {
-    background-color: $color-blue-l;
+    background-color: #be95ff;
     color: #fff
   }
   &:hover:enabled:active {
-    background-color: $color-blue-d;
+    background-color: #741eff;
+  }
+}
+
+.btn-observar{
+  background-color: #FFF;
+  color: #ff5969;
+  border: solid 1px #ff5969;
+  transition: ease 0.3s;
+  &:hover:enabled {
+    background-color: #ffabb4;
+    color: #fff
+  }
+  &:hover:enabled:active {
+    background-color: #ff5969;
   }
 }
 
@@ -91,6 +106,27 @@
   transition: ease 0.3s;
   color: #0dcaf0;
   border: solid 1px #0dcaf0;
+  &:hover:enabled {
+    background-color: #60d9f2;
+    color: #ffffff;
+  }
+  &:hover:enabled:active {
+    background-color: #00d5ff;
+  }
+}
+
+.btn-aprobar {
+  background-color: #FFF;
+  transition: ease 0.3s;
+  color: #3486ff;
+  border: solid 1px #3486ff;
+  &:hover:enabled {
+    background-color: #6da7ff;
+    color: #ffffff;
+  }
+  &:hover:enabled:active {
+    background-color: #0066ff;
+  }
 }
 
 .cli-user{
@@ -111,15 +147,9 @@
   background-color: #398bf7;
 }
 
-// Estados del score detalle
-// .est-sol {
-//   background-color: #88f5d4;
-//   color: #6f42c1;
-// }
-
 .est-sol {
   // background-color: #0dcaf0;
-  background-color: #4a93ffd4;
+  background-color: #438fffd4;
   padding: 3.5px 19px;
   color: #fff;
 }

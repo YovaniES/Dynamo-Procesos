@@ -11,11 +11,11 @@ switch (ENVIROMENT) {
     PATH_SCORE_AUTH = '';
     break;
   case 'PROD':
-    PATH_API_SCORE       = 'https://localhost:3061/api/configurador/';
-    API_SAVE_DATA_IMPORT       = 'https://localhost:7247/api/ScoreDetalle';
-    // API_SAVE_DATA_IMPORT = 'http://saveimporteddata.indratools.com/api/ScoreDetalle'
+    // PATH_API_SCORE       = 'https://localhost:3061/api/configurador/';
+    // API_SAVE_DATA_IMPORT       = 'https://localhost:7247/api/ScoreDetalle';
 
-    // PATH_API_SCORE       = 'http://backwebprocesos.indratools.com/api/configurador/';
+    API_SAVE_DATA_IMPORT = 'http://saveimporteddata.indratools.com/api/ScoreDetalle'
+    PATH_API_SCORE       = 'http://backwebprocesos.indratools.com/api/configurador/';
 
     PATH_SCORE_AUTH     = 'http://seguridadweb.indratools.com/aut/seguridad/'
     break;
