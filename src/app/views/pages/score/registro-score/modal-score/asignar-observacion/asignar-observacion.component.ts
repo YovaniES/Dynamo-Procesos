@@ -114,24 +114,10 @@ export class AsignarObservacionComponent implements OnInit {
     let parametro: any[] = [{ queryId: 7 }];
 
     this.scoreService.getListEstadoDetalle(parametro[0]).subscribe((resp: any) => {
-      this.listEstadoDetalle = resp.list.filter((x: any) => x.id_correlativo == 1 || x.id_correlativo == 4);
+      this.listEstadoDetalle = resp.list.filter((x: any) => x.id_correlativo == 1 || x.id_correlativo == 5);
       // console.log('ESTADOS_DETALLE', resp.list);
     });
   }
-
-  // validarIfIsGestor(){
-  //   if (this.authService.esUsuarioGestor()) {
-  //     this.asigObservacionForm.controls['observacion_solic'].disable()
-  //   }
-  // }
-
-  // validarIfIsSolicitante(){
-  //   if (this.authService.esUsuarioSolicitante()) {
-  //     this.asigObservacionForm.controls['observacion_solic' ].disable()
-  //     this.asigObservacionForm.controls['id_estado_d'       ].disable()
-  //     this.asigObservacionForm.controls['observacion_gestor'].disable()
-  //   }
-  // }
 
    userID: number = 0;
    getUserID(){

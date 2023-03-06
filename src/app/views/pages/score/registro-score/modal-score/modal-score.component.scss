@@ -61,9 +61,18 @@
   border: none;
   border-radius: 3px;
   margin: 0 3px;
+  color: #438fffd4;
   // font-family: "Webapp-Bold" !important;
   display: flex;
   align-items: center;
+
+  &:hover:enabled {
+    background-color: #8cbaffd4;
+    color: #fff
+  }  &:hover:enabled:active {
+    background-color: #066affd4;
+  }
+
   & mat-icon {
     margin: 0 3px;
   }

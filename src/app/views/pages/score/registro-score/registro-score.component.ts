@@ -179,9 +179,7 @@ export class RegistroScoreComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ModalStoreComponent, { width: '70%', height: '95%', data: DATA});
     dialogRef.afterClosed().subscribe((resp) => {
-        if (resp) {
           this.cargarOBuscarScoreM();
-        }
       });
   }
 

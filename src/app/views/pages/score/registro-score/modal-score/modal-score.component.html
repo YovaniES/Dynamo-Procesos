@@ -55,7 +55,7 @@
                 <small class="form-text text-alert" *ngIf="campoNoValido('id_form_envio')">* Selecione el Formato de Envío es obligatorio</small>
               </div>
 
-              <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE">
+              <div class="col-sm-3 cli-form-element" *ngIf="DATA_SCORE" >
                 <label>Estado</label>
                 <select class="cli-input-white" formControlName="id_estado_m">
                   <option [value]="0" disabled>- Seleccione -</option>
@@ -175,6 +175,7 @@
                               <th>ID Score</th>
                               <th>Tipo Doc</th>
                               <th>N° Doc</th>
+                              <th>Estado</th>
                               <th>Score</th>
                               <th>Segmento</th>
                               <th>Tipo Negocio</th>
@@ -189,7 +190,6 @@
                               <th>Analista</th>
                               <th>Cargo Fijo Máx.</th>
                               <th>Financiamiento</th>
-                              <th>Estado</th>
                               <th>Comentario.</th>
                               <th>Observ. Gestor TDP.</th>
                             </tr>
@@ -205,6 +205,21 @@
                             <td style="min-width: 90px;">{{ score.idScored }}</td>
                             <td style="min-width: 80px;">{{ score.tipo_documento }}</td>
                             <td style="min-width: 100px;">{{ score.numero_documento }}</td>
+                            <td style="min-width: 118px;">
+                              <span *ngIf="score.estado == 'Solicitado'"       class="label est-sol">         {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label est-usu-inac">    {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'No Existe LB'"     class="label est-no-exit-lb "> {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'No Autorizado'"    class="label est-no-exit-lb "> {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'Observado'"        class="label est-observado ">  {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'Enviado'"          class="label est-enviado ">    {{ score.estado | uppercase }}</span>
+
+                              <!-- <span style="align-items: center; display: flex" *ngIf="score.estado == 'Solicitado'"      ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #398bf7;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
+                              <span style="align-items: center; display: flex; min-width: 120px;" *ngIf="score.estado == 'Usuario Ináctivo'"><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #ffdc73;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
+                              <span style="align-items: center; display: flex" *ngIf="score.estado == 'No existe LB'"    ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #ff727f;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
+                              <span style="align-items: center; display: flex" *ngIf="score.estado == 'Observado'"       ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #f200ff94;">radio_button_checked</mat-icon>{{ score.estado | uppercase}}</span>
+                              <span style="align-items: center; display: flex" *ngIf="score.estado == 'Enviado'"         ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #71e7ff;">radio_button_checked</mat-icon>{{ score.estado | uppercase}}</span> -->
+
+                            </td>
                             <td class="w100">{{ score.score }}</td>
                             <td>{{ score.segmento }}</td>
                             <td style="min-width: 95px;">{{ score.negocio_segmento }}</td>
@@ -219,20 +234,7 @@
                             <td style="min-width: 200px;">{{ score.solicitante }}</td>
                             <td style="min-width: 120px;">{{ score.cargo_fijo_max }}</td>
                             <td style="min-width: 80px;" >{{ score.financiamiento }}</td>
-                            <td style="min-width: 118px;">
-                              <span *ngIf="score.estado == 'Solicitado'"       class="label est-sol">         {{ score.estado | uppercase }}</span>
-                              <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label est-usu-inac">    {{ score.estado | uppercase }}</span>
-                              <span *ngIf="score.estado == 'No existe LB'"     class="label est-no-exit-lb "> {{ score.estado | uppercase }}</span>
-                              <span *ngIf="score.estado == 'Observado'"        class="label est-observado ">  {{ score.estado | uppercase }}</span>
-                              <span *ngIf="score.estado == 'Enviado'"          class="label est-enviado ">    {{ score.estado | uppercase }}</span>
 
-                              <!-- <span style="align-items: center; display: flex" *ngIf="score.estado == 'Solicitado'"      ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #398bf7;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
-                              <span style="align-items: center; display: flex; min-width: 120px;" *ngIf="score.estado == 'Usuario Ináctivo'"><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #ffdc73;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
-                              <span style="align-items: center; display: flex" *ngIf="score.estado == 'No existe LB'"    ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #ff727f;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
-                              <span style="align-items: center; display: flex" *ngIf="score.estado == 'Observado'"       ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #f200ff94;">radio_button_checked</mat-icon>{{ score.estado | uppercase}}</span>
-                              <span style="align-items: center; display: flex" *ngIf="score.estado == 'Enviado'"         ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #71e7ff;">radio_button_checked</mat-icon>{{ score.estado | uppercase}}</span> -->
-
-                            </td>
                             <td style="min-width: 220px; text-align: left;">{{ score.observacion_solic }}</td>
                             <td class="obs-score">
                               <ng-container *ngIf="authService.esUsuarioGestor() ||score.estado == 'Solicitado' || score.estado == 'Observado'">
@@ -355,7 +357,7 @@
              || (authService.esUsuarioSolicitante() && (scoreForm.controls['id_estado_m'].value == 1 || scoreForm.controls['id_estado_m'].value == 4 || scoreForm.controls['id_estado_m'].value != 3 || scoreForm.controls['id_estado_m'].value == 2 ))"
          class="cli-btn btn-m btn-salir"
          type="submit" (click)="close()">
-        <mat-icon class="icon-18">cancel</mat-icon> Salir
+        <mat-icon class="icon-18">cancel</mat-icon> Cancelar
       </button>
 
       <ng-container *ngIf="DATA_SCORE">
@@ -387,11 +389,19 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="authService.esUsuarioGestor() && (scoreForm.controls['id_estado_m'].value == 2 || scoreForm.controls['id_estado_m'].value == 5)">
+      <!-- <ng-container *ngIf="authService.esUsuarioGestor() && (scoreForm.controls['id_estado_m'].value == 2 || scoreForm.controls['id_estado_m'].value == 5)">
         <button
            class="cli-btn btn-m btn-aprobar"
            type="submit" (click)="close()">
           <mat-icon class="icon-18">done</mat-icon> Aprobar
+        </button>
+      </ng-container> -->
+
+      <ng-container *ngIf="authService.esUsuarioGestor() && (scoreForm.controls['id_estado_m'].value == 2 || scoreForm.controls['id_estado_m'].value == 5)">
+        <button
+           class="cli-btn btn-m btn-mail"
+           type="submit" (click)="enviarData()">
+          <mat-icon class="icon-18">forward_to_inbox</mat-icon> Enviar
         </button>
       </ng-container>
 

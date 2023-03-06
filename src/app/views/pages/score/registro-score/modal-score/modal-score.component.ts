@@ -72,6 +72,7 @@ export class ModalStoreComponent implements OnInit {
       this.scoreForm = this.fb.group({
         solicitante    : [''],
         id_estado_m    : [''],
+        // id_estado_m    : ['', {disabled: true}],
         id_score       : [''],
         fecha_envio    : ['', Validators.required],
         fecha_solicitud: [''],
@@ -132,9 +133,10 @@ export class ModalStoreComponent implements OnInit {
             text : `Se importó con éxito la data`,
             icon : 'success',
             confirmButtonText: 'Ok'
-            })
+            });
 
             this.spinner.hide();
+            this.actualizarScoreD();
 
             this.cargarOBuscarScoreDetalle();
         }
@@ -162,7 +164,12 @@ export class ModalStoreComponent implements OnInit {
       this.blockUI.stop();
 
        console.log('D A T A - score_D', resp, resp.list.length);
-        this.listScoreDetalle = resp.list;
+       if (!this.authService.esUsuarioGestor()) {
+         this.listScoreDetalle = resp.list;
+
+       } else {
+         this.listScoreDetalle = resp.list.filter( (score: any) => score.id_estado != 4);
+       }
 
         this.spinner.hide();
       });
@@ -220,7 +227,7 @@ export class ModalStoreComponent implements OnInit {
         p_idEnvio            : formValues.id_form_envio,
         p_item_version       : incrementarVersion? formValues.version +1 : formValues.version,
         p_item_hora_envio    : formValues.id_hor_envio,
-        CONFIG_USER_ID       : this.userID ,
+        CONFIG_USER_NAME       : this.userName ,
         CONFIG_OUT_MSG_ERROR : '' ,
         CONFIG_OUT_MSG_EXITO : ''
       },
@@ -238,9 +245,11 @@ export class ModalStoreComponent implements OnInit {
       // this.cargarSCoreByID();
       if (!estadoScore) {
         this.dialogRef.close('Actualizar')
+
       }else{
-        // this.cargarSCoreByID(); // CARGAMOS LA DATA MAESTRA POR ID
-        this.listScoreM_ByID()
+        this.actualizarScoreD();
+        this.listScoreM_ByID();
+        // Atualizamos el SCORE_D
       }
 
         Swal.fire({
@@ -249,13 +258,13 @@ export class ModalStoreComponent implements OnInit {
           icon : 'success',
           confirmButtonText: 'Ok'
           })
-    }, error: () => {
-      Swal.fire(
-        'ERROR',
-        'No se pudo actualizar el Score',
-        'warning'
-      );
-    }});
+      }, error: () => {
+        Swal.fire(
+          'ERROR',
+          'No se pudo actualizar el Score',
+          'warning'
+        );
+      }});
   };
 
   listScoreM_ByID(){
@@ -268,9 +277,33 @@ export class ModalStoreComponent implements OnInit {
 
       this.scoreService.listScoreM_ByID(parametro).subscribe( {next: (resp: any) => {
       this.scoreForm.controls['id_estado_m'].setValue(resp.list[0].idEstado);
-        console.log('SCORE_M_BY_ID', resp.list);
+
+        // this.actualizarScoreD()
+        // console.log('SCORE_M_BY_ID', resp.list);
       }});
     }
+
+    actualizarScoreD(){
+      // this.spinner.show();
+      let parametro: any[] = [{ queryId: 21,
+        mapValue: {
+          p_idscore      : this.DATA_SCORE.idScoreM,
+          p_item_version : this.DATA_SCORE.version + 1
+        },
+      }];
+
+      this.scoreService.actualizarScoreD(parametro[0]).subscribe( {next: (resp: any) => {
+        // this.spinner.hide();
+        this.cargarOBuscarScoreDetalle();
+
+      }, error: () => {
+        Swal.fire(
+          'ERROR',
+          'No se pudo actualizar el Score',
+          'warning'
+        );
+      }});
+    };
 
   crearScoreM(){
     const formValues = this.scoreForm.getRawValue();
@@ -286,7 +319,7 @@ export class ModalStoreComponent implements OnInit {
           p_idEnvio            : formValues.id_hor_envio,
           p_item_version       : '',
           p_item_hora_envio    : formValues.id_form_envio,
-          CONFIG_USER_ID       : this.userID,
+          CONFIG_USER_NAME       : this.userName,
           CONFIG_OUT_MSG_ERROR : '',
           CONFIG_OUT_MSG_EXITO : ''
         },
@@ -338,6 +371,7 @@ export class ModalStoreComponent implements OnInit {
       this.validateIfIsSolicitante();
 
       if (this.scoreForm.controls['id_estado_m'].value != 1) {
+
         this.validarIfIsGestor();
       }
   }
@@ -349,22 +383,23 @@ export class ModalStoreComponent implements OnInit {
   };
 
 
-  validarIfIsGestor(){
-    if (!this.authService.esUsuarioGestor()) {
-      this.scoreForm.controls['id_estado_m'  ].disable()
+  disabledControls(){
+      this.scoreForm.controls['id_estado_m' ].disable()
       this.scoreForm.controls['id_hor_envio' ].disable()
       this.scoreForm.controls['id_form_envio'].disable()
       this.scoreForm.controls['fecha_envio'  ].disable()
+  }
+
+  validarIfIsGestor(){
+    if (!this.authService.esUsuarioGestor() ) {
+      this.disabledControls();
     }
   }
 
   validateIfIsSolicitante(){
     if (!this.authService.esUsuarioSolicitante()) {
-      this.scoreForm.controls['id_estado_m'  ].disable()
-      this.scoreForm.controls['id_hor_envio' ].disable()
-      this.scoreForm.controls['importar'     ].disable()
-      this.scoreForm.controls['id_form_envio'].disable()
-      this.scoreForm.controls['fecha_envio'  ].disable()
+      this.disabledControls();
+      this.scoreForm.controls['importar'].disable()
     }
   }
 
@@ -423,6 +458,10 @@ export class ModalStoreComponent implements OnInit {
       this.listHorarioEnvio = resp.list;
       console.log('HORARIO_ENVIO', resp.list);
     });
+  }
+
+  enviarData(){
+
   }
 
   getUserID(){

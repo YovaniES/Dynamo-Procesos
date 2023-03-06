@@ -37,6 +37,9 @@ export class ScoreService {
     return this.http.post(API_SCORE, obj);
   }
 
+  actualizarScoreD(obj: any){
+    return this.http.post(API_SCORE, obj);
+  }
   getListEstado(obj: any){
     return this.http.post(API_SCORE, obj);
   }
