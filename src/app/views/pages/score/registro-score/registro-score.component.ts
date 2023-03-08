@@ -43,7 +43,7 @@ export class RegistroScoreComponent implements OnInit {
 
   newFilfroForm(){
     this.filtroForm = this.fb.group({
-      creado_por          : [''],
+      actualiza_por       : [''],
       solicitante         : [''],
       id_estado           : [''],
       fecha_solicitud_ini : [''],
@@ -57,12 +57,11 @@ export class RegistroScoreComponent implements OnInit {
     let parametro: any[] = [{
       "queryId": 2,
       "mapValue": {
-          p_creado_por  : this.filtroForm.value.creado_por,
-          p_id_estado   : this.filtroForm.value.id_estado,
-          p_solicitante : this.authService.getUserNameByRol(),
-          // p_solicitante : this.filtroForm.value.solicitante,
-          inicio        : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),
-          fin           : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
+          p_solicitante  : this.authService.getUserNameByRol(), // this.filtroForm.value.solicitante,
+          p_actualiza_por: this.filtroForm.value.actualiza_por,
+          p_id_estado    : this.filtroForm.value.id_estado,
+          inicio         : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_ini,"yyyy/MM/dd"),
+          fin            : this.datepipe.transform(this.filtroForm.value.fecha_solicitud_fin,"yyyy/MM/dd"),
       }
     }];
     this.scoreService.cargarOBuscarScoreM(parametro[0]).subscribe((resp: any) => {
@@ -83,8 +82,6 @@ export class RegistroScoreComponent implements OnInit {
       this.spinner.hide();
     });
   };
-
-
 
   listScoreDetalle: any[] = [];
   cargarOBuscarScoreDetalle(id_score: number){

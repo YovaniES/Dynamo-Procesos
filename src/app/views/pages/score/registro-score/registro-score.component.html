@@ -10,7 +10,7 @@
               <input
                 type="text"
                 class="form-control cli-input-white"
-                formControlName="creado_por"/>
+                formControlName="solicitante"/>
             </div>
 
             <div class="col-sm-3 cli-form-element">
@@ -22,11 +22,11 @@
             </div>
 
             <div class="col-sm-3 cli-form-element">
-              <label>Solicitante</label>
+              <label>Actualizado por:</label>
               <input
                 type="text"
                 class="form-control cli-input-white"
-                formControlName="solicitante"/>
+                formControlName="actualiza_por"/>
             </div>
 
             <div class="col-sm-3 cli-form-element">
@@ -123,23 +123,23 @@
                   </button>
                 </div>
               </td>
-              <td class="w150"> {{ score.idScoreM }}</td>
+              <td class="w150">{{ score.idScoreM }}</td>
               <td>{{ score.solicitante}}</td>
               <td>{{ score.fecha_solicitud }}</td>
               <td class="w100">{{ score.fecha_envio }}</td>
               <td class="w100">{{ score.envio }}</td>
               <!-- <td class="w100">{{ score.carga }}</td> -->
-              <td>
-                <span *ngIf="score.estado == 'Registrado'"    class="label est-reg">  {{ score.estado | uppercase }}</span>
-                <span *ngIf="score.estado == 'En Validación'" class="label est-valid">{{ score.estado | uppercase }}</span>
-                <span *ngIf="score.estado == 'Solicitado'"    class="label est-sol "> {{ score.estado | uppercase }}</span>
-                <span *ngIf="score.estado == 'Observado'"     class="label est-obs "> {{ score.estado | uppercase }}</span>
-                <span *ngIf="score.estado == 'Aprobado'"      class="label est-aprobado">    {{ score.estado | uppercase }}</span>
-                <span *ngIf="score.estado == 'Enviado'"       class="label est-enviado ">    {{ score.estado | uppercase }}</span>
+              <td >
+                <span *ngIf="score.estado == 'Registrado'"    class="label est-reg">     {{ score.estado | uppercase }}</span>
+                <span *ngIf="score.estado == 'En Validación'" class="label est-valid">   {{ score.estado | uppercase }}</span>
+                <span *ngIf="score.estado == 'Solicitado'"    class="label est-sol ">    {{ score.estado | uppercase }}</span>
+                <span *ngIf="score.estado == 'Observado'"     class="label est-obs ">    {{ score.estado | uppercase }}</span>
+                <span *ngIf="score.estado == 'Aprobado'"      class="label est-aprobado">{{ score.estado | uppercase }}</span>
+                <span *ngIf="score.estado == 'Enviado'"       class="label est-enviado ">{{ score.estado | uppercase }}</span>
               </td>
 
               <td style="min-width: 95px;">{{ score.fecha_crea }}</td>
-              <td style="min-width: 100px;">{{ score.Actualiza }}</td>
+              <td style="min-width: 100px;">{{ score.actualiza }}</td>
               <td style="min-width: 115px">{{ score.fecha_actualizacion }}</td>
             </tr>
           </tbody>

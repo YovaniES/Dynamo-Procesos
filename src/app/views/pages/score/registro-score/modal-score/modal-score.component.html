@@ -38,7 +38,7 @@
               </div>
 
               <div class="col-sm-3 cli-form-element">
-                <label>H. Envío</label>
+                <label>Horario de Envío</label>
                 <select class="cli-input-white" formControlName="id_hor_envio">
                   <option [value]="0" disabled>- Seleccione -</option>
                   <option [value]="carga.id_correlativo" *ngFor="let carga of listHorarioEnvio">{{ carga.valor_texto_1 }}</option>
@@ -175,6 +175,7 @@
                               <th>ID Score</th>
                               <th>Tipo Doc</th>
                               <th>N° Doc</th>
+                              <th>Nombres y Apell.</th>
                               <th>Estado</th>
                               <th>Score</th>
                               <th>Segmento</th>
@@ -205,6 +206,7 @@
                             <td style="min-width: 90px;">{{ score.idScored }}</td>
                             <td style="min-width: 80px;">{{ score.tipo_documento }}</td>
                             <td style="min-width: 100px;">{{ score.numero_documento }}</td>
+                            <td style="min-width: 205px;">{{ score.nombres }}</td>
                             <td style="min-width: 118px;">
                               <span *ngIf="score.estado == 'Solicitado'"       class="label est-sol">         {{ score.estado | uppercase }}</span>
                               <span *ngIf="score.estado == 'Usuario Ináctivo'" class="label est-usu-inac">    {{ score.estado | uppercase }}</span>
@@ -212,7 +214,8 @@
                               <span *ngIf="score.estado == 'No Autorizado'"    class="label est-no-exit-lb "> {{ score.estado | uppercase }}</span>
                               <span *ngIf="score.estado == 'Observado'"        class="label est-observado ">  {{ score.estado | uppercase }}</span>
                               <span *ngIf="score.estado == 'Enviado'"          class="label est-enviado ">    {{ score.estado | uppercase }}</span>
-
+                              <span *ngIf="score.estado == 'CapFinEr'"         class="label est-CapFinEr ">   {{ score.estado | uppercase }}</span>
+                              <span *ngIf="score.estado == 'CantLinEr'"        class="label est-CantLinEr ">  {{ score.estado | uppercase }}</span>
                               <!-- <span style="align-items: center; display: flex" *ngIf="score.estado == 'Solicitado'"      ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #398bf7;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
                               <span style="align-items: center; display: flex; min-width: 120px;" *ngIf="score.estado == 'Usuario Ináctivo'"><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #ffdc73;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
                               <span style="align-items: center; display: flex" *ngIf="score.estado == 'No existe LB'"    ><mat-icon class="icon-13 icon-btn" style="margin-right: 5px; display: flex; color: #ff727f;">radio_button_checked</mat-icon>{{ score.estado | uppercase }}</span>
@@ -223,7 +226,7 @@
                             <td class="w100">{{ score.score }}</td>
                             <td>{{ score.segmento }}</td>
                             <td style="min-width: 95px;">{{ score.negocio_segmento }}</td>
-                            <td style="min-width: 95px;">{{ score.tipo_transaccion }}</td>
+                            <td style="min-width: 120px;">{{ score.tipo_transaccion }}</td>
                             <td style="min-width: 95px;">{{ score.tipo_venta }}</td>
                             <td style="min-width: 95px;">{{ score.gama }}</td>
                             <td style="min-width: 85px;" >{{ score.q_lineas }}</td>
@@ -400,7 +403,7 @@
       <ng-container *ngIf="authService.esUsuarioGestor() && (scoreForm.controls['id_estado_m'].value == 2 || scoreForm.controls['id_estado_m'].value == 5)">
         <button
            class="cli-btn btn-m btn-mail"
-           type="submit" (click)="enviarData()">
+           type="submit" (click)="cambiarEstadoScoreM('ENVIADO'); cambiarEstadoDetalleAenviado(); exportScoreDetalle(DATA_SCORE.idScoreM)">
           <mat-icon class="icon-18">forward_to_inbox</mat-icon> Enviar
         </button>
       </ng-container>

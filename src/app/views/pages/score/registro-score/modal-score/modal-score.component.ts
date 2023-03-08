@@ -13,6 +13,7 @@ import { ScoreDetalleService } from 'src/app/core/services/score-detalle.service
 import { ScoreDetalle } from 'src/app/core/models/scored.models';
 import { mapearListadoDetalleScore } from 'src/app/core/mapper/detalle-score.mapper';
 import { concatMap, of } from 'rxjs';
+import { ExportExcellService } from 'src/app/core/services/export-excell.service';
 
 @Component({
   selector: 'app-modal-evento',
@@ -38,6 +39,7 @@ export class ModalStoreComponent implements OnInit {
     private scoreService: ScoreService,
     public authService: AuthService,
     private scoreDetalleService: ScoreDetalleService,
+    private exportExcellService: ExportExcellService,
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
     public datePipe: DatePipe,
@@ -71,8 +73,8 @@ export class ModalStoreComponent implements OnInit {
     newFilfroForm(){
       this.scoreForm = this.fb.group({
         solicitante    : [''],
-        id_estado_m    : [''],
-        // id_estado_m    : ['', {disabled: true}],
+        // id_estado_m    : [''],
+        id_estado_m    : [{value: '', disabled: true}],
         id_score       : [''],
         fecha_envio    : ['', Validators.required],
         fecha_solicitud: [''],
@@ -83,7 +85,8 @@ export class ModalStoreComponent implements OnInit {
         num_doc        : [''],
         id_estado_d    : [''],
         version        : [''],
-        importar       : ['']
+        importar       : [''],
+        actualiza      : ['']
       })
     }
 
@@ -186,11 +189,26 @@ export class ModalStoreComponent implements OnInit {
     const estadoSolicitado = this.buscarEstadoPorNombre(nombreEstado);
 
     if (estadoSolicitado) {
-      this.actualizarScore(estadoSolicitado.idEstado)
+      // this.actualizarScore(estadoSolicitado.idEstado)
+
+      Swal.fire({
+        title: '¿Cambiar estado?',
+        text: `¿Estas seguro que deseas cambiar el estado ?`,
+        icon: 'question',
+        confirmButtonColor: '#ec4756',
+        cancelButtonColor: '#3cd8aa',
+        confirmButtonText: 'Si, Cambiar!',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+      }).then((resp) => {
+        if (resp.value) {
+          this.cambiarEstadoDetalleAenviado();
+          // this.exportScoreDetalle(this.DATA_SCORE.idScoreM); // exportamos el score_d
+          this.actualizarScore(estadoSolicitado.idEstado);
+        }
+      });
     }
   }
-
-
 
   buscarEstadoPorNombre(nombreEstado:string): any{
     return this.listEstado.find(estado => estado.cNombre.toUpperCase() == nombreEstado);
@@ -227,7 +245,7 @@ export class ModalStoreComponent implements OnInit {
         p_idEnvio            : formValues.id_form_envio,
         p_item_version       : incrementarVersion? formValues.version +1 : formValues.version,
         p_item_hora_envio    : formValues.id_hor_envio,
-        CONFIG_USER_NAME       : this.userName ,
+        CONFIG_USER_NAME     : this.userName ,
         CONFIG_OUT_MSG_ERROR : '' ,
         CONFIG_OUT_MSG_EXITO : ''
       },
@@ -283,27 +301,56 @@ export class ModalStoreComponent implements OnInit {
       }});
     }
 
+      // exportarRegistro(id: number){
+  //   this.exportScoreDetalle(id)
+  //   };
+
+  listScoreDetalleImport: any[] = [];
+  exportScoreDetalle(id_score: number){
+    let parametro: any[] = [{
+      "queryId": 23,
+      "mapValue": {
+          p_idScore : id_score,
+      }
+    }];
+    this.scoreService.exportScoreDetalle(parametro[0]).subscribe((resp: any) => {
+      this.listScoreDetalleImport = resp.list;
+
+    this.exportExcellService.exportarExcel(this.listScoreDetalleImport, 'Score');
+    });
+  }
+
+cambiarEstadoDetalleAenviado(){
+  let parametro: any[] = [{ queryId: 22,
+    mapValue: {
+      p_idScore      : this.DATA_SCORE.idScoreM,
+    },
+  }];
+
+  this.scoreService.actualizarScoreD(parametro[0]).subscribe( {next: (resp: any) => {
+    // this.cargarOBuscarScoreDetalle(); <============================
+    this.actualizarScoreD(); //OJO CAMBIARMOS EL ESTADO DEL SCORE_D
+    // this.exportScoreDetalle(this.DATA_SCORE.idScoreM); // <=================
+
+  }});
+};
+
     actualizarScoreD(){
-      // this.spinner.show();
-      let parametro: any[] = [{ queryId: 21,
-        mapValue: {
-          p_idscore      : this.DATA_SCORE.idScoreM,
-          p_item_version : this.DATA_SCORE.version + 1
-        },
-      }];
+      const formValues = this.scoreForm.getRawValue();
+      let parametro: any =  {
+          queryId: 24,
+          mapValue: {
+            v_idscore    : this.DATA_SCORE.idScoreM,
+            v_idversion  : this.DATA_SCORE.version + 1,
+          },
+        };
 
-      this.scoreService.actualizarScoreD(parametro[0]).subscribe( {next: (resp: any) => {
-        // this.spinner.hide();
+        this.scoreService.actualizarScoreD(parametro).subscribe((resp: any) => {
+          console.log('UPDATE_SCORE_D', resp);
+
         this.cargarOBuscarScoreDetalle();
-
-      }, error: () => {
-        Swal.fire(
-          'ERROR',
-          'No se pudo actualizar el Score',
-          'warning'
-        );
-      }});
-    };
+        });
+      }
 
   crearScoreM(){
     const formValues = this.scoreForm.getRawValue();
@@ -339,6 +386,7 @@ export class ModalStoreComponent implements OnInit {
       });
     }
 
+
   actionBtn: string = 'Agregar';
   cargarSCoreByID(){
     this.actionBtn = 'Actualizar'
@@ -347,6 +395,7 @@ export class ModalStoreComponent implements OnInit {
       this.scoreForm.controls['id_estado_m'  ].setValue(this.DATA_SCORE.idEstado);
       this.scoreForm.controls['observacion'  ].setValue(this.DATA_SCORE.observacion);
       this.scoreForm.controls['id_hor_envio' ].setValue(this.DATA_SCORE.idEnvio);
+      this.scoreForm.controls['actualiza'    ].setValue(this.DATA_SCORE.actualiza);
       this.scoreForm.controls['id_form_envio'].setValue(this.DATA_SCORE.item_hora_envio);
       this.scoreForm.controls['version'      ].setValue(this.DATA_SCORE.version);
 
@@ -384,7 +433,6 @@ export class ModalStoreComponent implements OnInit {
 
 
   disabledControls(){
-      this.scoreForm.controls['id_estado_m' ].disable()
       this.scoreForm.controls['id_hor_envio' ].disable()
       this.scoreForm.controls['id_form_envio'].disable()
       this.scoreForm.controls['fecha_envio'  ].disable()
@@ -460,9 +508,6 @@ export class ModalStoreComponent implements OnInit {
     });
   }
 
-  enviarData(){
-
-  }
 
   getUserID(){
     this.authService.getCurrentUser().subscribe( resp => {
